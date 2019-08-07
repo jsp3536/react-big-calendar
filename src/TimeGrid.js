@@ -30,6 +30,7 @@ export default class TimeGrid extends Component {
   }
 
   componentDidMount() {
+    window.alert('shit')
     this.checkOverflow()
 
     if (this.props.width == null) {
