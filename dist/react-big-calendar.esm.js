@@ -4,7 +4,7 @@ import _inheritsLoose from '@babel/runtime/helpers/esm/inheritsLoose'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { uncontrollable } from 'uncontrollable'
-import cn from 'classnames'
+import clsx from 'clsx'
 import warning from 'warning'
 import invariant from 'invariant'
 import _assertThisInitialized from '@babel/runtime/helpers/esm/assertThisInitialized'
@@ -28,25 +28,26 @@ import {
   inRange as inRange$1,
 } from 'date-arithmetic'
 import chunk from 'lodash-es/chunk'
-import getPosition from 'dom-helpers/query/position'
-import raf from 'dom-helpers/util/requestAnimationFrame'
-import getOffset from 'dom-helpers/query/offset'
-import getScrollTop from 'dom-helpers/query/scrollTop'
-import getScrollLeft from 'dom-helpers/query/scrollLeft'
+import getPosition from 'dom-helpers/position'
+import { request, cancel } from 'dom-helpers/animationFrame'
+import getOffset from 'dom-helpers/offset'
+import getScrollTop from 'dom-helpers/scrollTop'
+import getScrollLeft from 'dom-helpers/scrollLeft'
 import Overlay from 'react-overlays/Overlay'
-import getHeight from 'dom-helpers/query/height'
-import qsa from 'dom-helpers/query/querySelectorAll'
-import contains from 'dom-helpers/query/contains'
-import closest from 'dom-helpers/query/closest'
-import events from 'dom-helpers/events'
+import getHeight from 'dom-helpers/height'
+import qsa from 'dom-helpers/querySelectorAll'
+import contains from 'dom-helpers/contains'
+import closest from 'dom-helpers/closest'
+import listen from 'dom-helpers/listen'
 import findIndex from 'lodash-es/findIndex'
 import range$1 from 'lodash-es/range'
 import memoize from 'memoize-one'
 import _createClass from '@babel/runtime/helpers/esm/createClass'
 import sortBy from 'lodash-es/sortBy'
-import getWidth from 'dom-helpers/query/width'
-import scrollbarSize from 'dom-helpers/util/scrollbarSize'
-import classes from 'dom-helpers/class'
+import getWidth from 'dom-helpers/width'
+import scrollbarSize from 'dom-helpers/scrollbarSize'
+import addClass from 'dom-helpers/addClass'
+import removeClass from 'dom-helpers/removeClass'
 import omit from 'lodash-es/omit'
 import defaults from 'lodash-es/defaults'
 import transform from 'lodash-es/transform'
@@ -116,6 +117,10 @@ var views$1 = PropTypes.oneOfType([
       return PropTypes.elementType.apply(PropTypes, [prop, key].concat(args))
     }
   }),
+])
+var DayLayoutAlgorithmPropType = PropTypes.oneOfType([
+  PropTypes.oneOf(['overlap', 'no-overlap']),
+  PropTypes.func,
 ])
 
 function notify(handler, args) {
@@ -370,7 +375,7 @@ var EventCell =
           _extends({}, props, {
             tabIndex: 0,
             style: _extends({}, userProps.style, style),
-            className: cn('rbc-event', className, userProps.className, {
+            className: clsx('rbc-event', className, userProps.className, {
               'rbc-selected': selected,
               'rbc-event-allday': showAsAllDay,
               'rbc-event-continues-prior': continuesPrior,
@@ -539,21 +544,18 @@ var Popup =
         slotEnd = _this$props2.slotEnd,
         localizer = _this$props2.localizer,
         popperRef = _this$props2.popperRef
-      var _this$props$position = this.props.position,
-        left = _this$props$position.left,
-        width = _this$props$position.width,
-        top = _this$props$position.top,
+      var width = this.props.position.width,
         topOffset = (this.state || {}).topOffset || 0,
         leftOffset = (this.state || {}).leftOffset || 0
       var style = {
-        top: Math.max(0, top - topOffset),
-        left: left - leftOffset,
+        top: -topOffset,
+        left: -leftOffset,
         minWidth: width + width / 2,
       }
       return React.createElement(
         'div',
         {
-          style: style,
+          style: _extends({}, this.props.style, style),
           className: 'rbc-overlay',
           ref: popperRef,
         },
@@ -637,14 +639,9 @@ function addEventListener(type, handler, target) {
     target = document
   }
 
-  events.on(target, type, handler, {
+  return listen(target, type, handler, {
     passive: false,
   })
-  return {
-    remove: function remove() {
-      events.off(target, type, handler)
-    },
-  }
 }
 
 function isOverContainer(container, x, y) {
@@ -705,14 +702,17 @@ var Selection =
       ) // Fixes an iOS 10 bug where scrolling could not be prevented on the window.
       // https://github.com/metafizzy/flickity/issues/457#issuecomment-254501356
 
-      this._onTouchMoveWindowListener = addEventListener(
+      this._removeTouchMoveWindowListener = addEventListener(
         'touchmove',
         function() {},
         window
       )
-      this._onKeyDownListener = addEventListener('keydown', this._keyListener)
-      this._onKeyUpListener = addEventListener('keyup', this._keyListener)
-      this._onDropFromOutsideListener = addEventListener(
+      this._removeKeyDownListener = addEventListener(
+        'keydown',
+        this._keyListener
+      )
+      this._removeKeyUpListener = addEventListener('keyup', this._keyListener)
+      this._removeDropFromOutsideListener = addEventListener(
         'drop',
         this._dropFromOutsideListener
       )
@@ -759,15 +759,16 @@ var Selection =
     _proto.teardown = function teardown() {
       this.isDetached = true
       this.listeners = Object.create(null)
-      this._onTouchMoveWindowListener &&
-        this._onTouchMoveWindowListener.remove()
-      this._onInitialEventListener && this._onInitialEventListener.remove()
-      this._onEndListener && this._onEndListener.remove()
-      this._onEscListener && this._onEscListener.remove()
-      this._onMoveListener && this._onMoveListener.remove()
-      this._onKeyUpListener && this._onKeyUpListener.remove()
-      this._onKeyDownListener && this._onKeyDownListener.remove()
-      this._onDropFromOutsideListener && this._onDragOverfromOutisde.remove()
+      this._removeTouchMoveWindowListener &&
+        this._removeTouchMoveWindowListener()
+      this._removeInitialEventListener && this._removeInitialEventListener()
+      this._removeEndListener && this._removeEndListener()
+      this._onEscListener && this._onEscListener()
+      this._removeMoveListener && this._removeMoveListener()
+      this._removeKeyUpListener && this._removeKeyUpListener()
+      this._removeKeyDownListener && this._removeKeyDownListener()
+      this._removeDropFromOutsideListener &&
+        this._removeDropFromOutsideListener()
     }
 
     _proto.isSelected = function isSelected(node) {
@@ -791,51 +792,52 @@ var Selection =
       var _this = this
 
       var timer = null
-      var touchMoveListener = null
-      var touchEndListener = null
+      var removeTouchMoveListener = null
+      var removeTouchEndListener = null
 
       var handleTouchStart = function handleTouchStart(initialEvent) {
         timer = setTimeout(function() {
           cleanup()
           handler(initialEvent)
         }, _this.longPressThreshold)
-        touchMoveListener = addEventListener('touchmove', function() {
+        removeTouchMoveListener = addEventListener('touchmove', function() {
           return cleanup()
         })
-        touchEndListener = addEventListener('touchend', function() {
+        removeTouchEndListener = addEventListener('touchend', function() {
           return cleanup()
         })
       }
 
-      var touchStartListener = addEventListener('touchstart', handleTouchStart)
+      var removeTouchStartListener = addEventListener(
+        'touchstart',
+        handleTouchStart
+      )
 
       var cleanup = function cleanup() {
         if (timer) {
           clearTimeout(timer)
         }
 
-        if (touchMoveListener) {
-          touchMoveListener.remove()
+        if (removeTouchMoveListener) {
+          removeTouchMoveListener()
         }
 
-        if (touchEndListener) {
-          touchEndListener.remove()
+        if (removeTouchEndListener) {
+          removeTouchEndListener()
         }
 
         timer = null
-        touchMoveListener = null
-        touchEndListener = null
+        removeTouchMoveListener = null
+        removeTouchEndListener = null
       }
 
       if (initialEvent) {
         handleTouchStart(initialEvent)
       }
 
-      return {
-        remove: function remove() {
-          cleanup()
-          touchStartListener.remove()
-        },
+      return function() {
+        cleanup()
+        removeTouchStartListener()
       }
     } // Listen for mousedown and touchstart events. When one is received, disable the other and setup
     // future event handling based on the type of event.
@@ -843,29 +845,30 @@ var Selection =
     _proto._addInitialEventListener = function _addInitialEventListener() {
       var _this2 = this
 
-      var mouseDownListener = addEventListener('mousedown', function(e) {
-        _this2._onInitialEventListener.remove()
+      var removeMouseDownListener = addEventListener('mousedown', function(e) {
+        _this2._removeInitialEventListener()
 
         _this2._handleInitialEvent(e)
 
-        _this2._onInitialEventListener = addEventListener(
+        _this2._removeInitialEventListener = addEventListener(
           'mousedown',
           _this2._handleInitialEvent
         )
       })
-      var touchStartListener = addEventListener('touchstart', function(e) {
-        _this2._onInitialEventListener.remove()
+      var removeTouchStartListener = addEventListener('touchstart', function(
+        e
+      ) {
+        _this2._removeInitialEventListener()
 
-        _this2._onInitialEventListener = _this2._addLongPressListener(
+        _this2._removeInitialEventListener = _this2._addLongPressListener(
           _this2._handleInitialEvent,
           e
         )
       })
-      this._onInitialEventListener = {
-        remove: function remove() {
-          mouseDownListener.remove()
-          touchStartListener.remove()
-        },
+
+      this._removeInitialEventListener = function() {
+        removeMouseDownListener()
+        removeTouchStartListener()
       }
     }
 
@@ -962,7 +965,7 @@ var Selection =
 
       switch (e.type) {
         case 'mousedown':
-          this._onEndListener = addEventListener(
+          this._removeEndListener = addEventListener(
             'mouseup',
             this._handleTerminatingEvent
           )
@@ -970,7 +973,7 @@ var Selection =
             'keydown',
             this._handleTerminatingEvent
           )
-          this._onMoveListener = addEventListener(
+          this._removeMoveListener = addEventListener(
             'mousemove',
             this._handleMoveEvent
           )
@@ -979,11 +982,11 @@ var Selection =
         case 'touchstart':
           this._handleMoveEvent(e)
 
-          this._onEndListener = addEventListener(
+          this._removeEndListener = addEventListener(
             'touchend',
             this._handleTerminatingEvent
           )
-          this._onMoveListener = addEventListener(
+          this._removeMoveListener = addEventListener(
             'touchmove',
             this._handleMoveEvent
           )
@@ -1000,8 +1003,8 @@ var Selection =
         pageY = _getEventCoordinates4.pageY
 
       this.selecting = false
-      this._onEndListener && this._onEndListener.remove()
-      this._onMoveListener && this._onMoveListener.remove()
+      this._removeEndListener && this._removeEndListener()
+      this._removeMoveListener && this._removeMoveListener()
       if (!this._initialEventData) return
       var inRoot = !this.container || contains(this.container(), e.target)
       var bounds = this._selectRect
@@ -1263,7 +1266,7 @@ var BackgroundCells =
             },
             React.createElement('div', {
               style: style,
-              className: cn(
+              className: clsx(
                 'rbc-day-bg',
                 className,
                 selected && 'rbc-selected-cell',
@@ -1516,7 +1519,7 @@ var EventRow =
       return React.createElement(
         'div',
         {
-          className: cn(className, 'rbc-row'),
+          className: clsx(className, 'rbc-row'),
         },
         segments.reduce(function(row, _ref, li) {
           var event = _ref.event,
@@ -1926,7 +1929,7 @@ var DateContentRow =
         return renderHeader({
           date: date,
           key: 'header_' + index,
-          className: cn(
+          className: clsx(
             'rbc-date-cell',
             eq(date, getNow(), 'day') && 'rbc-now'
           ),
@@ -2287,7 +2290,7 @@ var MonthView =
         return React.createElement(
           'div',
           _extends({}, props, {
-            className: cn(
+            className: clsx(
               className,
               isOffRange && 'rbc-off-range',
               isCurrent && 'rbc-current'
@@ -2409,7 +2412,7 @@ var MonthView =
         'resize',
         (this._resizeListener = function() {
           if (!running) {
-            raf(function() {
+            request(function() {
               running = false
 
               _this2.setState({
@@ -2441,7 +2444,7 @@ var MonthView =
       return React.createElement(
         'div',
         {
-          className: cn('rbc-month-view', className),
+          className: clsx('rbc-month-view', className),
         },
         React.createElement(
           'div',
@@ -2487,13 +2490,13 @@ var MonthView =
         localizer = _this$props6.localizer,
         components = _this$props6.components,
         getters = _this$props6.getters,
-        selected = _this$props6.selected
+        selected = _this$props6.selected,
+        popupOffset = _this$props6.popupOffset
       return React.createElement(
         Overlay,
         {
           rootClose: true,
           placement: 'bottom',
-          container: this,
           show: !!overlay.position,
           onHide: function onHide() {
             return _this3.setState({
@@ -2509,6 +2512,7 @@ var MonthView =
           return React.createElement(
             Popup$1,
             _extends({}, props, {
+              popupOffset: popupOffset,
               accessors: accessors,
               getters: getters,
               selected: selected,
@@ -2750,7 +2754,7 @@ function getSlotMetrics$1(_ref) {
       var rangeStartMin = positionFromDate(rangeStart)
       var rangeEndMin = positionFromDate(rangeEnd)
       var top =
-        rangeEndMin - rangeStartMin < step
+        rangeEndMin - rangeStartMin < step && !eq(end, rangeEnd)
           ? ((rangeStartMin - step) / (step * numSlots)) * 100
           : (rangeStartMin / (step * numSlots)) * 100
       return {
@@ -2761,6 +2765,11 @@ function getSlotMetrics$1(_ref) {
         end: positionFromDate(rangeEnd),
         endDate: rangeEnd,
       }
+    },
+    getCurrentTimePosition: function getCurrentTimePosition(rangeStart) {
+      var rangeStartMin = positionFromDate(rangeStart)
+      var top = (rangeStartMin / (step * numSlots)) * 100
+      return top
     },
   }
 }
@@ -2980,10 +2989,147 @@ function getStyledEvents(_ref2) {
         top: event.top,
         height: event.height,
         width: event.width,
-        xOffset: event.xOffset,
+        xOffset: Math.max(0, event.xOffset),
       },
     }
   })
+}
+
+function getMaxIdxDFS(node, maxIdx, visited) {
+  for (var i = 0; i < node.friends.length; ++i) {
+    if (visited.indexOf(node.friends[i]) > -1) continue
+    maxIdx = maxIdx > node.friends[i].idx ? maxIdx : node.friends[i].idx // TODO : trace it by not object but kinda index or something for performance
+
+    visited.push(node.friends[i])
+    var newIdx = getMaxIdxDFS(node.friends[i], maxIdx, visited)
+    maxIdx = maxIdx > newIdx ? maxIdx : newIdx
+  }
+
+  return maxIdx
+}
+
+function noOverlap(_ref) {
+  var events = _ref.events,
+    minimumStartDifference = _ref.minimumStartDifference,
+    slotMetrics = _ref.slotMetrics,
+    accessors = _ref.accessors
+  var styledEvents = getStyledEvents({
+    events: events,
+    minimumStartDifference: minimumStartDifference,
+    slotMetrics: slotMetrics,
+    accessors: accessors,
+  })
+  styledEvents.sort(function(a, b) {
+    a = a.style
+    b = b.style
+    if (a.top !== b.top) return a.top > b.top ? 1 : -1
+    else return a.top + a.height < b.top + b.height ? 1 : -1
+  })
+
+  for (var i = 0; i < styledEvents.length; ++i) {
+    styledEvents[i].friends = []
+    delete styledEvents[i].style.left
+    delete styledEvents[i].style.left
+    delete styledEvents[i].idx
+    delete styledEvents[i].size
+  }
+
+  for (var _i = 0; _i < styledEvents.length - 1; ++_i) {
+    var se1 = styledEvents[_i]
+    var y1 = se1.style.top
+    var y2 = se1.style.top + se1.style.height
+
+    for (var j = _i + 1; j < styledEvents.length; ++j) {
+      var se2 = styledEvents[j]
+      var y3 = se2.style.top
+      var y4 = se2.style.top + se2.style.height // be friends when overlapped
+
+      if ((y3 <= y1 && y1 < y4) || (y1 <= y3 && y3 < y2)) {
+        // TODO : hashmap would be effective for performance
+        se1.friends.push(se2)
+        se2.friends.push(se1)
+      }
+    }
+  }
+
+  for (var _i2 = 0; _i2 < styledEvents.length; ++_i2) {
+    var se = styledEvents[_i2]
+    var bitmap = []
+
+    for (var _j = 0; _j < 100; ++_j) {
+      bitmap.push(1)
+    } // 1 means available
+
+    for (var _j2 = 0; _j2 < se.friends.length; ++_j2) {
+      if (se.friends[_j2].idx !== undefined) bitmap[se.friends[_j2].idx] = 0
+    } // 0 means reserved
+
+    se.idx = bitmap.indexOf(1)
+  }
+
+  for (var _i3 = 0; _i3 < styledEvents.length; ++_i3) {
+    var size = 0
+    if (styledEvents[_i3].size) continue
+    var allFriends = []
+    var maxIdx = getMaxIdxDFS(styledEvents[_i3], 0, allFriends)
+    size = 100 / (maxIdx + 1)
+    styledEvents[_i3].size = size
+
+    for (var _j3 = 0; _j3 < allFriends.length; ++_j3) {
+      allFriends[_j3].size = size
+    }
+  }
+
+  for (var _i4 = 0; _i4 < styledEvents.length; ++_i4) {
+    var e = styledEvents[_i4]
+    e.style.left = e.idx * e.size // stretch to maximum
+
+    var _maxIdx = 0
+
+    for (var _j4 = 0; _j4 < e.friends.length; ++_j4) {
+      var idx = e.friends[_j4]
+      _maxIdx = _maxIdx > idx ? _maxIdx : idx
+    }
+
+    if (_maxIdx <= e.idx) e.size = 100 - e.idx * e.size // padding between events
+    // for this feature, `width` is not percentage based unit anymore
+    // it will be used with calc()
+
+    var padding = e.idx === 0 ? 0 : 3
+    e.style.width = 'calc(' + e.size + '% - ' + padding + 'px)'
+    e.style.height = 'calc(' + e.style.height + '% - 2px)'
+    e.style.xOffset = 'calc(' + e.style.left + '% + ' + padding + 'px)'
+  }
+
+  return styledEvents
+}
+
+/*eslint no-unused-vars: "off"*/
+var DefaultAlgorithms = {
+  overlap: getStyledEvents,
+  'no-overlap': noOverlap,
+}
+
+function isFunction(a) {
+  return !!(a && a.constructor && a.call && a.apply)
+} //
+
+function getStyledEvents$1(_ref) {
+  var events = _ref.events,
+    minimumStartDifference = _ref.minimumStartDifference,
+    slotMetrics = _ref.slotMetrics,
+    accessors = _ref.accessors,
+    dayLayoutAlgorithm = _ref.dayLayoutAlgorithm
+  var algorithm = null
+  if (dayLayoutAlgorithm in DefaultAlgorithms)
+    algorithm = DefaultAlgorithms[dayLayoutAlgorithm]
+
+  if (!isFunction(algorithm)) {
+    // invalid algorithm
+    return []
+  }
+
+  return algorithm.apply(this, arguments)
 }
 
 var TimeSlotGroup =
@@ -3028,7 +3174,7 @@ var TimeSlotGroup =
             React.createElement(
               'div',
               _extends({}, slotProps, {
-                className: cn('rbc-time-slot', slotProps.className),
+                className: clsx('rbc-time-slot', slotProps.className),
               }),
               renderSlot && renderSlot(value, idx)
             )
@@ -3050,6 +3196,9 @@ TimeSlotGroup.propTypes =
       }
     : {}
 
+function stringifyPercent(v) {
+  return typeof v === 'string' ? v : v + '%'
+}
 /* eslint-disable react/prop-types */
 
 function TimeGridEvent(props) {
@@ -3128,17 +3277,17 @@ function TimeGridEvent(props) {
           {},
           userProps.style,
           ((_extends2 = {
-            top: top + '%',
-            height: height + '%',
+            top: stringifyPercent(top),
           }),
-          (_extends2[rtl ? 'right' : 'left'] = Math.max(0, xOffset) + '%'),
-          (_extends2.width = width + '%'),
+          (_extends2[rtl ? 'right' : 'left'] = stringifyPercent(xOffset)),
+          (_extends2.width = stringifyPercent(width)),
+          (_extends2.height = stringifyPercent(height)),
           _extends2)
         ),
         title: tooltip
           ? (typeof label === 'string' ? label + ': ' : '') + tooltip
           : undefined,
-        className: cn('rbc-event', className, userProps.className, {
+        className: clsx('rbc-event', className, userProps.className, {
           'rbc-selected': selected,
           'rbc-event-continues-earlier': continuesEarlier,
           'rbc-event-continues-later': continuesLater,
@@ -3184,17 +3333,19 @@ var DayColumn =
           getters = _this$props.getters,
           components = _this$props.components,
           step = _this$props.step,
-          timeslots = _this$props.timeslots
+          timeslots = _this$props.timeslots,
+          dayLayoutAlgorithm = _this$props.dayLayoutAlgorithm
 
         var _assertThisInitialize = _assertThisInitialized(_this),
           slotMetrics = _assertThisInitialize.slotMetrics
 
         var messages = localizer.messages
-        var styledEvents = getStyledEvents({
+        var styledEvents = getStyledEvents$1({
           events: events,
           accessors: accessors,
           slotMetrics: slotMetrics,
           minimumStartDifference: Math.ceil((step * timeslots) / 2),
+          dayLayoutAlgorithm: dayLayoutAlgorithm,
         })
         return styledEvents.map(function(_ref, idx) {
           var event = _ref.event,
@@ -3266,6 +3417,7 @@ var DayColumn =
               onSelecting({
                 start: start,
                 end: end,
+                resourceId: _this.props.resource,
               }) === false
             )
               return
@@ -3286,10 +3438,17 @@ var DayColumn =
             getBoundsForNode(node)
           )
 
-          if (!_this.state.selecting) _this._initialSlot = currentSlot
+          if (!_this.state.selecting) {
+            _this._initialSlot = currentSlot
+          }
+
           var initialSlot = _this._initialSlot
-          if (initialSlot === currentSlot)
-            currentSlot = _this.slotMetrics.nextSlot(initialSlot)
+
+          if (lte(initialSlot, currentSlot)) {
+            currentSlot = _this.slotMetrics.nextSlot(currentSlot)
+          } else if (gt(initialSlot, currentSlot)) {
+            initialSlot = _this.slotMetrics.nextSlot(initialSlot)
+          }
 
           var selectRange = _this.slotMetrics.getRange(
             min(initialSlot, currentSlot),
@@ -3474,11 +3633,11 @@ var DayColumn =
         this.positionTimeIndicator()
       }
     }
-
     /**
      * @param tail {Boolean} - whether `positionTimeIndicator` call should be
      *   deferred or called upon setting interval (`true` - if deferred);
      */
+
     _proto.setTimeIndicatorPositionUpdateInterval = function setTimeIndicatorPositionUpdateInterval(
       tail
     ) {
@@ -3514,9 +3673,7 @@ var DayColumn =
       var current = getNow()
 
       if (current >= min && current <= max) {
-        var _this$slotMetrics$get = this.slotMetrics.getRange(current, current),
-          top = _this$slotMetrics$get.top
-
+        var top = this.slotMetrics.getCurrentTimePosition(current)
         this.setState({
           timeIndicatorPosition: top,
         })
@@ -3564,7 +3721,7 @@ var DayColumn =
         'div',
         {
           style: style,
-          className: cn(
+          className: clsx(
             className,
             'rbc-day-slot',
             'rbc-time-column',
@@ -3595,7 +3752,7 @@ var DayColumn =
           React.createElement(
             'div',
             {
-              className: cn('rbc-events-container', rtl && 'rtl'),
+              className: clsx('rbc-events-container', rtl && 'rtl'),
             },
             this.renderEvents()
           )
@@ -3658,6 +3815,7 @@ DayColumn.propTypes =
         className: PropTypes.string,
         dragThroughEvents: PropTypes.bool,
         resource: PropTypes.any,
+        dayLayoutAlgorithm: DayLayoutAlgorithmPropType,
       }
     : {}
 DayColumn.defaultProps = {
@@ -3694,7 +3852,7 @@ var TimeGutter =
         return React.createElement(
           'span',
           {
-            className: cn('rbc-label', isNow && 'rbc-now'),
+            className: clsx('rbc-label', isNow && 'rbc-now'),
           },
           localizer.format(value, 'timeGutterFormat')
         )
@@ -3883,7 +4041,7 @@ var TimeGridHeader =
           {
             key: i,
             style: style,
-            className: cn(
+            className: clsx(
               'rbc-header',
               className,
               eq(date, today, 'day') && 'rbc-today'
@@ -3941,7 +4099,10 @@ var TimeGridHeader =
         {
           style: style,
           ref: scrollRef,
-          className: cn('rbc-time-header', isOverflowing && 'rbc-overflowing'),
+          className: clsx(
+            'rbc-time-header',
+            isOverflowing && 'rbc-overflowing'
+          ),
         },
         React.createElement(
           'div',
@@ -4092,8 +4253,8 @@ var TimeGrid =
       }
 
       _this.handleResize = function() {
-        raf.cancel(_this.rafHandle)
-        _this.rafHandle = raf(_this.checkOverflow)
+        cancel(_this.rafHandle)
+        _this.rafHandle = request(_this.checkOverflow)
       }
 
       _this.gutterRef = function(ref) {
@@ -4153,6 +4314,7 @@ var TimeGrid =
       }
       _this.scrollRef = React.createRef()
       _this.contentRef = React.createRef()
+      _this._scrollRatio = null
       return _this
     }
 
@@ -4163,6 +4325,7 @@ var TimeGrid =
     }
 
     _proto.componentDidMount = function componentDidMount() {
+      window.alert('shit')
       this.checkOverflow()
 
       if (this.props.width == null) {
@@ -4175,7 +4338,7 @@ var TimeGrid =
 
     _proto.componentWillUnmount = function componentWillUnmount() {
       window.removeEventListener('resize', this.handleResize)
-      raf.cancel(this.rafHandle)
+      cancel(this.rafHandle)
 
       if (this.measureGutterAnimationFrameRequest) {
         window.cancelAnimationFrame(this.measureGutterAnimationFrameRequest)
@@ -4213,7 +4376,8 @@ var TimeGrid =
         max = _this$props2.max,
         components = _this$props2.components,
         accessors = _this$props2.accessors,
-        localizer = _this$props2.localizer
+        localizer = _this$props2.localizer,
+        dayLayoutAlgorithm = _this$props2.dayLayoutAlgorithm
       var resources = this.memoizedResources(this.props.resources, accessors)
       var groupedEvents = resources.groupEvents(events)
       return resources.map(function(_ref, i) {
@@ -4242,6 +4406,7 @@ var TimeGrid =
               key: i + '-' + jj,
               date: date,
               events: daysEvents,
+              dayLayoutAlgorithm: dayLayoutAlgorithm,
             })
           )
         })
@@ -4293,7 +4458,7 @@ var TimeGrid =
       return React.createElement(
         'div',
         {
-          className: cn(
+          className: clsx(
             'rbc-time-view',
             resources && 'rbc-time-view-resources'
           ),
@@ -4370,7 +4535,7 @@ var TimeGrid =
     }
 
     _proto.applyScroll = function applyScroll() {
-      if (this._scrollRatio) {
+      if (this._scrollRatio != null) {
         var content = this.contentRef.current
         content.scrollTop = content.scrollHeight * this._scrollRatio // Only do this once
 
@@ -4424,6 +4589,7 @@ TimeGrid.propTypes =
         onDoubleClickEvent: PropTypes.func,
         onDrillDown: PropTypes.func,
         getDrilldownView: PropTypes.func.isRequired,
+        dayLayoutAlgorithm: DayLayoutAlgorithmPropType,
       }
     : {}
 TimeGrid.defaultProps = {
@@ -4777,10 +4943,10 @@ var Agenda =
         }
 
         if (isOverflowing) {
-          classes.addClass(header, 'rbc-header-overflowing')
+          addClass(header, 'rbc-header-overflowing')
           header.style.marginRight = scrollbarSize() + 'px'
         } else {
-          classes.removeClass(header, 'rbc-header-overflowing')
+          removeClass(header, 'rbc-header-overflowing')
         }
       }
 
@@ -5103,7 +5269,7 @@ var Toolbar =
             {
               type: 'button',
               key: name,
-              className: cn({
+              className: clsx({
                 'rbc-active': view === name,
               }),
               onClick: _this2.view.bind(null, name),
@@ -5481,7 +5647,7 @@ var Calendar =
       return React.createElement(
         'div',
         _extends({}, elementProps, {
-          className: cn(className, 'rbc-calendar', props.rtl && 'rbc-rtl'),
+          className: clsx(className, 'rbc-calendar', props.rtl && 'rbc-rtl'),
           style: style,
         }),
         toolbar &&
@@ -5552,6 +5718,7 @@ Calendar.defaultProps = {
   getNow: function getNow() {
     return new Date()
   },
+  dayLayoutAlgorithm: 'overlap',
 }
 Calendar.propTypes =
   process.env.NODE_ENV !== 'production'
@@ -5772,6 +5939,7 @@ Calendar.propTypes =
          *   slotInfo: {
          *     start: Date,
          *     end: Date,
+         *     resourceId:  (number|string),
          *     slots: Array<Date>,
          *     action: "select" | "click" | "doubleClick",
          *     bounds: ?{ // For "select" action
@@ -5820,7 +5988,7 @@ Calendar.propTypes =
          * Returning `false` from the handler will prevent a selection.
          *
          * ```js
-         * (range: { start: Date, end: Date }) => ?boolean
+         * (range: { start: Date, end: Date, resourceId: (number|string) }) => ?boolean
          * ```
          */
         onSelecting: PropTypes.func,
@@ -6220,6 +6388,14 @@ Calendar.propTypes =
           noEventsInRange: PropTypes.node,
           showMore: PropTypes.func,
         }),
+
+        /**
+         * A day event layout(arrangement) algorithm.
+         * `overlap` allows events to be overlapped.
+         * `no-overlap` resizes events to avoid overlap.
+         * or custom `Function(events, minimumStartDifference, slotMetrics, accessors)`
+         */
+        dayLayoutAlgorithm: DayLayoutAlgorithmPropType,
       }
     : {}
 var Calendar$1 = uncontrollable(Calendar, {

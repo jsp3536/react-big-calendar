@@ -1,15 +1,137 @@
 ;(function(global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined'
-    ? factory(exports, require('react'), require('react-dom'))
+    ? factory(
+        exports,
+        require('react'),
+        require('clsx'),
+        require('react-dom'),
+        require('dom-helpers/position'),
+        require('dom-helpers/animationFrame'),
+        require('dom-helpers/offset'),
+        require('dom-helpers/scrollTop'),
+        require('dom-helpers/scrollLeft'),
+        require('dom-helpers/height'),
+        require('dom-helpers/querySelectorAll'),
+        require('dom-helpers/contains'),
+        require('dom-helpers/closest'),
+        require('dom-helpers/listen'),
+        require('dom-helpers/width'),
+        require('dom-helpers/scrollbarSize'),
+        require('dom-helpers/addClass'),
+        require('dom-helpers/removeClass')
+      )
     : typeof define === 'function' && define.amd
-    ? define(['exports', 'react', 'react-dom'], factory)
+    ? define([
+        'exports',
+        'react',
+        'clsx',
+        'react-dom',
+        'dom-helpers/position',
+        'dom-helpers/animationFrame',
+        'dom-helpers/offset',
+        'dom-helpers/scrollTop',
+        'dom-helpers/scrollLeft',
+        'dom-helpers/height',
+        'dom-helpers/querySelectorAll',
+        'dom-helpers/contains',
+        'dom-helpers/closest',
+        'dom-helpers/listen',
+        'dom-helpers/width',
+        'dom-helpers/scrollbarSize',
+        'dom-helpers/addClass',
+        'dom-helpers/removeClass',
+      ], factory)
     : ((global = global || self),
-      factory((global.ReactBigCalendar = {}), global.React, global.ReactDOM))
-})(this, function(exports, React, reactDom) {
+      factory(
+        (global.ReactBigCalendar = {}),
+        global.React,
+        global.clsx,
+        global.ReactDOM,
+        global.getPosition,
+        global.animationFrame,
+        global.getOffset,
+        global.getScrollTop,
+        global.getScrollLeft,
+        global.getHeight,
+        global.qsa,
+        global.contains$1,
+        global.closest,
+        global.listen,
+        global.getWidth,
+        global.scrollbarSize,
+        global.addClass,
+        global.removeClass
+      ))
+})(this, function(
+  exports,
+  React,
+  clsx,
+  reactDom,
+  getPosition,
+  animationFrame,
+  getOffset,
+  getScrollTop,
+  getScrollLeft,
+  getHeight,
+  qsa,
+  contains$1,
+  closest,
+  listen,
+  getWidth,
+  scrollbarSize,
+  addClass,
+  removeClass
+) {
   'use strict'
 
   var React__default = 'default' in React ? React['default'] : React
+  clsx = clsx && clsx.hasOwnProperty('default') ? clsx['default'] : clsx
   var reactDom__default = 'default' in reactDom ? reactDom['default'] : reactDom
+  getPosition =
+    getPosition && getPosition.hasOwnProperty('default')
+      ? getPosition['default']
+      : getPosition
+  getOffset =
+    getOffset && getOffset.hasOwnProperty('default')
+      ? getOffset['default']
+      : getOffset
+  getScrollTop =
+    getScrollTop && getScrollTop.hasOwnProperty('default')
+      ? getScrollTop['default']
+      : getScrollTop
+  getScrollLeft =
+    getScrollLeft && getScrollLeft.hasOwnProperty('default')
+      ? getScrollLeft['default']
+      : getScrollLeft
+  getHeight =
+    getHeight && getHeight.hasOwnProperty('default')
+      ? getHeight['default']
+      : getHeight
+  qsa = qsa && qsa.hasOwnProperty('default') ? qsa['default'] : qsa
+  contains$1 =
+    contains$1 && contains$1.hasOwnProperty('default')
+      ? contains$1['default']
+      : contains$1
+  closest =
+    closest && closest.hasOwnProperty('default') ? closest['default'] : closest
+  listen =
+    listen && listen.hasOwnProperty('default') ? listen['default'] : listen
+  getWidth =
+    getWidth && getWidth.hasOwnProperty('default')
+      ? getWidth['default']
+      : getWidth
+  scrollbarSize =
+    scrollbarSize && scrollbarSize.hasOwnProperty('default')
+      ? scrollbarSize['default']
+      : scrollbarSize
+  addClass =
+    addClass && addClass.hasOwnProperty('default')
+      ? addClass['default']
+      : addClass
+  removeClass =
+    removeClass && removeClass.hasOwnProperty('default')
+      ? removeClass['default']
+      : removeClass
 
   function NoopWrapper(props) {
     return props.children
@@ -2013,54 +2135,6 @@
     return WrappedComponent
   }
 
-  var classnames = createCommonjsModule(function(module) {
-    /*!
-    Copyright (c) 2017 Jed Watson.
-    Licensed under the MIT License (MIT), see
-    http://jedwatson.github.io/classnames
-  */
-    /* global define */
-
-    ;(function() {
-      var hasOwn = {}.hasOwnProperty
-
-      function classNames() {
-        var classes = []
-
-        for (var i = 0; i < arguments.length; i++) {
-          var arg = arguments[i]
-          if (!arg) continue
-
-          var argType = typeof arg
-
-          if (argType === 'string' || argType === 'number') {
-            classes.push(arg)
-          } else if (Array.isArray(arg) && arg.length) {
-            var inner = classNames.apply(null, arg)
-            if (inner) {
-              classes.push(inner)
-            }
-          } else if (argType === 'object') {
-            for (var key in arg) {
-              if (hasOwn.call(arg, key) && arg[key]) {
-                classes.push(key)
-              }
-            }
-          }
-        }
-
-        return classes.join(' ')
-      }
-
-      if (module.exports) {
-        classNames.default = classNames
-        module.exports = classNames
-      } else {
-        window.classNames = classNames
-      }
-    })()
-  })
-
   var navigate = {
     PREVIOUS: 'PREV',
     NEXT: 'NEXT',
@@ -2121,6 +2195,10 @@
         return propTypes.elementType.apply(propTypes, [prop, key].concat(args))
       }
     }),
+  ])
+  var DayLayoutAlgorithmPropType = propTypes.oneOfType([
+    propTypes.oneOf(['overlap', 'no-overlap']),
+    propTypes.func,
   ])
 
   /**
@@ -3116,710 +3194,6 @@
     return result
   }
 
-  var interopRequireDefault = createCommonjsModule(function(module) {
-    function _interopRequireDefault(obj) {
-      return obj && obj.__esModule
-        ? obj
-        : {
-            default: obj,
-          }
-    }
-
-    module.exports = _interopRequireDefault
-  })
-
-  unwrapExports(interopRequireDefault)
-
-  var _extends_1 = createCommonjsModule(function(module) {
-    function _extends() {
-      module.exports = _extends =
-        Object.assign ||
-        function(target) {
-          for (var i = 1; i < arguments.length; i++) {
-            var source = arguments[i]
-
-            for (var key in source) {
-              if (Object.prototype.hasOwnProperty.call(source, key)) {
-                target[key] = source[key]
-              }
-            }
-          }
-
-          return target
-        }
-
-      return _extends.apply(this, arguments)
-    }
-
-    module.exports = _extends
-  })
-
-  var inDOM = createCommonjsModule(function(module, exports) {
-    exports.__esModule = true
-    exports.default = void 0
-
-    var _default = !!(
-      typeof window !== 'undefined' &&
-      window.document &&
-      window.document.createElement
-    )
-
-    exports.default = _default
-    module.exports = exports['default']
-  })
-
-  unwrapExports(inDOM)
-
-  var contains = createCommonjsModule(function(module, exports) {
-    exports.__esModule = true
-    exports.default = void 0
-
-    var _inDOM = interopRequireDefault(inDOM)
-
-    var _default = (function() {
-      // HTML DOM and SVG DOM may have different support levels,
-      // so we need to check on context instead of a document root element.
-      return _inDOM.default
-        ? function(context, node) {
-            if (context.contains) {
-              return context.contains(node)
-            } else if (context.compareDocumentPosition) {
-              return (
-                context === node ||
-                !!(context.compareDocumentPosition(node) & 16)
-              )
-            } else {
-              return fallback(context, node)
-            }
-          }
-        : fallback
-    })()
-
-    exports.default = _default
-
-    function fallback(context, node) {
-      if (node)
-        do {
-          if (node === context) return true
-        } while ((node = node.parentNode))
-      return false
-    }
-
-    module.exports = exports['default']
-  })
-
-  var contains$1 = unwrapExports(contains)
-
-  var isWindow = createCommonjsModule(function(module, exports) {
-    exports.__esModule = true
-    exports.default = getWindow
-
-    function getWindow(node) {
-      return node === node.window
-        ? node
-        : node.nodeType === 9
-        ? node.defaultView || node.parentWindow
-        : false
-    }
-
-    module.exports = exports['default']
-  })
-
-  unwrapExports(isWindow)
-
-  var ownerDocument_1 = createCommonjsModule(function(module, exports) {
-    exports.__esModule = true
-    exports.default = ownerDocument
-
-    function ownerDocument(node) {
-      return (node && node.ownerDocument) || document
-    }
-
-    module.exports = exports['default']
-  })
-
-  unwrapExports(ownerDocument_1)
-
-  var offset_1 = createCommonjsModule(function(module, exports) {
-    exports.__esModule = true
-    exports.default = offset
-
-    var _contains = interopRequireDefault(contains)
-
-    var _isWindow = interopRequireDefault(isWindow)
-
-    var _ownerDocument = interopRequireDefault(ownerDocument_1)
-
-    function offset(node) {
-      var doc = (0, _ownerDocument.default)(node),
-        win = (0, _isWindow.default)(doc),
-        docElem = doc && doc.documentElement,
-        box = {
-          top: 0,
-          left: 0,
-          height: 0,
-          width: 0,
-        }
-      if (!doc) return // Make sure it's not a disconnected DOM node
-
-      if (!(0, _contains.default)(docElem, node)) return box
-      if (node.getBoundingClientRect !== undefined)
-        box = node.getBoundingClientRect() // IE8 getBoundingClientRect doesn't support width & height
-
-      box = {
-        top:
-          box.top +
-          (win.pageYOffset || docElem.scrollTop) -
-          (docElem.clientTop || 0),
-        left:
-          box.left +
-          (win.pageXOffset || docElem.scrollLeft) -
-          (docElem.clientLeft || 0),
-        width: (box.width == null ? node.offsetWidth : box.width) || 0,
-        height: (box.height == null ? node.offsetHeight : box.height) || 0,
-      }
-      return box
-    }
-
-    module.exports = exports['default']
-  })
-
-  var getOffset = unwrapExports(offset_1)
-
-  var camelize_1 = createCommonjsModule(function(module, exports) {
-    exports.__esModule = true
-    exports.default = camelize
-    var rHyphen = /-(.)/g
-
-    function camelize(string) {
-      return string.replace(rHyphen, function(_, chr) {
-        return chr.toUpperCase()
-      })
-    }
-
-    module.exports = exports['default']
-  })
-
-  unwrapExports(camelize_1)
-
-  var camelizeStyle = createCommonjsModule(function(module, exports) {
-    exports.__esModule = true
-    exports.default = camelizeStyleName
-
-    var _camelize = interopRequireDefault(camelize_1)
-
-    /**
-     * Copyright 2014-2015, Facebook, Inc.
-     * All rights reserved.
-     * https://github.com/facebook/react/blob/2aeb8a2a6beb00617a4217f7f8284924fa2ad819/src/vendor/core/camelizeStyleName.js
-     */
-    var msPattern = /^-ms-/
-
-    function camelizeStyleName(string) {
-      return (0, _camelize.default)(string.replace(msPattern, 'ms-'))
-    }
-
-    module.exports = exports['default']
-  })
-
-  unwrapExports(camelizeStyle)
-
-  var hyphenate_1 = createCommonjsModule(function(module, exports) {
-    exports.__esModule = true
-    exports.default = hyphenate
-    var rUpper = /([A-Z])/g
-
-    function hyphenate(string) {
-      return string.replace(rUpper, '-$1').toLowerCase()
-    }
-
-    module.exports = exports['default']
-  })
-
-  unwrapExports(hyphenate_1)
-
-  var hyphenateStyle = createCommonjsModule(function(module, exports) {
-    exports.__esModule = true
-    exports.default = hyphenateStyleName
-
-    var _hyphenate = interopRequireDefault(hyphenate_1)
-
-    /**
-     * Copyright 2013-2014, Facebook, Inc.
-     * All rights reserved.
-     * https://github.com/facebook/react/blob/2aeb8a2a6beb00617a4217f7f8284924fa2ad819/src/vendor/core/hyphenateStyleName.js
-     */
-    var msPattern = /^ms-/
-
-    function hyphenateStyleName(string) {
-      return (0, _hyphenate.default)(string).replace(msPattern, '-ms-')
-    }
-
-    module.exports = exports['default']
-  })
-
-  unwrapExports(hyphenateStyle)
-
-  var getComputedStyle$1 = createCommonjsModule(function(module, exports) {
-    exports.__esModule = true
-    exports.default = _getComputedStyle
-
-    var _camelizeStyle = interopRequireDefault(camelizeStyle)
-
-    var rposition = /^(top|right|bottom|left)$/
-    var rnumnonpx = /^([+-]?(?:\d*\.|)\d+(?:[eE][+-]?\d+|))(?!px)[a-z%]+$/i
-
-    function _getComputedStyle(node) {
-      if (!node)
-        throw new TypeError('No Element passed to `getComputedStyle()`')
-      var doc = node.ownerDocument
-      return 'defaultView' in doc
-        ? doc.defaultView.opener
-          ? node.ownerDocument.defaultView.getComputedStyle(node, null)
-          : window.getComputedStyle(node, null)
-        : {
-            //ie 8 "magic" from: https://github.com/jquery/jquery/blob/1.11-stable/src/css/curCSS.js#L72
-            getPropertyValue: function getPropertyValue(prop) {
-              var style = node.style
-              prop = (0, _camelizeStyle.default)(prop)
-              if (prop == 'float') prop = 'styleFloat'
-              var current = node.currentStyle[prop] || null
-              if (current == null && style && style[prop]) current = style[prop]
-
-              if (rnumnonpx.test(current) && !rposition.test(prop)) {
-                // Remember the original values
-                var left = style.left
-                var runStyle = node.runtimeStyle
-                var rsLeft = runStyle && runStyle.left // Put in the new values to get a computed value out
-
-                if (rsLeft) runStyle.left = node.currentStyle.left
-                style.left = prop === 'fontSize' ? '1em' : current
-                current = style.pixelLeft + 'px' // Revert the changed values
-
-                style.left = left
-                if (rsLeft) runStyle.left = rsLeft
-              }
-
-              return current
-            },
-          }
-    }
-
-    module.exports = exports['default']
-  })
-
-  unwrapExports(getComputedStyle$1)
-
-  var removeStyle_1 = createCommonjsModule(function(module, exports) {
-    exports.__esModule = true
-    exports.default = removeStyle
-
-    function removeStyle(node, key) {
-      return 'removeProperty' in node.style
-        ? node.style.removeProperty(key)
-        : node.style.removeAttribute(key)
-    }
-
-    module.exports = exports['default']
-  })
-
-  unwrapExports(removeStyle_1)
-
-  var properties = createCommonjsModule(function(module, exports) {
-    exports.__esModule = true
-    exports.default = exports.animationEnd = exports.animationDelay = exports.animationTiming = exports.animationDuration = exports.animationName = exports.transitionEnd = exports.transitionDuration = exports.transitionDelay = exports.transitionTiming = exports.transitionProperty = exports.transform = void 0
-
-    var _inDOM = interopRequireDefault(inDOM)
-
-    var transform = 'transform'
-    exports.transform = transform
-    var prefix, transitionEnd, animationEnd
-    exports.animationEnd = animationEnd
-    exports.transitionEnd = transitionEnd
-    var transitionProperty,
-      transitionDuration,
-      transitionTiming,
-      transitionDelay
-    exports.transitionDelay = transitionDelay
-    exports.transitionTiming = transitionTiming
-    exports.transitionDuration = transitionDuration
-    exports.transitionProperty = transitionProperty
-    var animationName, animationDuration, animationTiming, animationDelay
-    exports.animationDelay = animationDelay
-    exports.animationTiming = animationTiming
-    exports.animationDuration = animationDuration
-    exports.animationName = animationName
-
-    if (_inDOM.default) {
-      var _getTransitionPropert = getTransitionProperties()
-
-      prefix = _getTransitionPropert.prefix
-      exports.transitionEnd = transitionEnd =
-        _getTransitionPropert.transitionEnd
-      exports.animationEnd = animationEnd = _getTransitionPropert.animationEnd
-      exports.transform = transform = prefix + '-' + transform
-      exports.transitionProperty = transitionProperty =
-        prefix + '-transition-property'
-      exports.transitionDuration = transitionDuration =
-        prefix + '-transition-duration'
-      exports.transitionDelay = transitionDelay = prefix + '-transition-delay'
-      exports.transitionTiming = transitionTiming =
-        prefix + '-transition-timing-function'
-      exports.animationName = animationName = prefix + '-animation-name'
-      exports.animationDuration = animationDuration =
-        prefix + '-animation-duration'
-      exports.animationTiming = animationTiming = prefix + '-animation-delay'
-      exports.animationDelay = animationDelay =
-        prefix + '-animation-timing-function'
-    }
-
-    var _default = {
-      transform: transform,
-      end: transitionEnd,
-      property: transitionProperty,
-      timing: transitionTiming,
-      delay: transitionDelay,
-      duration: transitionDuration,
-    }
-    exports.default = _default
-
-    function getTransitionProperties() {
-      var style = document.createElement('div').style
-      var vendorMap = {
-        O: function O(e) {
-          return 'o' + e.toLowerCase()
-        },
-        Moz: function Moz(e) {
-          return e.toLowerCase()
-        },
-        Webkit: function Webkit(e) {
-          return 'webkit' + e
-        },
-        ms: function ms(e) {
-          return 'MS' + e
-        },
-      }
-      var vendors = Object.keys(vendorMap)
-      var transitionEnd, animationEnd
-      var prefix = ''
-
-      for (var i = 0; i < vendors.length; i++) {
-        var vendor = vendors[i]
-
-        if (vendor + 'TransitionProperty' in style) {
-          prefix = '-' + vendor.toLowerCase()
-          transitionEnd = vendorMap[vendor]('TransitionEnd')
-          animationEnd = vendorMap[vendor]('AnimationEnd')
-          break
-        }
-      }
-
-      if (!transitionEnd && 'transitionProperty' in style)
-        transitionEnd = 'transitionend'
-      if (!animationEnd && 'animationName' in style)
-        animationEnd = 'animationend'
-      style = null
-      return {
-        animationEnd: animationEnd,
-        transitionEnd: transitionEnd,
-        prefix: prefix,
-      }
-    }
-  })
-
-  unwrapExports(properties)
-  var properties_1 = properties.animationEnd
-  var properties_2 = properties.animationDelay
-  var properties_3 = properties.animationTiming
-  var properties_4 = properties.animationDuration
-  var properties_5 = properties.animationName
-  var properties_6 = properties.transitionEnd
-  var properties_7 = properties.transitionDuration
-  var properties_8 = properties.transitionDelay
-  var properties_9 = properties.transitionTiming
-  var properties_10 = properties.transitionProperty
-  var properties_11 = properties.transform
-
-  var isTransform_1 = createCommonjsModule(function(module, exports) {
-    exports.__esModule = true
-    exports.default = isTransform
-    var supportedTransforms = /^((translate|rotate|scale)(X|Y|Z|3d)?|matrix(3d)?|perspective|skew(X|Y)?)$/i
-
-    function isTransform(property) {
-      return !!(property && supportedTransforms.test(property))
-    }
-
-    module.exports = exports['default']
-  })
-
-  unwrapExports(isTransform_1)
-
-  var style_1 = createCommonjsModule(function(module, exports) {
-    exports.__esModule = true
-    exports.default = style
-
-    var _camelizeStyle = interopRequireDefault(camelizeStyle)
-
-    var _hyphenateStyle = interopRequireDefault(hyphenateStyle)
-
-    var _getComputedStyle2 = interopRequireDefault(getComputedStyle$1)
-
-    var _removeStyle = interopRequireDefault(removeStyle_1)
-
-    var _isTransform = interopRequireDefault(isTransform_1)
-
-    function style(node, property, value) {
-      var css = ''
-      var transforms = ''
-      var props = property
-
-      if (typeof property === 'string') {
-        if (value === undefined) {
-          return (
-            node.style[(0, _camelizeStyle.default)(property)] ||
-            (0, _getComputedStyle2.default)(node).getPropertyValue(
-              (0, _hyphenateStyle.default)(property)
-            )
-          )
-        } else {
-          ;(props = {})[property] = value
-        }
-      }
-
-      Object.keys(props).forEach(function(key) {
-        var value = props[key]
-
-        if (!value && value !== 0) {
-          ;(0, _removeStyle.default)(node, (0, _hyphenateStyle.default)(key))
-        } else if ((0, _isTransform.default)(key)) {
-          transforms += key + '(' + value + ') '
-        } else {
-          css += (0, _hyphenateStyle.default)(key) + ': ' + value + ';'
-        }
-      })
-
-      if (transforms) {
-        css += properties.transform + ': ' + transforms + ';'
-      }
-
-      node.style.cssText += ';' + css
-    }
-
-    module.exports = exports['default']
-  })
-
-  unwrapExports(style_1)
-
-  var offsetParent_1 = createCommonjsModule(function(module, exports) {
-    exports.__esModule = true
-    exports.default = offsetParent
-
-    var _ownerDocument = interopRequireDefault(ownerDocument_1)
-
-    var _style = interopRequireDefault(style_1)
-
-    function nodeName(node) {
-      return node.nodeName && node.nodeName.toLowerCase()
-    }
-
-    function offsetParent(node) {
-      var doc = (0, _ownerDocument.default)(node),
-        offsetParent = node && node.offsetParent
-
-      while (
-        offsetParent &&
-        nodeName(node) !== 'html' &&
-        (0, _style.default)(offsetParent, 'position') === 'static'
-      ) {
-        offsetParent = offsetParent.offsetParent
-      }
-
-      return offsetParent || doc.documentElement
-    }
-
-    module.exports = exports['default']
-  })
-
-  unwrapExports(offsetParent_1)
-
-  var scrollTop_1 = createCommonjsModule(function(module, exports) {
-    exports.__esModule = true
-    exports.default = scrollTop
-
-    var _isWindow = interopRequireDefault(isWindow)
-
-    function scrollTop(node, val) {
-      var win = (0, _isWindow.default)(node)
-      if (val === undefined)
-        return win
-          ? 'pageYOffset' in win
-            ? win.pageYOffset
-            : win.document.documentElement.scrollTop
-          : node.scrollTop
-      if (win)
-        win.scrollTo(
-          'pageXOffset' in win
-            ? win.pageXOffset
-            : win.document.documentElement.scrollLeft,
-          val
-        )
-      else node.scrollTop = val
-    }
-
-    module.exports = exports['default']
-  })
-
-  var getScrollTop = unwrapExports(scrollTop_1)
-
-  var scrollLeft = createCommonjsModule(function(module, exports) {
-    exports.__esModule = true
-    exports.default = scrollTop
-
-    var _isWindow = interopRequireDefault(isWindow)
-
-    function scrollTop(node, val) {
-      var win = (0, _isWindow.default)(node)
-      if (val === undefined)
-        return win
-          ? 'pageXOffset' in win
-            ? win.pageXOffset
-            : win.document.documentElement.scrollLeft
-          : node.scrollLeft
-      if (win)
-        win.scrollTo(
-          val,
-          'pageYOffset' in win
-            ? win.pageYOffset
-            : win.document.documentElement.scrollTop
-        )
-      else node.scrollLeft = val
-    }
-
-    module.exports = exports['default']
-  })
-
-  var getScrollLeft = unwrapExports(scrollLeft)
-
-  var position_1 = createCommonjsModule(function(module, exports) {
-    exports.__esModule = true
-    exports.default = position
-
-    var _extends2 = interopRequireDefault(_extends_1)
-
-    var _offset = interopRequireDefault(offset_1)
-
-    var _offsetParent = interopRequireDefault(offsetParent_1)
-
-    var _scrollTop = interopRequireDefault(scrollTop_1)
-
-    var _scrollLeft = interopRequireDefault(scrollLeft)
-
-    var _style = interopRequireDefault(style_1)
-
-    function nodeName(node) {
-      return node.nodeName && node.nodeName.toLowerCase()
-    }
-
-    function position(node, offsetParent) {
-      var parentOffset = {
-          top: 0,
-          left: 0,
-        },
-        offset // Fixed elements are offset from window (parentOffset = {top:0, left: 0},
-      // because it is its only offset parent
-
-      if ((0, _style.default)(node, 'position') === 'fixed') {
-        offset = node.getBoundingClientRect()
-      } else {
-        offsetParent = offsetParent || (0, _offsetParent.default)(node)
-        offset = (0, _offset.default)(node)
-        if (nodeName(offsetParent) !== 'html')
-          parentOffset = (0, _offset.default)(offsetParent)
-        parentOffset.top +=
-          parseInt((0, _style.default)(offsetParent, 'borderTopWidth'), 10) -
-            (0, _scrollTop.default)(offsetParent) || 0
-        parentOffset.left +=
-          parseInt((0, _style.default)(offsetParent, 'borderLeftWidth'), 10) -
-            (0, _scrollLeft.default)(offsetParent) || 0
-      } // Subtract parent offsets and node margins
-
-      return (0, _extends2.default)({}, offset, {
-        top:
-          offset.top -
-          parentOffset.top -
-          (parseInt((0, _style.default)(node, 'marginTop'), 10) || 0),
-        left:
-          offset.left -
-          parentOffset.left -
-          (parseInt((0, _style.default)(node, 'marginLeft'), 10) || 0),
-      })
-    }
-
-    module.exports = exports['default']
-  })
-
-  var getPosition = unwrapExports(position_1)
-
-  var requestAnimationFrame$1 = createCommonjsModule(function(module, exports) {
-    exports.__esModule = true
-    exports.default = void 0
-
-    var _inDOM = interopRequireDefault(inDOM)
-
-    var vendors = ['', 'webkit', 'moz', 'o', 'ms']
-    var cancel = 'clearTimeout'
-    var raf = fallback
-    var compatRaf
-
-    var getKey = function getKey(vendor, k) {
-      return (
-        vendor +
-        (!vendor ? k : k[0].toUpperCase() + k.substr(1)) +
-        'AnimationFrame'
-      )
-    }
-
-    if (_inDOM.default) {
-      vendors.some(function(vendor) {
-        var rafKey = getKey(vendor, 'request')
-
-        if (rafKey in window) {
-          cancel = getKey(vendor, 'cancel')
-          return (raf = function raf(cb) {
-            return window[rafKey](cb)
-          })
-        }
-      })
-    }
-    /* https://github.com/component/raf */
-
-    var prev = new Date().getTime()
-
-    function fallback(fn) {
-      var curr = new Date().getTime(),
-        ms = Math.max(0, 16 - (curr - prev)),
-        req = setTimeout(fn, ms)
-      prev = curr
-      return req
-    }
-
-    compatRaf = function compatRaf(cb) {
-      return raf(cb)
-    }
-
-    compatRaf.cancel = function(id) {
-      window[cancel] &&
-        typeof window[cancel] === 'function' &&
-        window[cancel](id)
-    }
-
-    var _default = compatRaf
-    exports.default = _default
-    module.exports = exports['default']
-  })
-
-  var raf = unwrapExports(requestAnimationFrame$1)
-
   var EventCell =
     /*#__PURE__*/
     (function(_React$Component) {
@@ -3907,17 +3281,12 @@
             _extends({}, props, {
               tabIndex: 0,
               style: _extends({}, userProps.style, style),
-              className: classnames(
-                'rbc-event',
-                className,
-                userProps.className,
-                {
-                  'rbc-selected': selected,
-                  'rbc-event-allday': showAsAllDay,
-                  'rbc-event-continues-prior': continuesPrior,
-                  'rbc-event-continues-after': continuesAfter,
-                }
-              ),
+              className: clsx('rbc-event', className, userProps.className, {
+                'rbc-selected': selected,
+                'rbc-event-allday': showAsAllDay,
+                'rbc-event-continues-prior': continuesPrior,
+                'rbc-event-continues-after': continuesAfter,
+              }),
               onClick: function onClick(e) {
                 return onSelect && onSelect(event, e)
               },
@@ -4080,21 +3449,18 @@
           slotEnd = _this$props2.slotEnd,
           localizer = _this$props2.localizer,
           popperRef = _this$props2.popperRef
-        var _this$props$position = this.props.position,
-          left = _this$props$position.left,
-          width = _this$props$position.width,
-          top = _this$props$position.top,
+        var width = this.props.position.width,
           topOffset = (this.state || {}).topOffset || 0,
           leftOffset = (this.state || {}).leftOffset || 0
         var style = {
-          top: Math.max(0, top - topOffset),
-          left: left - leftOffset,
+          top: -topOffset,
+          left: -leftOffset,
           minWidth: width + width / 2,
         }
         return React__default.createElement(
           'div',
           {
-            style: style,
+            style: _extends({}, this.props.style, style),
             className: 'rbc-overlay',
             ref: popperRef,
           },
@@ -4388,6 +3754,35 @@
 
   unwrapExports(componentOrElement)
 
+  var inDOM = createCommonjsModule(function(module, exports) {
+    exports.__esModule = true
+    exports.default = void 0
+
+    var _default = !!(
+      typeof window !== 'undefined' &&
+      window.document &&
+      window.document.createElement
+    )
+
+    exports.default = _default
+    module.exports = exports['default']
+  })
+
+  unwrapExports(inDOM)
+
+  var ownerDocument_1 = createCommonjsModule(function(module, exports) {
+    exports.__esModule = true
+    exports.default = ownerDocument
+
+    function ownerDocument(node) {
+      return (node && node.ownerDocument) || document
+    }
+
+    module.exports = exports['default']
+  })
+
+  unwrapExports(ownerDocument_1)
+
   var getContainer_1 = createCommonjsModule(function(module, exports) {
     exports.__esModule = true
     exports.default = getContainer
@@ -4620,6 +4015,60 @@
   })
 
   unwrapExports(Portal_1)
+
+  var interopRequireDefault = createCommonjsModule(function(module) {
+    function _interopRequireDefault(obj) {
+      return obj && obj.__esModule
+        ? obj
+        : {
+            default: obj,
+          }
+    }
+
+    module.exports = _interopRequireDefault
+  })
+
+  unwrapExports(interopRequireDefault)
+
+  var contains = createCommonjsModule(function(module, exports) {
+    exports.__esModule = true
+    exports.default = void 0
+
+    var _inDOM = interopRequireDefault(inDOM)
+
+    var _default = (function() {
+      // HTML DOM and SVG DOM may have different support levels,
+      // so we need to check on context instead of a document root element.
+      return _inDOM.default
+        ? function(context, node) {
+            if (context.contains) {
+              return context.contains(node)
+            } else if (context.compareDocumentPosition) {
+              return (
+                context === node ||
+                !!(context.compareDocumentPosition(node) & 16)
+              )
+            } else {
+              return fallback(context, node)
+            }
+          }
+        : fallback
+    })()
+
+    exports.default = _default
+
+    function fallback(context, node) {
+      if (node)
+        do {
+          if (node === context) return true
+        } while ((node = node.parentNode))
+      return false
+    }
+
+    module.exports = exports['default']
+  })
+
+  unwrapExports(contains)
 
   var on_1 = createCommonjsModule(function(module, exports) {
     exports.__esModule = true
@@ -4954,6 +4403,30 @@
   }
 
   var objectWithoutPropertiesLoose = _objectWithoutPropertiesLoose$2
+
+  var _extends_1 = createCommonjsModule(function(module) {
+    function _extends() {
+      module.exports = _extends =
+        Object.assign ||
+        function(target) {
+          for (var i = 1; i < arguments.length; i++) {
+            var source = arguments[i]
+
+            for (var key in source) {
+              if (Object.prototype.hasOwnProperty.call(source, key)) {
+                target[key] = source[key]
+              }
+            }
+          }
+
+          return target
+        }
+
+      return _extends.apply(this, arguments)
+    }
+
+    module.exports = _extends
+  })
 
   function _inheritsLoose$2(subClass, superClass) {
     subClass.prototype = Object.create(superClass.prototype)
@@ -8903,6 +8376,7 @@
 
             if (_this.props.onExited) {
               var _this$props
+
               ;(_this$props = _this.props).onExited.apply(
                 _this$props,
                 arguments
@@ -9264,211 +8738,14 @@
 
   var Overlay = unwrapExports(Overlay_1)
 
-  var height_1 = createCommonjsModule(function(module, exports) {
-    exports.__esModule = true
-    exports.default = height
-
-    var _offset = interopRequireDefault(offset_1)
-
-    var _isWindow = interopRequireDefault(isWindow)
-
-    function height(node, client) {
-      var win = (0, _isWindow.default)(node)
-      return win
-        ? win.innerHeight
-        : client
-        ? node.clientHeight
-        : (0, _offset.default)(node).height
-    }
-
-    module.exports = exports['default']
-  })
-
-  var getHeight = unwrapExports(height_1)
-
-  var querySelectorAll = createCommonjsModule(function(module, exports) {
-    exports.__esModule = true
-    exports.default = qsa
-    // Zepto.js
-    // (c) 2010-2015 Thomas Fuchs
-    // Zepto.js may be freely distributed under the MIT license.
-    var simpleSelectorRE = /^[\w-]*$/
-    var toArray = Function.prototype.bind.call(
-      Function.prototype.call,
-      [].slice
-    )
-
-    function qsa(element, selector) {
-      var maybeID = selector[0] === '#',
-        maybeClass = selector[0] === '.',
-        nameOnly = maybeID || maybeClass ? selector.slice(1) : selector,
-        isSimple = simpleSelectorRE.test(nameOnly),
-        found
-
-      if (isSimple) {
-        if (maybeID) {
-          element = element.getElementById ? element : document
-          return (found = element.getElementById(nameOnly)) ? [found] : []
-        }
-
-        if (element.getElementsByClassName && maybeClass)
-          return toArray(element.getElementsByClassName(nameOnly))
-        return toArray(element.getElementsByTagName(selector))
-      }
-
-      return toArray(element.querySelectorAll(selector))
-    }
-
-    module.exports = exports['default']
-  })
-
-  var qsa = unwrapExports(querySelectorAll)
-
-  var matches_1 = createCommonjsModule(function(module, exports) {
-    exports.__esModule = true
-    exports.default = matches
-
-    var _inDOM = interopRequireDefault(inDOM)
-
-    var _querySelectorAll = interopRequireDefault(querySelectorAll)
-
-    var matchesCache
-
-    function matches(node, selector) {
-      if (!matchesCache && _inDOM.default) {
-        var body = document.body
-        var nativeMatch =
-          body.matches ||
-          body.matchesSelector ||
-          body.webkitMatchesSelector ||
-          body.mozMatchesSelector ||
-          body.msMatchesSelector
-        matchesCache = nativeMatch
-          ? function(node, selector) {
-              return nativeMatch.call(node, selector)
-            }
-          : ie8MatchesSelector
-      }
-
-      return matchesCache ? matchesCache(node, selector) : null
-    }
-
-    function ie8MatchesSelector(node, selector) {
-      var matches = (0, _querySelectorAll.default)(
-          node.document || node.ownerDocument,
-          selector
-        ),
-        i = 0
-
-      while (matches[i] && matches[i] !== node) {
-        i++
-      }
-
-      return !!matches[i]
-    }
-
-    module.exports = exports['default']
-  })
-
-  unwrapExports(matches_1)
-
-  var closest_1 = createCommonjsModule(function(module, exports) {
-    exports.__esModule = true
-    exports.default = closest
-
-    var _matches = interopRequireDefault(matches_1)
-
-    var isDoc = function isDoc(obj) {
-      return obj != null && obj.nodeType === obj.DOCUMENT_NODE
-    }
-
-    function closest(node, selector, context) {
-      while (node && (isDoc(node) || !(0, _matches.default)(node, selector))) {
-        node = node !== context && !isDoc(node) ? node.parentNode : undefined
-      }
-
-      return node
-    }
-
-    module.exports = exports['default']
-  })
-
-  var closest = unwrapExports(closest_1)
-
-  var filter = createCommonjsModule(function(module, exports) {
-    exports.__esModule = true
-    exports.default = filterEvents
-
-    var _contains = interopRequireDefault(contains)
-
-    var _querySelectorAll = interopRequireDefault(querySelectorAll)
-
-    function filterEvents(selector, handler) {
-      return function filterHandler(e) {
-        var top = e.currentTarget,
-          target = e.target,
-          matches = (0, _querySelectorAll.default)(top, selector)
-        if (
-          matches.some(function(match) {
-            return (0, _contains.default)(match, target)
-          })
-        )
-          handler.call(this, e)
-      }
-    }
-
-    module.exports = exports['default']
-  })
-
-  unwrapExports(filter)
-
-  var events = createCommonjsModule(function(module, exports) {
-    exports.__esModule = true
-    exports.default = void 0
-
-    var _on = interopRequireDefault(on_1)
-
-    exports.on = _on.default
-
-    var _off = interopRequireDefault(off_1)
-
-    exports.off = _off.default
-
-    var _filter = interopRequireDefault(filter)
-
-    exports.filter = _filter.default
-
-    var _listen = interopRequireDefault(listen_1)
-
-    exports.listen = _listen.default
-    var _default = {
-      on: _on.default,
-      off: _off.default,
-      filter: _filter.default,
-      listen: _listen.default,
-    }
-    exports.default = _default
-  })
-
-  var events$1 = unwrapExports(events)
-  var events_1 = events.on
-  var events_2 = events.off
-  var events_3 = events.filter
-  var events_4 = events.listen
-
   function addEventListener(type, handler, target) {
     if (target === void 0) {
       target = document
     }
 
-    events$1.on(target, type, handler, {
+    return listen(target, type, handler, {
       passive: false,
     })
-    return {
-      remove: function remove() {
-        events$1.off(target, type, handler)
-      },
-    }
   }
 
   function isOverContainer(container, x, y) {
@@ -9529,14 +8806,17 @@
         ) // Fixes an iOS 10 bug where scrolling could not be prevented on the window.
         // https://github.com/metafizzy/flickity/issues/457#issuecomment-254501356
 
-        this._onTouchMoveWindowListener = addEventListener(
+        this._removeTouchMoveWindowListener = addEventListener(
           'touchmove',
           function() {},
           window
         )
-        this._onKeyDownListener = addEventListener('keydown', this._keyListener)
-        this._onKeyUpListener = addEventListener('keyup', this._keyListener)
-        this._onDropFromOutsideListener = addEventListener(
+        this._removeKeyDownListener = addEventListener(
+          'keydown',
+          this._keyListener
+        )
+        this._removeKeyUpListener = addEventListener('keyup', this._keyListener)
+        this._removeDropFromOutsideListener = addEventListener(
           'drop',
           this._dropFromOutsideListener
         )
@@ -9583,15 +8863,16 @@
       _proto.teardown = function teardown() {
         this.isDetached = true
         this.listeners = Object.create(null)
-        this._onTouchMoveWindowListener &&
-          this._onTouchMoveWindowListener.remove()
-        this._onInitialEventListener && this._onInitialEventListener.remove()
-        this._onEndListener && this._onEndListener.remove()
-        this._onEscListener && this._onEscListener.remove()
-        this._onMoveListener && this._onMoveListener.remove()
-        this._onKeyUpListener && this._onKeyUpListener.remove()
-        this._onKeyDownListener && this._onKeyDownListener.remove()
-        this._onDropFromOutsideListener && this._onDragOverfromOutisde.remove()
+        this._removeTouchMoveWindowListener &&
+          this._removeTouchMoveWindowListener()
+        this._removeInitialEventListener && this._removeInitialEventListener()
+        this._removeEndListener && this._removeEndListener()
+        this._onEscListener && this._onEscListener()
+        this._removeMoveListener && this._removeMoveListener()
+        this._removeKeyUpListener && this._removeKeyUpListener()
+        this._removeKeyDownListener && this._removeKeyDownListener()
+        this._removeDropFromOutsideListener &&
+          this._removeDropFromOutsideListener()
       }
 
       _proto.isSelected = function isSelected(node) {
@@ -9615,23 +8896,23 @@
         var _this = this
 
         var timer = null
-        var touchMoveListener = null
-        var touchEndListener = null
+        var removeTouchMoveListener = null
+        var removeTouchEndListener = null
 
         var handleTouchStart = function handleTouchStart(initialEvent) {
           timer = setTimeout(function() {
             cleanup()
             handler(initialEvent)
           }, _this.longPressThreshold)
-          touchMoveListener = addEventListener('touchmove', function() {
+          removeTouchMoveListener = addEventListener('touchmove', function() {
             return cleanup()
           })
-          touchEndListener = addEventListener('touchend', function() {
+          removeTouchEndListener = addEventListener('touchend', function() {
             return cleanup()
           })
         }
 
-        var touchStartListener = addEventListener(
+        var removeTouchStartListener = addEventListener(
           'touchstart',
           handleTouchStart
         )
@@ -9641,28 +8922,26 @@
             clearTimeout(timer)
           }
 
-          if (touchMoveListener) {
-            touchMoveListener.remove()
+          if (removeTouchMoveListener) {
+            removeTouchMoveListener()
           }
 
-          if (touchEndListener) {
-            touchEndListener.remove()
+          if (removeTouchEndListener) {
+            removeTouchEndListener()
           }
 
           timer = null
-          touchMoveListener = null
-          touchEndListener = null
+          removeTouchMoveListener = null
+          removeTouchEndListener = null
         }
 
         if (initialEvent) {
           handleTouchStart(initialEvent)
         }
 
-        return {
-          remove: function remove() {
-            cleanup()
-            touchStartListener.remove()
-          },
+        return function() {
+          cleanup()
+          removeTouchStartListener()
         }
       } // Listen for mousedown and touchstart events. When one is received, disable the other and setup
       // future event handling based on the type of event.
@@ -9670,29 +8949,32 @@
       _proto._addInitialEventListener = function _addInitialEventListener() {
         var _this2 = this
 
-        var mouseDownListener = addEventListener('mousedown', function(e) {
-          _this2._onInitialEventListener.remove()
+        var removeMouseDownListener = addEventListener('mousedown', function(
+          e
+        ) {
+          _this2._removeInitialEventListener()
 
           _this2._handleInitialEvent(e)
 
-          _this2._onInitialEventListener = addEventListener(
+          _this2._removeInitialEventListener = addEventListener(
             'mousedown',
             _this2._handleInitialEvent
           )
         })
-        var touchStartListener = addEventListener('touchstart', function(e) {
-          _this2._onInitialEventListener.remove()
+        var removeTouchStartListener = addEventListener('touchstart', function(
+          e
+        ) {
+          _this2._removeInitialEventListener()
 
-          _this2._onInitialEventListener = _this2._addLongPressListener(
+          _this2._removeInitialEventListener = _this2._addLongPressListener(
             _this2._handleInitialEvent,
             e
           )
         })
-        this._onInitialEventListener = {
-          remove: function remove() {
-            mouseDownListener.remove()
-            touchStartListener.remove()
-          },
+
+        this._removeInitialEventListener = function() {
+          removeMouseDownListener()
+          removeTouchStartListener()
         }
       }
 
@@ -9789,7 +9071,7 @@
 
         switch (e.type) {
           case 'mousedown':
-            this._onEndListener = addEventListener(
+            this._removeEndListener = addEventListener(
               'mouseup',
               this._handleTerminatingEvent
             )
@@ -9797,7 +9079,7 @@
               'keydown',
               this._handleTerminatingEvent
             )
-            this._onMoveListener = addEventListener(
+            this._removeMoveListener = addEventListener(
               'mousemove',
               this._handleMoveEvent
             )
@@ -9806,11 +9088,11 @@
           case 'touchstart':
             this._handleMoveEvent(e)
 
-            this._onEndListener = addEventListener(
+            this._removeEndListener = addEventListener(
               'touchend',
               this._handleTerminatingEvent
             )
-            this._onMoveListener = addEventListener(
+            this._removeMoveListener = addEventListener(
               'touchmove',
               this._handleMoveEvent
             )
@@ -9827,8 +9109,8 @@
           pageY = _getEventCoordinates4.pageY
 
         this.selecting = false
-        this._onEndListener && this._onEndListener.remove()
-        this._onMoveListener && this._onMoveListener.remove()
+        this._removeEndListener && this._removeEndListener()
+        this._removeMoveListener && this._removeMoveListener()
         if (!this._initialEventData) return
         var inRoot = !this.container || contains$1(this.container(), e.target)
         var bounds = this._selectRect
@@ -10092,7 +9374,7 @@
               },
               React__default.createElement('div', {
                 style: style,
-                className: classnames(
+                className: clsx(
                   'rbc-day-bg',
                   className,
                   selected && 'rbc-selected-cell',
@@ -10342,7 +9624,7 @@
         return React__default.createElement(
           'div',
           {
-            className: classnames(className, 'rbc-row'),
+            className: clsx(className, 'rbc-row'),
           },
           segments.reduce(function(row, _ref, li) {
             var event = _ref.event,
@@ -13417,7 +12699,7 @@
           return renderHeader({
             date: date,
             key: 'header_' + index,
-            className: classnames(
+            className: clsx(
               'rbc-date-cell',
               eq(date, getNow(), 'day') && 'rbc-now'
             ),
@@ -13769,7 +13051,7 @@
           return React__default.createElement(
             'div',
             _extends({}, props, {
-              className: classnames(
+              className: clsx(
                 className,
                 isOffRange && 'rbc-off-range',
                 isCurrent && 'rbc-current'
@@ -13891,7 +13173,7 @@
           'resize',
           (this._resizeListener = function() {
             if (!running) {
-              raf(function() {
+              animationFrame.request(function() {
                 running = false
 
                 _this2.setState({
@@ -13923,7 +13205,7 @@
         return React__default.createElement(
           'div',
           {
-            className: classnames('rbc-month-view', className),
+            className: clsx('rbc-month-view', className),
           },
           React__default.createElement(
             'div',
@@ -13969,13 +13251,13 @@
           localizer = _this$props6.localizer,
           components = _this$props6.components,
           getters = _this$props6.getters,
-          selected = _this$props6.selected
+          selected = _this$props6.selected,
+          popupOffset = _this$props6.popupOffset
         return React__default.createElement(
           Overlay,
           {
             rootClose: true,
             placement: 'bottom',
-            container: this,
             show: !!overlay.position,
             onHide: function onHide() {
               return _this3.setState({
@@ -13991,6 +13273,7 @@
             return React__default.createElement(
               Popup$1,
               _extends({}, props, {
+                popupOffset: popupOffset,
                 accessors: accessors,
                 getters: getters,
                 selected: selected,
@@ -14230,7 +13513,7 @@
         var rangeStartMin = positionFromDate(rangeStart)
         var rangeEndMin = positionFromDate(rangeEnd)
         var top =
-          rangeEndMin - rangeStartMin < step
+          rangeEndMin - rangeStartMin < step && !eq(end, rangeEnd)
             ? ((rangeStartMin - step) / (step * numSlots)) * 100
             : (rangeStartMin / (step * numSlots)) * 100
         return {
@@ -14241,6 +13524,11 @@
           end: positionFromDate(rangeEnd),
           endDate: rangeEnd,
         }
+      },
+      getCurrentTimePosition: function getCurrentTimePosition(rangeStart) {
+        var rangeStartMin = positionFromDate(rangeStart)
+        var top = (rangeStartMin / (step * numSlots)) * 100
+        return top
       },
     }
   }
@@ -14985,10 +14273,147 @@
           top: event.top,
           height: event.height,
           width: event.width,
-          xOffset: event.xOffset,
+          xOffset: Math.max(0, event.xOffset),
         },
       }
     })
+  }
+
+  function getMaxIdxDFS(node, maxIdx, visited) {
+    for (var i = 0; i < node.friends.length; ++i) {
+      if (visited.indexOf(node.friends[i]) > -1) continue
+      maxIdx = maxIdx > node.friends[i].idx ? maxIdx : node.friends[i].idx // TODO : trace it by not object but kinda index or something for performance
+
+      visited.push(node.friends[i])
+      var newIdx = getMaxIdxDFS(node.friends[i], maxIdx, visited)
+      maxIdx = maxIdx > newIdx ? maxIdx : newIdx
+    }
+
+    return maxIdx
+  }
+
+  function noOverlap(_ref) {
+    var events = _ref.events,
+      minimumStartDifference = _ref.minimumStartDifference,
+      slotMetrics = _ref.slotMetrics,
+      accessors = _ref.accessors
+    var styledEvents = getStyledEvents({
+      events: events,
+      minimumStartDifference: minimumStartDifference,
+      slotMetrics: slotMetrics,
+      accessors: accessors,
+    })
+    styledEvents.sort(function(a, b) {
+      a = a.style
+      b = b.style
+      if (a.top !== b.top) return a.top > b.top ? 1 : -1
+      else return a.top + a.height < b.top + b.height ? 1 : -1
+    })
+
+    for (var i = 0; i < styledEvents.length; ++i) {
+      styledEvents[i].friends = []
+      delete styledEvents[i].style.left
+      delete styledEvents[i].style.left
+      delete styledEvents[i].idx
+      delete styledEvents[i].size
+    }
+
+    for (var _i = 0; _i < styledEvents.length - 1; ++_i) {
+      var se1 = styledEvents[_i]
+      var y1 = se1.style.top
+      var y2 = se1.style.top + se1.style.height
+
+      for (var j = _i + 1; j < styledEvents.length; ++j) {
+        var se2 = styledEvents[j]
+        var y3 = se2.style.top
+        var y4 = se2.style.top + se2.style.height // be friends when overlapped
+
+        if ((y3 <= y1 && y1 < y4) || (y1 <= y3 && y3 < y2)) {
+          // TODO : hashmap would be effective for performance
+          se1.friends.push(se2)
+          se2.friends.push(se1)
+        }
+      }
+    }
+
+    for (var _i2 = 0; _i2 < styledEvents.length; ++_i2) {
+      var se = styledEvents[_i2]
+      var bitmap = []
+
+      for (var _j = 0; _j < 100; ++_j) {
+        bitmap.push(1)
+      } // 1 means available
+
+      for (var _j2 = 0; _j2 < se.friends.length; ++_j2) {
+        if (se.friends[_j2].idx !== undefined) bitmap[se.friends[_j2].idx] = 0
+      } // 0 means reserved
+
+      se.idx = bitmap.indexOf(1)
+    }
+
+    for (var _i3 = 0; _i3 < styledEvents.length; ++_i3) {
+      var size = 0
+      if (styledEvents[_i3].size) continue
+      var allFriends = []
+      var maxIdx = getMaxIdxDFS(styledEvents[_i3], 0, allFriends)
+      size = 100 / (maxIdx + 1)
+      styledEvents[_i3].size = size
+
+      for (var _j3 = 0; _j3 < allFriends.length; ++_j3) {
+        allFriends[_j3].size = size
+      }
+    }
+
+    for (var _i4 = 0; _i4 < styledEvents.length; ++_i4) {
+      var e = styledEvents[_i4]
+      e.style.left = e.idx * e.size // stretch to maximum
+
+      var _maxIdx = 0
+
+      for (var _j4 = 0; _j4 < e.friends.length; ++_j4) {
+        var idx = e.friends[_j4]
+        _maxIdx = _maxIdx > idx ? _maxIdx : idx
+      }
+
+      if (_maxIdx <= e.idx) e.size = 100 - e.idx * e.size // padding between events
+      // for this feature, `width` is not percentage based unit anymore
+      // it will be used with calc()
+
+      var padding = e.idx === 0 ? 0 : 3
+      e.style.width = 'calc(' + e.size + '% - ' + padding + 'px)'
+      e.style.height = 'calc(' + e.style.height + '% - 2px)'
+      e.style.xOffset = 'calc(' + e.style.left + '% + ' + padding + 'px)'
+    }
+
+    return styledEvents
+  }
+
+  /*eslint no-unused-vars: "off"*/
+  var DefaultAlgorithms = {
+    overlap: getStyledEvents,
+    'no-overlap': noOverlap,
+  }
+
+  function isFunction$2(a) {
+    return !!(a && a.constructor && a.call && a.apply)
+  } //
+
+  function getStyledEvents$1(_ref) {
+    var events = _ref.events,
+      minimumStartDifference = _ref.minimumStartDifference,
+      slotMetrics = _ref.slotMetrics,
+      accessors = _ref.accessors,
+      dayLayoutAlgorithm = _ref.dayLayoutAlgorithm
+    var algorithm = null
+    if (dayLayoutAlgorithm in DefaultAlgorithms)
+      algorithm = DefaultAlgorithms[dayLayoutAlgorithm]
+
+    if (!isFunction$2(algorithm)) {
+      // invalid algorithm
+      return []
+    }
+
+    return algorithm.apply(this, arguments)
   }
 
   var TimeSlotGroup =
@@ -15033,7 +14458,7 @@
               React__default.createElement(
                 'div',
                 _extends({}, slotProps, {
-                  className: classnames('rbc-time-slot', slotProps.className),
+                  className: clsx('rbc-time-slot', slotProps.className),
                 }),
                 renderSlot && renderSlot(value, idx)
               )
@@ -15052,6 +14477,9 @@
     getters: propTypes.object,
   }
 
+  function stringifyPercent(v) {
+    return typeof v === 'string' ? v : v + '%'
+  }
   /* eslint-disable react/prop-types */
 
   function TimeGridEvent(props) {
@@ -15130,17 +14558,17 @@
             {},
             userProps.style,
             ((_extends2 = {
-              top: top + '%',
-              height: height + '%',
+              top: stringifyPercent(top),
             }),
-            (_extends2[rtl ? 'right' : 'left'] = Math.max(0, xOffset) + '%'),
-            (_extends2.width = width + '%'),
+            (_extends2[rtl ? 'right' : 'left'] = stringifyPercent(xOffset)),
+            (_extends2.width = stringifyPercent(width)),
+            (_extends2.height = stringifyPercent(height)),
             _extends2)
           ),
           title: tooltip
             ? (typeof label === 'string' ? label + ': ' : '') + tooltip
             : undefined,
-          className: classnames('rbc-event', className, userProps.className, {
+          className: clsx('rbc-event', className, userProps.className, {
             'rbc-selected': selected,
             'rbc-event-continues-earlier': continuesEarlier,
             'rbc-event-continues-later': continuesLater,
@@ -15186,17 +14614,19 @@
             getters = _this$props.getters,
             components = _this$props.components,
             step = _this$props.step,
-            timeslots = _this$props.timeslots
+            timeslots = _this$props.timeslots,
+            dayLayoutAlgorithm = _this$props.dayLayoutAlgorithm
 
           var _assertThisInitialize = _assertThisInitialized(_this),
             slotMetrics = _assertThisInitialize.slotMetrics
 
           var messages = localizer.messages
-          var styledEvents = getStyledEvents({
+          var styledEvents = getStyledEvents$1({
             events: events,
             accessors: accessors,
             slotMetrics: slotMetrics,
             minimumStartDifference: Math.ceil((step * timeslots) / 2),
+            dayLayoutAlgorithm: dayLayoutAlgorithm,
           })
           return styledEvents.map(function(_ref, idx) {
             var event = _ref.event,
@@ -15268,6 +14698,7 @@
                 onSelecting({
                   start: start,
                   end: end,
+                  resourceId: _this.props.resource,
                 }) === false
               )
                 return
@@ -15288,10 +14719,17 @@
               getBoundsForNode(node)
             )
 
-            if (!_this.state.selecting) _this._initialSlot = currentSlot
+            if (!_this.state.selecting) {
+              _this._initialSlot = currentSlot
+            }
+
             var initialSlot = _this._initialSlot
-            if (initialSlot === currentSlot)
-              currentSlot = _this.slotMetrics.nextSlot(initialSlot)
+
+            if (lte(initialSlot, currentSlot)) {
+              currentSlot = _this.slotMetrics.nextSlot(currentSlot)
+            } else if (gt(initialSlot, currentSlot)) {
+              initialSlot = _this.slotMetrics.nextSlot(initialSlot)
+            }
 
             var selectRange = _this.slotMetrics.getRange(
               min(initialSlot, currentSlot),
@@ -15482,11 +14920,11 @@
           this.positionTimeIndicator()
         }
       }
-
       /**
        * @param tail {Boolean} - whether `positionTimeIndicator` call should be
        *   deferred or called upon setting interval (`true` - if deferred);
        */
+
       _proto.setTimeIndicatorPositionUpdateInterval = function setTimeIndicatorPositionUpdateInterval(
         tail
       ) {
@@ -15522,12 +14960,7 @@
         var current = getNow()
 
         if (current >= min && current <= max) {
-          var _this$slotMetrics$get = this.slotMetrics.getRange(
-              current,
-              current
-            ),
-            top = _this$slotMetrics$get.top
-
+          var top = this.slotMetrics.getCurrentTimePosition(current)
           this.setState({
             timeIndicatorPosition: top,
           })
@@ -15575,7 +15008,7 @@
           'div',
           {
             style: style,
-            className: classnames(
+            className: clsx(
               className,
               'rbc-day-slot',
               'rbc-time-column',
@@ -15606,7 +15039,7 @@
             React__default.createElement(
               'div',
               {
-                className: classnames('rbc-events-container', rtl && 'rtl'),
+                className: clsx('rbc-events-container', rtl && 'rtl'),
               },
               this.renderEvents()
             )
@@ -15667,6 +15100,7 @@
     className: propTypes.string,
     dragThroughEvents: propTypes.bool,
     resource: propTypes.any,
+    dayLayoutAlgorithm: DayLayoutAlgorithmPropType,
   }
   DayColumn.defaultProps = {
     dragThroughEvents: true,
@@ -15702,7 +15136,7 @@
           return React__default.createElement(
             'span',
             {
-              className: classnames('rbc-label', isNow && 'rbc-now'),
+              className: clsx('rbc-label', isNow && 'rbc-now'),
             },
             localizer.format(value, 'timeGutterFormat')
           )
@@ -15774,59 +15208,6 @@
     localizer: propTypes.object.isRequired,
     resource: propTypes.string,
   }
-
-  var width_1 = createCommonjsModule(function(module, exports) {
-    exports.__esModule = true
-    exports.default = width
-
-    var _offset = interopRequireDefault(offset_1)
-
-    var _isWindow = interopRequireDefault(isWindow)
-
-    function width(node, client) {
-      var win = (0, _isWindow.default)(node)
-      return win
-        ? win.innerWidth
-        : client
-        ? node.clientWidth
-        : (0, _offset.default)(node).width
-    }
-
-    module.exports = exports['default']
-  })
-
-  var getWidth = unwrapExports(width_1)
-
-  var scrollbarSize_1 = createCommonjsModule(function(module, exports) {
-    exports.__esModule = true
-    exports.default = scrollbarSize
-
-    var _inDOM = interopRequireDefault(inDOM)
-
-    var size
-
-    function scrollbarSize(recalc) {
-      if ((!size && size !== 0) || recalc) {
-        if (_inDOM.default) {
-          var scrollDiv = document.createElement('div')
-          scrollDiv.style.position = 'absolute'
-          scrollDiv.style.top = '-9999px'
-          scrollDiv.style.width = '50px'
-          scrollDiv.style.height = '50px'
-          scrollDiv.style.overflow = 'scroll'
-          document.body.appendChild(scrollDiv)
-          size = scrollDiv.offsetWidth - scrollDiv.clientWidth
-          document.body.removeChild(scrollDiv)
-        }
-      }
-
-      return size
-    }
-
-    module.exports = exports['default']
-  })
-
-  var scrollbarSize = unwrapExports(scrollbarSize_1)
 
   var ResourceHeader = function ResourceHeader(_ref) {
     var label = _ref.label
@@ -15938,7 +15319,7 @@
             {
               key: i,
               style: style,
-              className: classnames(
+              className: clsx(
                 'rbc-header',
                 className,
                 eq(date, today, 'day') && 'rbc-today'
@@ -15996,7 +15377,7 @@
           {
             style: style,
             ref: scrollRef,
-            className: classnames(
+            className: clsx(
               'rbc-time-header',
               isOverflowing && 'rbc-overflowing'
             ),
@@ -16150,8 +15531,8 @@
         }
 
         _this.handleResize = function() {
-          raf.cancel(_this.rafHandle)
-          _this.rafHandle = raf(_this.checkOverflow)
+          animationFrame.cancel(_this.rafHandle)
+          _this.rafHandle = animationFrame.request(_this.checkOverflow)
         }
 
         _this.gutterRef = function(ref) {
@@ -16211,6 +15592,7 @@
         }
         _this.scrollRef = React__default.createRef()
         _this.contentRef = React__default.createRef()
+        _this._scrollRatio = null
         return _this
       }
 
@@ -16221,6 +15603,7 @@
       }
 
       _proto.componentDidMount = function componentDidMount() {
+        window.alert('shit')
         this.checkOverflow()
 
         if (this.props.width == null) {
@@ -16233,7 +15616,7 @@
 
       _proto.componentWillUnmount = function componentWillUnmount() {
         window.removeEventListener('resize', this.handleResize)
-        raf.cancel(this.rafHandle)
+        animationFrame.cancel(this.rafHandle)
 
         if (this.measureGutterAnimationFrameRequest) {
           window.cancelAnimationFrame(this.measureGutterAnimationFrameRequest)
@@ -16271,7 +15654,8 @@
           max = _this$props2.max,
           components = _this$props2.components,
           accessors = _this$props2.accessors,
-          localizer = _this$props2.localizer
+          localizer = _this$props2.localizer,
+          dayLayoutAlgorithm = _this$props2.dayLayoutAlgorithm
         var resources = this.memoizedResources(this.props.resources, accessors)
         var groupedEvents = resources.groupEvents(events)
         return resources.map(function(_ref, i) {
@@ -16300,6 +15684,7 @@
                 key: i + '-' + jj,
                 date: date,
                 events: daysEvents,
+                dayLayoutAlgorithm: dayLayoutAlgorithm,
               })
             )
           })
@@ -16351,7 +15736,7 @@
         return React__default.createElement(
           'div',
           {
-            className: classnames(
+            className: clsx(
               'rbc-time-view',
               resources && 'rbc-time-view-resources'
             ),
@@ -16428,7 +15813,7 @@
       }
 
       _proto.applyScroll = function applyScroll() {
-        if (this._scrollRatio) {
+        if (this._scrollRatio != null) {
           var content = this.contentRef.current
           content.scrollTop = content.scrollHeight * this._scrollRatio // Only do this once
 
@@ -16480,6 +15865,7 @@
     onDoubleClickEvent: propTypes.func,
     onDrillDown: propTypes.func,
     getDrilldownView: propTypes.func.isRequired,
+    dayLayoutAlgorithm: DayLayoutAlgorithmPropType,
   }
   TimeGrid.defaultProps = {
     step: 30,
@@ -16677,102 +16063,6 @@
     )
   }
 
-  var hasClass_1 = createCommonjsModule(function(module, exports) {
-    exports.__esModule = true
-    exports.default = hasClass
-
-    function hasClass(element, className) {
-      if (element.classList)
-        return !!className && element.classList.contains(className)
-      else
-        return (
-          (
-            ' ' +
-            (element.className.baseVal || element.className) +
-            ' '
-          ).indexOf(' ' + className + ' ') !== -1
-        )
-    }
-
-    module.exports = exports['default']
-  })
-
-  unwrapExports(hasClass_1)
-
-  var addClass_1 = createCommonjsModule(function(module, exports) {
-    exports.__esModule = true
-    exports.default = addClass
-
-    var _hasClass = interopRequireDefault(hasClass_1)
-
-    function addClass(element, className) {
-      if (element.classList) element.classList.add(className)
-      else if (!(0, _hasClass.default)(element, className))
-        if (typeof element.className === 'string')
-          element.className = element.className + ' ' + className
-        else
-          element.setAttribute(
-            'class',
-            ((element.className && element.className.baseVal) || '') +
-              ' ' +
-              className
-          )
-    }
-
-    module.exports = exports['default']
-  })
-
-  unwrapExports(addClass_1)
-
-  function replaceClassName(origClass, classToRemove) {
-    return origClass
-      .replace(new RegExp('(^|\\s)' + classToRemove + '(?:\\s|$)', 'g'), '$1')
-      .replace(/\s+/g, ' ')
-      .replace(/^\s*|\s*$/g, '')
-  }
-
-  var removeClass = function removeClass(element, className) {
-    if (element.classList) element.classList.remove(className)
-    else if (typeof element.className === 'string')
-      element.className = replaceClassName(element.className, className)
-    else
-      element.setAttribute(
-        'class',
-        replaceClassName(
-          (element.className && element.className.baseVal) || '',
-          className
-        )
-      )
-  }
-
-  var _class = createCommonjsModule(function(module, exports) {
-    exports.__esModule = true
-    exports.default = void 0
-
-    var _addClass = interopRequireDefault(addClass_1)
-
-    exports.addClass = _addClass.default
-
-    var _removeClass = interopRequireDefault(removeClass)
-
-    exports.removeClass = _removeClass.default
-
-    var _hasClass = interopRequireDefault(hasClass_1)
-
-    exports.hasClass = _hasClass.default
-    var _default = {
-      addClass: _addClass.default,
-      removeClass: _removeClass.default,
-      hasClass: _hasClass.default,
-    }
-    exports.default = _default
-  })
-
-  var classes = unwrapExports(_class)
-  var _class_1 = _class.addClass
-  var _class_2 = _class.removeClass
-  var _class_3 = _class.hasClass
-
   var Agenda =
     /*#__PURE__*/
     (function(_React$Component) {
@@ -16928,10 +16218,10 @@
           }
 
           if (isOverflowing) {
-            classes.addClass(header, 'rbc-header-overflowing')
+            addClass(header, 'rbc-header-overflowing')
             header.style.marginRight = scrollbarSize() + 'px'
           } else {
-            classes.removeClass(header, 'rbc-header-overflowing')
+            removeClass(header, 'rbc-header-overflowing')
           }
         }
 
@@ -17250,7 +16540,7 @@
               {
                 type: 'button',
                 key: name,
-                className: classnames({
+                className: clsx({
                   'rbc-active': view === name,
                 }),
                 onClick: _this2.view.bind(null, name),
@@ -18374,9 +17664,11 @@
         accumulator = {}
       }
     }
-    ;(isArrLike
-      ? arrayEach
-      : baseForOwn)(object, function(value, index, object) {
+    ;(isArrLike ? arrayEach : baseForOwn)(object, function(
+      value,
+      index,
+      object
+    ) {
       return iteratee(accumulator, value, index, object)
     })
     return accumulator
@@ -18775,11 +18067,7 @@
         return React__default.createElement(
           'div',
           _extends({}, elementProps, {
-            className: classnames(
-              className,
-              'rbc-calendar',
-              props.rtl && 'rbc-rtl'
-            ),
+            className: clsx(className, 'rbc-calendar', props.rtl && 'rbc-rtl'),
             style: style,
           }),
           toolbar &&
@@ -18850,6 +18138,7 @@
     getNow: function getNow() {
       return new Date()
     },
+    dayLayoutAlgorithm: 'overlap',
   }
   Calendar.propTypes = {
     localizer: propTypes.object.isRequired,
@@ -19068,6 +18357,7 @@
      *   slotInfo: {
      *     start: Date,
      *     end: Date,
+     *     resourceId:  (number|string),
      *     slots: Array<Date>,
      *     action: "select" | "click" | "doubleClick",
      *     bounds: ?{ // For "select" action
@@ -19116,7 +18406,7 @@
      * Returning `false` from the handler will prevent a selection.
      *
      * ```js
-     * (range: { start: Date, end: Date }) => ?boolean
+     * (range: { start: Date, end: Date, resourceId: (number|string) }) => ?boolean
      * ```
      */
     onSelecting: propTypes.func,
@@ -19516,6 +18806,14 @@
       noEventsInRange: propTypes.node,
       showMore: propTypes.func,
     }),
+
+    /**
+     * A day event layout(arrangement) algorithm.
+     * `overlap` allows events to be overlapped.
+     * `no-overlap` resizes events to avoid overlap.
+     * or custom `Function(events, minimumStartDifference, slotMetrics, accessors)`
+     */
+    dayLayoutAlgorithm: DayLayoutAlgorithmPropType,
   }
   var Calendar$1 = uncontrollable(Calendar, {
     view: 'onView',
