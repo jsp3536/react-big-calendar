@@ -1,137 +1,15 @@
 ;(function(global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined'
-    ? factory(
-        exports,
-        require('react'),
-        require('clsx'),
-        require('react-dom'),
-        require('dom-helpers/position'),
-        require('dom-helpers/animationFrame'),
-        require('dom-helpers/offset'),
-        require('dom-helpers/scrollTop'),
-        require('dom-helpers/scrollLeft'),
-        require('dom-helpers/height'),
-        require('dom-helpers/querySelectorAll'),
-        require('dom-helpers/contains'),
-        require('dom-helpers/closest'),
-        require('dom-helpers/listen'),
-        require('dom-helpers/width'),
-        require('dom-helpers/scrollbarSize'),
-        require('dom-helpers/addClass'),
-        require('dom-helpers/removeClass')
-      )
+    ? factory(exports, require('react'), require('react-dom'))
     : typeof define === 'function' && define.amd
-    ? define([
-        'exports',
-        'react',
-        'clsx',
-        'react-dom',
-        'dom-helpers/position',
-        'dom-helpers/animationFrame',
-        'dom-helpers/offset',
-        'dom-helpers/scrollTop',
-        'dom-helpers/scrollLeft',
-        'dom-helpers/height',
-        'dom-helpers/querySelectorAll',
-        'dom-helpers/contains',
-        'dom-helpers/closest',
-        'dom-helpers/listen',
-        'dom-helpers/width',
-        'dom-helpers/scrollbarSize',
-        'dom-helpers/addClass',
-        'dom-helpers/removeClass',
-      ], factory)
+    ? define(['exports', 'react', 'react-dom'], factory)
     : ((global = global || self),
-      factory(
-        (global.ReactBigCalendar = {}),
-        global.React,
-        global.clsx,
-        global.ReactDOM,
-        global.getPosition,
-        global.animationFrame,
-        global.getOffset,
-        global.getScrollTop,
-        global.getScrollLeft,
-        global.getHeight,
-        global.qsa,
-        global.contains$1,
-        global.closest,
-        global.listen,
-        global.getWidth,
-        global.scrollbarSize,
-        global.addClass,
-        global.removeClass
-      ))
-})(this, function(
-  exports,
-  React,
-  clsx,
-  reactDom,
-  getPosition,
-  animationFrame,
-  getOffset,
-  getScrollTop,
-  getScrollLeft,
-  getHeight,
-  qsa,
-  contains$1,
-  closest,
-  listen,
-  getWidth,
-  scrollbarSize,
-  addClass,
-  removeClass
-) {
+      factory((global.ReactBigCalendar = {}), global.React, global.ReactDOM))
+})(this, function(exports, React, ReactDOM) {
   'use strict'
 
   var React__default = 'default' in React ? React['default'] : React
-  clsx = clsx && clsx.hasOwnProperty('default') ? clsx['default'] : clsx
-  var reactDom__default = 'default' in reactDom ? reactDom['default'] : reactDom
-  getPosition =
-    getPosition && getPosition.hasOwnProperty('default')
-      ? getPosition['default']
-      : getPosition
-  getOffset =
-    getOffset && getOffset.hasOwnProperty('default')
-      ? getOffset['default']
-      : getOffset
-  getScrollTop =
-    getScrollTop && getScrollTop.hasOwnProperty('default')
-      ? getScrollTop['default']
-      : getScrollTop
-  getScrollLeft =
-    getScrollLeft && getScrollLeft.hasOwnProperty('default')
-      ? getScrollLeft['default']
-      : getScrollLeft
-  getHeight =
-    getHeight && getHeight.hasOwnProperty('default')
-      ? getHeight['default']
-      : getHeight
-  qsa = qsa && qsa.hasOwnProperty('default') ? qsa['default'] : qsa
-  contains$1 =
-    contains$1 && contains$1.hasOwnProperty('default')
-      ? contains$1['default']
-      : contains$1
-  closest =
-    closest && closest.hasOwnProperty('default') ? closest['default'] : closest
-  listen =
-    listen && listen.hasOwnProperty('default') ? listen['default'] : listen
-  getWidth =
-    getWidth && getWidth.hasOwnProperty('default')
-      ? getWidth['default']
-      : getWidth
-  scrollbarSize =
-    scrollbarSize && scrollbarSize.hasOwnProperty('default')
-      ? scrollbarSize['default']
-      : scrollbarSize
-  addClass =
-    addClass && addClass.hasOwnProperty('default')
-      ? addClass['default']
-      : addClass
-  removeClass =
-    removeClass && removeClass.hasOwnProperty('default')
-      ? removeClass['default']
-      : removeClass
+  var ReactDOM__default = 'default' in ReactDOM ? ReactDOM['default'] : ReactDOM
 
   function NoopWrapper(props) {
     return props.children
@@ -177,17 +55,6 @@
     subClass.prototype.constructor = subClass
     subClass.__proto__ = superClass
   }
-
-  var commonjsGlobal =
-    typeof globalThis !== 'undefined'
-      ? globalThis
-      : typeof window !== 'undefined'
-      ? window
-      : typeof global !== 'undefined'
-      ? global
-      : typeof self !== 'undefined'
-      ? self
-      : {}
 
   function unwrapExports(x) {
     return x &&
@@ -1820,12 +1687,6 @@
     return target
   }
 
-  function _inheritsLoose$1(subClass, superClass) {
-    subClass.prototype = Object.create(superClass.prototype)
-    subClass.prototype.constructor = subClass
-    subClass.__proto__ = superClass
-  }
-
   /**
    * Copyright (c) 2013-present, Facebook, Inc.
    *
@@ -1932,6 +1793,12 @@
       (typeof component !== 'function' ||
         (component.prototype && component.prototype.isReactComponent))
     )
+  }
+
+  function _inheritsLoose$1(subClass, superClass) {
+    subClass.prototype = Object.create(superClass.prototype)
+    subClass.prototype.constructor = subClass
+    subClass.__proto__ = superClass
   }
 
   function uncontrollable(Component, controlledValues, methods) {
@@ -2133,6 +2000,48 @@
     }
 
     return WrappedComponent
+  }
+
+  function toVal(mix) {
+    var k,
+      y,
+      str = ''
+    if (mix) {
+      if (typeof mix === 'object') {
+        if (!!mix.push) {
+          for (k = 0; k < mix.length; k++) {
+            if (mix[k] && (y = toVal(mix[k]))) {
+              str && (str += ' ')
+              str += y
+            }
+          }
+        } else {
+          for (k in mix) {
+            if (mix[k] && (y = toVal(k))) {
+              str && (str += ' ')
+              str += y
+            }
+          }
+        }
+      } else if (typeof mix !== 'boolean' && !mix.call) {
+        str && (str += ' ')
+        str += mix
+      }
+    }
+    return str
+  }
+
+  function clsx() {
+    var i = 0,
+      x,
+      str = ''
+    while (i < arguments.length) {
+      if ((x = toVal(arguments[i++]))) {
+        str && (str += ' ')
+        str += x
+      }
+    }
+    return str
   }
 
   var navigate = {
@@ -3194,6 +3103,257 @@
     return result
   }
 
+  function _extends$2() {
+    _extends$2 =
+      Object.assign ||
+      function(target) {
+        for (var i = 1; i < arguments.length; i++) {
+          var source = arguments[i]
+
+          for (var key in source) {
+            if (Object.prototype.hasOwnProperty.call(source, key)) {
+              target[key] = source[key]
+            }
+          }
+        }
+
+        return target
+      }
+
+    return _extends$2.apply(this, arguments)
+  }
+
+  function ownerDocument(node) {
+    return (node && node.ownerDocument) || document
+  }
+
+  function ownerWindow(node) {
+    var doc = ownerDocument(node)
+    return (doc && doc.defaultView) || window
+  }
+
+  function getComputedStyle$1(node, psuedoElement) {
+    return ownerWindow(node).getComputedStyle(node, psuedoElement)
+  }
+
+  var rUpper = /([A-Z])/g
+  function hyphenate(string) {
+    return string.replace(rUpper, '-$1').toLowerCase()
+  }
+
+  /**
+   * Copyright 2013-2014, Facebook, Inc.
+   * All rights reserved.
+   * https://github.com/facebook/react/blob/2aeb8a2a6beb00617a4217f7f8284924fa2ad819/src/vendor/core/hyphenateStyleName.js
+   */
+  var msPattern = /^ms-/
+  function hyphenateStyleName(string) {
+    return hyphenate(string).replace(msPattern, '-ms-')
+  }
+
+  var supportedTransforms = /^((translate|rotate|scale)(X|Y|Z|3d)?|matrix(3d)?|perspective|skew(X|Y)?)$/i
+  function isTransform(value) {
+    return !!(value && supportedTransforms.test(value))
+  }
+
+  function style(node, property) {
+    var css = ''
+    var transforms = ''
+
+    if (typeof property === 'string') {
+      return (
+        node.style.getPropertyValue(hyphenateStyleName(property)) ||
+        getComputedStyle$1(node).getPropertyValue(hyphenateStyleName(property))
+      )
+    }
+
+    Object.keys(property).forEach(function(key) {
+      var value = property[key]
+
+      if (!value && value !== 0) {
+        node.style.removeProperty(hyphenateStyleName(key))
+      } else if (isTransform(key)) {
+        transforms += key + '(' + value + ') '
+      } else {
+        css += hyphenateStyleName(key) + ': ' + value + ';'
+      }
+    })
+
+    if (transforms) {
+      css += 'transform: ' + transforms + ';'
+    }
+
+    node.style.cssText += ';' + css
+  }
+
+  /* eslint-disable no-bitwise, no-cond-assign */
+  // HTML DOM and SVG DOM may have different support levels,
+  // so we need to check on context instead of a document root element.
+  function contains(context, node) {
+    if (context.contains) return context.contains(node)
+    if (context.compareDocumentPosition)
+      return context === node || !!(context.compareDocumentPosition(node) & 16)
+  }
+
+  function isDocument(element) {
+    return 'nodeType' in element && element.nodeType === document.DOCUMENT_NODE
+  }
+
+  function isWindow(node) {
+    if ('window' in node && node.window === node) return node
+    if (isDocument(node)) return node.defaultView || false
+    return false
+  }
+
+  function getscrollAccessor(offset) {
+    var prop = offset === 'pageXOffset' ? 'scrollLeft' : 'scrollTop'
+
+    function scrollAccessor(node, val) {
+      var win = isWindow(node)
+
+      if (val === undefined) {
+        return win ? win[offset] : node[prop]
+      }
+
+      if (win) {
+        win.scrollTo(val, win[offset])
+      } else {
+        node[prop] = val
+      }
+    }
+
+    return scrollAccessor
+  }
+
+  var getScrollLeft = getscrollAccessor('pageXOffset')
+
+  var getScrollTop = getscrollAccessor('pageYOffset')
+
+  function offset(node) {
+    var doc = ownerDocument(node)
+    var box = {
+      top: 0,
+      left: 0,
+      height: 0,
+      width: 0,
+    }
+    var docElem = doc && doc.documentElement // Make sure it's not a disconnected DOM node
+
+    if (!docElem || !contains(docElem, node)) return box
+    if (node.getBoundingClientRect !== undefined)
+      box = node.getBoundingClientRect()
+    box = {
+      top: box.top + getScrollTop(node) - (docElem.clientTop || 0),
+      left: box.left + getScrollLeft(node) - (docElem.clientLeft || 0),
+      width: box.width,
+      height: box.height,
+    }
+    return box
+  }
+
+  var isHTMLElement = function isHTMLElement(e) {
+    return !!e && 'offsetParent' in e
+  }
+
+  function offsetParent(node) {
+    var doc = ownerDocument(node)
+    var parent = node && node.offsetParent
+
+    while (
+      isHTMLElement(parent) &&
+      parent.nodeName !== 'HTML' &&
+      style(parent, 'position') === 'static'
+    ) {
+      parent = parent.offsetParent
+    }
+
+    return parent || doc.documentElement
+  }
+
+  var nodeName = function nodeName(node) {
+    return node.nodeName && node.nodeName.toLowerCase()
+  }
+
+  function position(node, offsetParent$1) {
+    var parentOffset = {
+      top: 0,
+      left: 0,
+    }
+    var offset$1 // Fixed elements are offset from window (parentOffset = {top:0, left: 0},
+    // because it is its only offset parent
+
+    if (style(node, 'position') === 'fixed') {
+      offset$1 = node.getBoundingClientRect()
+    } else {
+      var parent = offsetParent$1 || offsetParent(node)
+      offset$1 = offset(node)
+      if (nodeName(parent) !== 'html') parentOffset = offset(parent)
+      var borderTop = String(style(parent, 'borderTopWidth') || 0)
+      parentOffset.top += parseInt(borderTop, 10) - getScrollTop(parent) || 0
+      var borderLeft = String(style(parent, 'borderLeftWidth') || 0)
+      parentOffset.left += parseInt(borderLeft, 10) - getScrollLeft(parent) || 0
+    }
+
+    var marginTop = String(style(node, 'marginTop') || 0)
+    var marginLeft = String(style(node, 'marginLeft') || 0) // Subtract parent offsets and node margins
+
+    return _extends$2({}, offset$1, {
+      top: offset$1.top - parentOffset.top - (parseInt(marginTop, 10) || 0),
+      left: offset$1.left - parentOffset.left - (parseInt(marginLeft, 10) || 0),
+    })
+  }
+
+  var canUseDOM = !!(
+    typeof window !== 'undefined' &&
+    window.document &&
+    window.document.createElement
+  )
+
+  /* https://github.com/component/raf */
+  var prev = new Date().getTime()
+
+  function fallback(fn) {
+    var curr = new Date().getTime()
+    var ms = Math.max(0, 16 - (curr - prev))
+    var handle = setTimeout(fn, ms)
+    prev = curr
+    return handle
+  }
+
+  var vendors = ['', 'webkit', 'moz', 'o', 'ms']
+  var cancelMethod = 'clearTimeout'
+  var rafImpl = fallback // eslint-disable-next-line import/no-mutable-exports
+
+  var getKey = function getKey(vendor, k) {
+    return (
+      vendor +
+      (!vendor ? k : k[0].toUpperCase() + k.substr(1)) +
+      'AnimationFrame'
+    )
+  }
+
+  if (canUseDOM) {
+    vendors.some(function(vendor) {
+      var rafMethod = getKey(vendor, 'request')
+
+      if (rafMethod in window) {
+        cancelMethod = getKey(vendor, 'cancel') // @ts-ignore
+
+        rafImpl = function rafImpl(cb) {
+          return window[rafMethod](cb)
+        }
+      }
+
+      return !!rafImpl
+    })
+  }
+
+  var cancel = function cancel(id) {
+    // @ts-ignore
+    if (typeof window[cancelMethod] === 'function') window[cancelMethod](id)
+  }
+  var request = rafImpl
+
   var EventCell =
     /*#__PURE__*/
     (function(_React$Component) {
@@ -3411,7 +3571,7 @@
           popupOffset =
             _this$props$popupOffs === void 0 ? 5 : _this$props$popupOffs,
           popperRef = _this$props.popperRef,
-          _getOffset = getOffset(popperRef.current),
+          _getOffset = offset(popperRef.current),
           top = _getOffset.top,
           left = _getOffset.left,
           width = _getOffset.width,
@@ -3536,856 +3696,25 @@
     )
   })
 
-  var createChainableTypeChecker_1 = createCommonjsModule(function(
-    module,
-    exports
-  ) {
-    Object.defineProperty(exports, '__esModule', {
-      value: true,
-    })
-    exports.default = createChainableTypeChecker
-    /**
-     * Copyright 2013-present, Facebook, Inc.
-     * All rights reserved.
-     *
-     * This source code is licensed under the BSD-style license found in the
-     * LICENSE file in the root directory of this source tree. An additional grant
-     * of patent rights can be found in the PATENTS file in the same directory.
-     */
-
-    // Mostly taken from ReactPropTypes.
-
-    function createChainableTypeChecker(validate) {
-      function checkType(
-        isRequired,
-        props,
-        propName,
-        componentName,
-        location,
-        propFullName
-      ) {
-        var componentNameSafe = componentName || '<<anonymous>>'
-        var propFullNameSafe = propFullName || propName
-
-        if (props[propName] == null) {
-          if (isRequired) {
-            return new Error(
-              'Required ' +
-                location +
-                ' `' +
-                propFullNameSafe +
-                '` was not specified ' +
-                ('in `' + componentNameSafe + '`.')
-            )
-          }
-
-          return null
-        }
-
-        for (
-          var _len = arguments.length,
-            args = Array(_len > 6 ? _len - 6 : 0),
-            _key = 6;
-          _key < _len;
-          _key++
-        ) {
-          args[_key - 6] = arguments[_key]
-        }
-
-        return validate.apply(
-          undefined,
-          [
-            props,
-            propName,
-            componentNameSafe,
-            location,
-            propFullNameSafe,
-          ].concat(args)
-        )
-      }
-
-      var chainedCheckType = checkType.bind(null, false)
-      chainedCheckType.isRequired = checkType.bind(null, true)
-
-      return chainedCheckType
-    }
-    module.exports = exports['default']
-  })
-
-  unwrapExports(createChainableTypeChecker_1)
-
-  var elementType_1 = createCommonjsModule(function(module, exports) {
-    Object.defineProperty(exports, '__esModule', {
-      value: true,
-    })
-
-    var _react2 = _interopRequireDefault(React__default)
-
-    var _createChainableTypeChecker2 = _interopRequireDefault(
-      createChainableTypeChecker_1
-    )
-
-    function _interopRequireDefault(obj) {
-      return obj && obj.__esModule ? obj : { default: obj }
-    }
-
-    function elementType(
-      props,
-      propName,
-      componentName,
-      location,
-      propFullName
-    ) {
-      var propValue = props[propName]
-
-      if (_react2.default.isValidElement(propValue)) {
-        return new Error(
-          'Invalid ' +
-            location +
-            ' `' +
-            propFullName +
-            '` of type ReactElement ' +
-            ('supplied to `' +
-              componentName +
-              '`,expected an element type (a string ') +
-            ', component class, or function component).'
-        )
-      }
-
-      if (!(0, reactIs.isValidElementType)(propValue)) {
-        return new Error(
-          'Invalid ' +
-            location +
-            ' `' +
-            propFullName +
-            '` of value `' +
-            propValue +
-            '` ' +
-            ('supplied to `' +
-              componentName +
-              '`, expected an element type (a string ') +
-            ', component class, or function component).'
-        )
-      }
-
-      return null
-    }
-
-    exports.default = (0, _createChainableTypeChecker2.default)(elementType)
-    module.exports = exports['default']
-  })
-
-  unwrapExports(elementType_1)
-
-  var componentOrElement = createCommonjsModule(function(module, exports) {
-    Object.defineProperty(exports, '__esModule', {
-      value: true,
-    })
-
-    var _typeof =
-      typeof Symbol === 'function' && typeof Symbol.iterator === 'symbol'
-        ? function(obj) {
-            return typeof obj
-          }
-        : function(obj) {
-            return obj &&
-              typeof Symbol === 'function' &&
-              obj.constructor === Symbol &&
-              obj !== Symbol.prototype
-              ? 'symbol'
-              : typeof obj
-          }
-
-    var _react2 = _interopRequireDefault(React__default)
-
-    var _createChainableTypeChecker2 = _interopRequireDefault(
-      createChainableTypeChecker_1
-    )
-
-    function _interopRequireDefault(obj) {
-      return obj && obj.__esModule ? obj : { default: obj }
-    }
-
-    function validate(props, propName, componentName, location, propFullName) {
-      var propValue = props[propName]
-      var propType =
-        typeof propValue === 'undefined' ? 'undefined' : _typeof(propValue)
-
-      if (_react2.default.isValidElement(propValue)) {
-        return new Error(
-          'Invalid ' +
-            location +
-            ' `' +
-            propFullName +
-            '` of type ReactElement ' +
-            ('supplied to `' +
-              componentName +
-              '`, expected a ReactComponent or a ') +
-            'DOMElement. You can usually obtain a ReactComponent or DOMElement ' +
-            'from a ReactElement by attaching a ref to it.'
-        )
-      }
-
-      if (
-        (propType !== 'object' || typeof propValue.render !== 'function') &&
-        propValue.nodeType !== 1
-      ) {
-        return new Error(
-          'Invalid ' +
-            location +
-            ' `' +
-            propFullName +
-            '` of value `' +
-            propValue +
-            '` ' +
-            ('supplied to `' +
-              componentName +
-              '`, expected a ReactComponent or a ') +
-            'DOMElement.'
-        )
-      }
-
-      return null
-    }
-
-    exports.default = (0, _createChainableTypeChecker2.default)(validate)
-    module.exports = exports['default']
-  })
-
-  unwrapExports(componentOrElement)
-
-  var inDOM = createCommonjsModule(function(module, exports) {
-    exports.__esModule = true
-    exports.default = void 0
-
-    var _default = !!(
-      typeof window !== 'undefined' &&
-      window.document &&
-      window.document.createElement
-    )
-
-    exports.default = _default
-    module.exports = exports['default']
-  })
-
-  unwrapExports(inDOM)
-
-  var ownerDocument_1 = createCommonjsModule(function(module, exports) {
-    exports.__esModule = true
-    exports.default = ownerDocument
-
-    function ownerDocument(node) {
-      return (node && node.ownerDocument) || document
-    }
-
-    module.exports = exports['default']
-  })
-
-  unwrapExports(ownerDocument_1)
-
-  var getContainer_1 = createCommonjsModule(function(module, exports) {
-    exports.__esModule = true
-    exports.default = getContainer
-
-    var _reactDom = _interopRequireDefault(reactDom__default)
-
-    function _interopRequireDefault(obj) {
-      return obj && obj.__esModule ? obj : { default: obj }
-    }
-
-    function getContainer(container, defaultContainer) {
-      if (container == null) return defaultContainer
-      container = typeof container === 'function' ? container() : container
-      return _reactDom.default.findDOMNode(container) || null
-    }
-
-    module.exports = exports.default
-  })
-
-  unwrapExports(getContainer_1)
-
-  var WaitForContainer_1 = createCommonjsModule(function(module, exports) {
-    exports.__esModule = true
-    exports.default = void 0
-
-    var _propTypes = _interopRequireDefault(propTypes)
-
-    var _componentOrElement = _interopRequireDefault(componentOrElement)
-
-    var _inDOM = _interopRequireDefault(inDOM)
-
-    var _ownerDocument = _interopRequireDefault(ownerDocument_1)
-
-    var _react = _interopRequireDefault(React__default)
-
-    var _reactDom = _interopRequireDefault(reactDom__default)
-
-    var _getContainer = _interopRequireDefault(getContainer_1)
-
-    function _interopRequireDefault(obj) {
-      return obj && obj.__esModule ? obj : { default: obj }
-    }
-
-    function _assertThisInitialized(self) {
-      if (self === void 0) {
-        throw new ReferenceError(
-          "this hasn't been initialised - super() hasn't been called"
-        )
-      }
-      return self
-    }
-
-    function _inheritsLoose(subClass, superClass) {
-      subClass.prototype = Object.create(superClass.prototype)
-      subClass.prototype.constructor = subClass
-      subClass.__proto__ = superClass
-    }
-
-    var propTypes$1 = {
-      /**
-       * A Node, Component instance, or function that returns either. The `container` will have the Portal children
-       * appended to it.
-       */
-      container: _propTypes.default.oneOfType([
-        _componentOrElement.default,
-        _propTypes.default.func,
-      ]),
-      onContainerResolved: _propTypes.default.func,
-    }
-
-    var WaitForContainer =
-      /*#__PURE__*/
-      (function(_React$Component) {
-        _inheritsLoose(WaitForContainer, _React$Component)
-
-        function WaitForContainer() {
-          var _this
-
-          for (
-            var _len = arguments.length, args = new Array(_len), _key = 0;
-            _key < _len;
-            _key++
-          ) {
-            args[_key] = arguments[_key]
-          }
-
-          _this =
-            _React$Component.call.apply(
-              _React$Component,
-              [this].concat(args)
-            ) || this
-          if (!_inDOM.default) return _assertThisInitialized(_this)
-          var container = _this.props.container
-          if (typeof container === 'function') container = container()
-
-          if (container && !_reactDom.default.findDOMNode(container)) {
-            // The container is a React component that has not yet been rendered.
-            // Don't set the container node yet.
-            return _assertThisInitialized(_this)
-          }
-
-          _this.setContainer(container)
-
-          return _this
-        }
-
-        var _proto = WaitForContainer.prototype
-
-        _proto.UNSAFE_componentWillReceiveProps = function UNSAFE_componentWillReceiveProps(
-          nextProps
-        ) {
-          if (nextProps.container !== this.props.container) {
-            this.setContainer(nextProps.container)
-          }
-        }
-
-        _proto.componentDidMount = function componentDidMount() {
-          if (!this._container) {
-            this.setContainer(this.props.container)
-            this.forceUpdate(this.props.onContainerResolved)
-          } else if (this.props.onContainerResolved) {
-            this.props.onContainerResolved()
-          }
-        }
-
-        _proto.componentWillUnmount = function componentWillUnmount() {
-          this._container = null
-        }
-
-        _proto.setContainer = function setContainer(container) {
-          this._container = (0, _getContainer.default)(
-            container,
-            (0, _ownerDocument.default)().body
-          )
-        }
-
-        _proto.render = function render() {
-          return this._container ? this.props.children(this._container) : null
-        }
-
-        return WaitForContainer
-      })(_react.default.Component)
-
-    WaitForContainer.propTypes = propTypes$1
-    var _default = WaitForContainer
-    exports.default = _default
-    module.exports = exports.default
-  })
-
-  unwrapExports(WaitForContainer_1)
-
-  var Portal_1 = createCommonjsModule(function(module, exports) {
-    exports.__esModule = true
-    exports.default = void 0
-
-    var _propTypes = _interopRequireDefault(propTypes)
-
-    var _componentOrElement = _interopRequireDefault(componentOrElement)
-
-    var _react = _interopRequireDefault(React__default)
-
-    var _reactDom = _interopRequireDefault(reactDom__default)
-
-    var _WaitForContainer = _interopRequireDefault(WaitForContainer_1)
-
-    function _interopRequireDefault(obj) {
-      return obj && obj.__esModule ? obj : { default: obj }
-    }
-
-    function _inheritsLoose(subClass, superClass) {
-      subClass.prototype = Object.create(superClass.prototype)
-      subClass.prototype.constructor = subClass
-      subClass.__proto__ = superClass
-    }
-
-    /**
-     * The `<Portal/>` component renders its children into a new "subtree" outside of current component hierarchy.
-     * You can think of it as a declarative `appendChild()`, or jQuery's `$.fn.appendTo()`.
-     * The children of `<Portal/>` component will be appended to the `container` specified.
-     */
-    var Portal =
-      /*#__PURE__*/
-      (function(_React$Component) {
-        _inheritsLoose(Portal, _React$Component)
-
-        function Portal() {
-          return _React$Component.apply(this, arguments) || this
-        }
-
-        var _proto = Portal.prototype
-
-        _proto.render = function render() {
-          var _this = this
-
-          return this.props.children
-            ? _react.default.createElement(
-                _WaitForContainer.default,
-                {
-                  container: this.props.container,
-                  onContainerResolved: this.props.onRendered,
-                },
-                function(container) {
-                  return _reactDom.default.createPortal(
-                    _this.props.children,
-                    container
-                  )
-                }
-              )
-            : null
-        }
-
-        return Portal
-      })(_react.default.Component)
-
-    Portal.displayName = 'Portal'
-    Portal.propTypes = {
-      /**
-       * A Node, Component instance, or function that returns either. The `container` will have the Portal children
-       * appended to it.
-       */
-      container: _propTypes.default.oneOfType([
-        _componentOrElement.default,
-        _propTypes.default.func,
-      ]),
-      onRendered: _propTypes.default.func,
-    }
-    var _default = Portal
-    exports.default = _default
-    module.exports = exports.default
-  })
-
-  unwrapExports(Portal_1)
-
-  var interopRequireDefault = createCommonjsModule(function(module) {
-    function _interopRequireDefault(obj) {
-      return obj && obj.__esModule
-        ? obj
-        : {
-            default: obj,
-          }
-    }
-
-    module.exports = _interopRequireDefault
-  })
-
-  unwrapExports(interopRequireDefault)
-
-  var contains = createCommonjsModule(function(module, exports) {
-    exports.__esModule = true
-    exports.default = void 0
-
-    var _inDOM = interopRequireDefault(inDOM)
-
-    var _default = (function() {
-      // HTML DOM and SVG DOM may have different support levels,
-      // so we need to check on context instead of a document root element.
-      return _inDOM.default
-        ? function(context, node) {
-            if (context.contains) {
-              return context.contains(node)
-            } else if (context.compareDocumentPosition) {
-              return (
-                context === node ||
-                !!(context.compareDocumentPosition(node) & 16)
-              )
-            } else {
-              return fallback(context, node)
+  function _extends$3() {
+    _extends$3 =
+      Object.assign ||
+      function(target) {
+        for (var i = 1; i < arguments.length; i++) {
+          var source = arguments[i]
+
+          for (var key in source) {
+            if (Object.prototype.hasOwnProperty.call(source, key)) {
+              target[key] = source[key]
             }
           }
-        : fallback
-    })()
-
-    exports.default = _default
-
-    function fallback(context, node) {
-      if (node)
-        do {
-          if (node === context) return true
-        } while ((node = node.parentNode))
-      return false
-    }
-
-    module.exports = exports['default']
-  })
-
-  unwrapExports(contains)
-
-  var on_1 = createCommonjsModule(function(module, exports) {
-    exports.__esModule = true
-    exports.default = void 0
-
-    var _inDOM = interopRequireDefault(inDOM)
-
-    var on = function on() {}
-
-    if (_inDOM.default) {
-      on = (function() {
-        if (document.addEventListener)
-          return function(node, eventName, handler, capture) {
-            return node.addEventListener(eventName, handler, capture || false)
-          }
-        else if (document.attachEvent)
-          return function(node, eventName, handler) {
-            return node.attachEvent('on' + eventName, function(e) {
-              e = e || window.event
-              e.target = e.target || e.srcElement
-              e.currentTarget = node
-              handler.call(node, e)
-            })
-          }
-      })()
-    }
-
-    var _default = on
-    exports.default = _default
-    module.exports = exports['default']
-  })
-
-  unwrapExports(on_1)
-
-  var off_1 = createCommonjsModule(function(module, exports) {
-    exports.__esModule = true
-    exports.default = void 0
-
-    var _inDOM = interopRequireDefault(inDOM)
-
-    var off = function off() {}
-
-    if (_inDOM.default) {
-      off = (function() {
-        if (document.addEventListener)
-          return function(node, eventName, handler, capture) {
-            return node.removeEventListener(
-              eventName,
-              handler,
-              capture || false
-            )
-          }
-        else if (document.attachEvent)
-          return function(node, eventName, handler) {
-            return node.detachEvent('on' + eventName, handler)
-          }
-      })()
-    }
-
-    var _default = off
-    exports.default = _default
-    module.exports = exports['default']
-  })
-
-  unwrapExports(off_1)
-
-  var listen_1 = createCommonjsModule(function(module, exports) {
-    exports.__esModule = true
-    exports.default = void 0
-
-    var _inDOM = interopRequireDefault(inDOM)
-
-    var _on = interopRequireDefault(on_1)
-
-    var _off = interopRequireDefault(off_1)
-
-    var listen = function listen() {}
-
-    if (_inDOM.default) {
-      listen = function listen(node, eventName, handler, capture) {
-        ;(0, _on.default)(node, eventName, handler, capture)
-        return function() {
-          ;(0, _off.default)(node, eventName, handler, capture)
         }
+
+        return target
       }
-    }
 
-    var _default = listen
-    exports.default = _default
-    module.exports = exports['default']
-  })
-
-  unwrapExports(listen_1)
-
-  var ownerDocument = createCommonjsModule(function(module, exports) {
-    exports.__esModule = true
-    exports.default = _default
-
-    var _reactDom = _interopRequireDefault(reactDom__default)
-
-    var _ownerDocument = _interopRequireDefault(ownerDocument_1)
-
-    function _interopRequireDefault(obj) {
-      return obj && obj.__esModule ? obj : { default: obj }
-    }
-
-    function _default(componentOrElement) {
-      return (0,
-      _ownerDocument.default)(_reactDom.default.findDOMNode(componentOrElement))
-    }
-
-    module.exports = exports.default
-  })
-
-  unwrapExports(ownerDocument)
-
-  var RootCloseWrapper_1 = createCommonjsModule(function(module, exports) {
-    exports.__esModule = true
-    exports.default = void 0
-
-    var _contains = _interopRequireDefault(contains)
-
-    var _listen = _interopRequireDefault(listen_1)
-
-    var _propTypes = _interopRequireDefault(propTypes)
-
-    var _react = _interopRequireDefault(React__default)
-
-    var _reactDom = _interopRequireDefault(reactDom__default)
-
-    var _ownerDocument = _interopRequireDefault(ownerDocument)
-
-    function _interopRequireDefault(obj) {
-      return obj && obj.__esModule ? obj : { default: obj }
-    }
-
-    function _inheritsLoose(subClass, superClass) {
-      subClass.prototype = Object.create(superClass.prototype)
-      subClass.prototype.constructor = subClass
-      subClass.__proto__ = superClass
-    }
-
-    function _assertThisInitialized(self) {
-      if (self === void 0) {
-        throw new ReferenceError(
-          "this hasn't been initialised - super() hasn't been called"
-        )
-      }
-      return self
-    }
-
-    var escapeKeyCode = 27
-
-    var noop = function noop() {}
-
-    function isLeftClickEvent(event) {
-      return event.button === 0
-    }
-
-    function isModifiedEvent(event) {
-      return !!(
-        event.metaKey ||
-        event.altKey ||
-        event.ctrlKey ||
-        event.shiftKey
-      )
-    }
-    /**
-     * The `<RootCloseWrapper/>` component registers your callback on the document
-     * when rendered. Powers the `<Overlay/>` component. This is used achieve modal
-     * style behavior where your callback is triggered when the user tries to
-     * interact with the rest of the document or hits the `esc` key.
-     */
-
-    var RootCloseWrapper =
-      /*#__PURE__*/
-      (function(_React$Component) {
-        _inheritsLoose(RootCloseWrapper, _React$Component)
-
-        function RootCloseWrapper(props, context) {
-          var _this
-
-          _this = _React$Component.call(this, props, context) || this
-
-          _this.addEventListeners = function() {
-            var event = _this.props.event
-            var doc = (0, _ownerDocument.default)(
-              _assertThisInitialized(_assertThisInitialized(_this))
-            ) // Use capture for this listener so it fires before React's listener, to
-            // avoid false positives in the contains() check below if the target DOM
-            // element is removed in the React mouse callback.
-
-            _this.removeMouseCaptureListener = (0, _listen.default)(
-              doc,
-              event,
-              _this.handleMouseCapture,
-              true
-            )
-            _this.removeMouseListener = (0, _listen.default)(
-              doc,
-              event,
-              _this.handleMouse
-            )
-            _this.removeKeyupListener = (0, _listen.default)(
-              doc,
-              'keyup',
-              _this.handleKeyUp
-            )
-
-            if ('ontouchstart' in doc.documentElement) {
-              _this.mobileSafariHackListeners = [].slice
-                .call(document.body.children)
-                .map(function(el) {
-                  return (0, _listen.default)(el, 'mousemove', noop)
-                })
-            }
-          }
-
-          _this.removeEventListeners = function() {
-            if (_this.removeMouseCaptureListener)
-              _this.removeMouseCaptureListener()
-            if (_this.removeMouseListener) _this.removeMouseListener()
-            if (_this.removeKeyupListener) _this.removeKeyupListener()
-            if (_this.mobileSafariHackListeners)
-              _this.mobileSafariHackListeners.forEach(function(remove) {
-                return remove()
-              })
-          }
-
-          _this.handleMouseCapture = function(e) {
-            _this.preventMouseRootClose =
-              isModifiedEvent(e) ||
-              !isLeftClickEvent(e) ||
-              (0, _contains.default)(
-                _reactDom.default.findDOMNode(
-                  _assertThisInitialized(_assertThisInitialized(_this))
-                ),
-                e.target
-              )
-          }
-
-          _this.handleMouse = function(e) {
-            if (!_this.preventMouseRootClose && _this.props.onRootClose) {
-              _this.props.onRootClose(e)
-            }
-          }
-
-          _this.handleKeyUp = function(e) {
-            if (e.keyCode === escapeKeyCode && _this.props.onRootClose) {
-              _this.props.onRootClose(e)
-            }
-          }
-
-          _this.preventMouseRootClose = false
-          return _this
-        }
-
-        var _proto = RootCloseWrapper.prototype
-
-        _proto.componentDidMount = function componentDidMount() {
-          if (!this.props.disabled) {
-            this.addEventListeners()
-          }
-        }
-
-        _proto.componentDidUpdate = function componentDidUpdate(prevProps) {
-          if (!this.props.disabled && prevProps.disabled) {
-            this.addEventListeners()
-          } else if (this.props.disabled && !prevProps.disabled) {
-            this.removeEventListeners()
-          }
-        }
-
-        _proto.componentWillUnmount = function componentWillUnmount() {
-          if (!this.props.disabled) {
-            this.removeEventListeners()
-          }
-        }
-
-        _proto.render = function render() {
-          return this.props.children
-        }
-
-        return RootCloseWrapper
-      })(_react.default.Component)
-
-    RootCloseWrapper.displayName = 'RootCloseWrapper'
-    RootCloseWrapper.propTypes = {
-      /**
-       * Callback fired after click or mousedown. Also triggers when user hits `esc`.
-       */
-      onRootClose: _propTypes.default.func,
-
-      /**
-       * Children to render.
-       */
-      children: _propTypes.default.element,
-
-      /**
-       * Disable the the RootCloseWrapper, preventing it from triggering `onRootClose`.
-       */
-      disabled: _propTypes.default.bool,
-
-      /**
-       * Choose which document mouse event to bind to.
-       */
-      event: _propTypes.default.oneOf(['click', 'mousedown']),
-    }
-    RootCloseWrapper.defaultProps = {
-      event: 'click',
-    }
-    var _default = RootCloseWrapper
-    exports.default = _default
-    module.exports = exports.default
-  })
-
-  unwrapExports(RootCloseWrapper_1)
+    return _extends$3.apply(this, arguments)
+  }
 
   function _objectWithoutPropertiesLoose$2(source, excluded) {
     if (source == null) return {}
@@ -4401,69 +3730,6 @@
 
     return target
   }
-
-  var objectWithoutPropertiesLoose = _objectWithoutPropertiesLoose$2
-
-  var _extends_1 = createCommonjsModule(function(module) {
-    function _extends() {
-      module.exports = _extends =
-        Object.assign ||
-        function(target) {
-          for (var i = 1; i < arguments.length; i++) {
-            var source = arguments[i]
-
-            for (var key in source) {
-              if (Object.prototype.hasOwnProperty.call(source, key)) {
-                target[key] = source[key]
-              }
-            }
-          }
-
-          return target
-        }
-
-      return _extends.apply(this, arguments)
-    }
-
-    module.exports = _extends
-  })
-
-  function _inheritsLoose$2(subClass, superClass) {
-    subClass.prototype = Object.create(superClass.prototype)
-    subClass.prototype.constructor = subClass
-    subClass.__proto__ = superClass
-  }
-
-  var inheritsLoose = _inheritsLoose$2
-
-  function _assertThisInitialized$1(self) {
-    if (self === void 0) {
-      throw new ReferenceError(
-        "this hasn't been initialised - super() hasn't been called"
-      )
-    }
-
-    return self
-  }
-
-  var assertThisInitialized = _assertThisInitialized$1
-
-  function _defineProperty(obj, key, value) {
-    if (key in obj) {
-      Object.defineProperty(obj, key, {
-        value: value,
-        enumerable: true,
-        configurable: true,
-        writable: true,
-      })
-    } else {
-      obj[key] = value
-    }
-
-    return obj
-  }
-
-  var defineProperty = _defineProperty
 
   /**!
    * @fileOverview Kickass library to create and place poppers near their reference elements.
@@ -4885,7 +4151,7 @@
     }
   })()
 
-  var defineProperty$1 = function(obj, key, value) {
+  var defineProperty = function(obj, key, value) {
     if (key in obj) {
       Object.defineProperty(obj, key, {
         value: value,
@@ -4900,7 +4166,7 @@
     return obj
   }
 
-  var _extends$2 =
+  var _extends$4 =
     Object.assign ||
     function(target) {
       for (var i = 1; i < arguments.length; i++) {
@@ -4924,7 +4190,7 @@
    * @returns {Object} ClientRect like output
    */
   function getClientRect(offsets) {
-    return _extends$2({}, offsets, {
+    return _extends$4({}, offsets, {
       right: offsets.left + offsets.width,
       bottom: offsets.top + offsets.height,
     })
@@ -5243,7 +4509,7 @@
 
     var sortedAreas = Object.keys(rects)
       .map(function(key) {
-        return _extends$2(
+        return _extends$4(
           {
             key: key,
           },
@@ -5985,9 +5251,9 @@
     }
 
     // Update `data` attributes, styles and arrowStyles
-    data.attributes = _extends$2({}, attributes, data.attributes)
-    data.styles = _extends$2({}, styles, data.styles)
-    data.arrowStyles = _extends$2({}, data.offsets.arrow, data.arrowStyles)
+    data.attributes = _extends$4({}, attributes, data.attributes)
+    data.styles = _extends$4({}, styles, data.styles)
+    data.arrowStyles = _extends$4({}, data.offsets.arrow, data.arrowStyles)
 
     return data
   }
@@ -6119,8 +5385,8 @@
 
     data.arrowElement = arrowElement
     data.offsets.arrow = ((_data$offsets$arrow = {}),
-    defineProperty$1(_data$offsets$arrow, side, Math.round(sideValue)),
-    defineProperty$1(_data$offsets$arrow, altSide, ''),
+    defineProperty(_data$offsets$arrow, side, Math.round(sideValue)),
+    defineProperty(_data$offsets$arrow, altSide, ''),
     _data$offsets$arrow)
 
     return data
@@ -6339,7 +5605,7 @@
 
         // this object contains `position`, we want to preserve it along with
         // any additional property we may add in the future
-        data.offsets.popper = _extends$2(
+        data.offsets.popper = _extends$4(
           {},
           data.offsets.popper,
           getPopperOffsets(
@@ -6551,7 +5817,7 @@
    * The offset value as described in the modifier description
    * @returns {Object} The data object, properly modified
    */
-  function offset(data, _ref) {
+  function offset$1(data, _ref) {
     var offset = _ref.offset
     var placement = data.placement,
       _data$offsets = data.offsets,
@@ -6644,7 +5910,7 @@
         ) {
           value = Math.max(popper[placement], boundaries[placement])
         }
-        return defineProperty$1({}, placement, value)
+        return defineProperty({}, placement, value)
       },
       secondary: function secondary(placement) {
         var mainSide = placement === 'right' ? 'left' : 'top'
@@ -6659,14 +5925,14 @@
               (placement === 'right' ? popper.width : popper.height)
           )
         }
-        return defineProperty$1({}, mainSide, value)
+        return defineProperty({}, mainSide, value)
       },
     }
 
     order.forEach(function(placement) {
       var side =
         ['left', 'top'].indexOf(placement) !== -1 ? 'primary' : 'secondary'
-      popper = _extends$2({}, popper, check[side](placement))
+      popper = _extends$4({}, popper, check[side](placement))
     })
 
     data.offsets.popper = popper
@@ -6697,15 +5963,15 @@
       var measurement = isVertical ? 'width' : 'height'
 
       var shiftOffsets = {
-        start: defineProperty$1({}, side, reference[side]),
-        end: defineProperty$1(
+        start: defineProperty({}, side, reference[side]),
+        end: defineProperty(
           {},
           side,
           reference[side] + reference[measurement] - popper[measurement]
         ),
       }
 
-      data.offsets.popper = _extends$2({}, popper, shiftOffsets[shiftvariation])
+      data.offsets.popper = _extends$4({}, popper, shiftOffsets[shiftvariation])
     }
 
     return data
@@ -6867,7 +6133,7 @@
       /** @prop {Boolean} enabled=true - Whether the modifier is enabled or not */
       enabled: true,
       /** @prop {ModifierFn} */
-      fn: offset,
+      fn: offset$1,
       /** @prop {Number|String} offset=0
        * The offset value as described in the modifier description
        */
@@ -7247,7 +6513,7 @@
       this.update = debounce(this.update.bind(this))
 
       // with {} we create a new object with the options inside it
-      this.options = _extends$2({}, Popper.Defaults, options)
+      this.options = _extends$4({}, Popper.Defaults, options)
 
       // init state
       this.state = {
@@ -7263,9 +6529,9 @@
       // Deep merge modifiers options
       this.options.modifiers = {}
       Object.keys(
-        _extends$2({}, Popper.Defaults.modifiers, options.modifiers)
+        _extends$4({}, Popper.Defaults.modifiers, options.modifiers)
       ).forEach(function(name) {
-        _this.options.modifiers[name] = _extends$2(
+        _this.options.modifiers[name] = _extends$4(
           {},
           Popper.Defaults.modifiers[name] || {},
           options.modifiers ? options.modifiers[name] : {}
@@ -7275,7 +6541,7 @@
       // Refactoring modifiers' list (Object => Array)
       this.modifiers = Object.keys(this.options.modifiers)
         .map(function(name) {
-          return _extends$2(
+          return _extends$4(
             {
               name: name,
             },
@@ -7394,479 +6660,782 @@
   Popper.placements = placements
   Popper.Defaults = Defaults
 
-  var key = '__global_unique_id__'
-
-  var gud = function() {
-    return (commonjsGlobal[key] = (commonjsGlobal[key] || 0) + 1)
-  }
-
   /**
-   * Copyright (c) 2013-present, Facebook, Inc.
+   * A convenience hook around `useState` designed to be paired with
+   * the component [callback ref](https://reactjs.org/docs/refs-and-the-dom.html#callback-refs) api.
+   * Callback refs are useful over `useRef()` when you need to respond to the ref being set
+   * instead of lazily accessing it in an effect.
    *
-   * This source code is licensed under the MIT license found in the
-   * LICENSE file in the root directory of this source tree.
+   * ```ts
+   * const [element, attachRef] = useCallbackRef<HTMLDivElement>()
    *
+   * useEffect(() => {
+   *   if (!element) return
    *
+   *   const calendar = new FullCalendar.Calendar(element)
+   *
+   *   return () => {
+   *     calendar.destroy()
+   *   }
+   * }, [element])
+   *
+   * return <div ref={attachRef} />
+   * ```
    */
 
-  function makeEmptyFunction(arg) {
-    return function() {
-      return arg
+  function useCallbackRef() {
+    return React.useState(null)
+  }
+
+  var toFnRef = function toFnRef(ref) {
+    return !ref || typeof ref === 'function'
+      ? ref
+      : function(value) {
+          ref.current = value
+        }
+  }
+
+  function mergeRefs(refA, refB) {
+    var a = toFnRef(refA)
+    var b = toFnRef(refB)
+    return function(value) {
+      if (a) a(value)
+      if (b) b(value)
     }
   }
-
   /**
-   * This function accepts and discards inputs; it has no side effects. This is
-   * primarily useful idiomatically for overridable function endpoints which
-   * always need to be callable, since JS lacks a null-call idiom ala Cocoa.
-   */
-  var emptyFunction = function emptyFunction() {}
-
-  emptyFunction.thatReturns = makeEmptyFunction
-  emptyFunction.thatReturnsFalse = makeEmptyFunction(false)
-  emptyFunction.thatReturnsTrue = makeEmptyFunction(true)
-  emptyFunction.thatReturnsNull = makeEmptyFunction(null)
-  emptyFunction.thatReturnsThis = function() {
-    return this
-  }
-  emptyFunction.thatReturnsArgument = function(arg) {
-    return arg
-  }
-
-  var emptyFunction_1 = emptyFunction
-
-  /**
-   * Similar to invariant but only logs a warning if the condition is not met.
-   * This can be used to log issues in development environments in critical
-   * paths. Removing the logging code for production environments will keep the
-   * same logic and follow the same code paths.
+   * Create and returns a single callback ref composed from two other Refs.
+   *
+   * ```tsx
+   * const Button = React.forwardRef((props, ref) => {
+   *   const [element, attachRef] = useCallbackRef<HTMLButtonElement>();
+   *   const mergedRef = useMergedRefs(ref, attachRef);
+   *
+   *   return <button ref={mergedRef} {...props}/>
+   * })
+   * ```
+   *
+   * @param refA A Callback or mutable Ref
+   * @param refB A Callback or mutable Ref
    */
 
-  var warning$1 = emptyFunction_1
+  function useMergedRefs(refA, refB) {
+    return React.useMemo(
+      function() {
+        return mergeRefs(refA, refB)
+      },
+      [refA, refB]
+    )
+  }
 
-  {
-    var printWarning$3 = function printWarning(format) {
-      for (
-        var _len = arguments.length,
-          args = Array(_len > 1 ? _len - 1 : 0),
-          _key = 1;
-        _key < _len;
-        _key++
-      ) {
-        args[_key - 1] = arguments[_key]
+  var initialPopperStyles = {
+    position: 'absolute',
+    top: '0',
+    left: '0',
+    opacity: '0',
+    pointerEvents: 'none',
+  }
+  var initialArrowStyles = {}
+  /**
+   * Position an element relative some reference element using Popper.js
+   *
+   * @param {HTMLElement} referenceElement The element
+   * @param {HTMLElement} popperElement
+   * @param {Object}      options
+   * @param {Object}      options.modifiers Popper.js modifiers
+   * @param {Boolean}     options.enabled toggle the popper functionality on/off
+   * @param {String}      options.placement The popper element placement relative to the reference element
+   * @param {Boolean}     options.positionFixed use fixed positioning
+   * @param {Boolean}     options.eventsEnabled have Popper listen on window resize events to reposition the element
+   */
+
+  function usePopper(referenceElement, popperElement, _temp) {
+    var _ref = _temp === void 0 ? {} : _temp,
+      _ref$enabled = _ref.enabled,
+      enabled = _ref$enabled === void 0 ? true : _ref$enabled,
+      _ref$placement = _ref.placement,
+      placement = _ref$placement === void 0 ? 'bottom' : _ref$placement,
+      _ref$positionFixed = _ref.positionFixed,
+      positionFixed =
+        _ref$positionFixed === void 0 ? false : _ref$positionFixed,
+      _ref$eventsEnabled = _ref.eventsEnabled,
+      eventsEnabled = _ref$eventsEnabled === void 0 ? true : _ref$eventsEnabled,
+      _ref$modifiers = _ref.modifiers,
+      modifiers = _ref$modifiers === void 0 ? {} : _ref$modifiers
+
+    var popperInstanceRef = React.useRef()
+    var hasArrow = !!(modifiers.arrow && modifiers.arrow.element)
+    var scheduleUpdate = React.useCallback(function() {
+      if (popperInstanceRef.current) {
+        popperInstanceRef.current.scheduleUpdate()
       }
+    }, [])
 
-      var argIndex = 0
-      var message =
-        'Warning: ' +
-        format.replace(/%s/g, function() {
-          return args[argIndex++]
-        })
-      if (typeof console !== 'undefined') {
-        console.error(message)
-      }
-      try {
-        // --- Welcome to debugging React ---
-        // This error was thrown as a convenience so that you can use this stack
-        // to find the callsite that caused this warning to fire.
-        throw new Error(message)
-      } catch (x) {}
-    }
+    var _useState = React.useState({
+        placement: placement,
+        scheduleUpdate: scheduleUpdate,
+        outOfBoundaries: false,
+        styles: initialPopperStyles,
+        arrowStyles: initialArrowStyles,
+      }),
+      state = _useState[0],
+      setState = _useState[1] // A placement difference in state means popper determined a new placement
+    // apart from the props value. By the time the popper element is rendered with
+    // the new position Popper has already measured it, if the place change triggers
+    // a size change it will result in a misaligned popper. So we schedule an update to be sure.
 
-    warning$1 = function warning(condition, format) {
-      if (format === undefined) {
-        throw new Error(
-          '`warning(condition, format, ...args)` requires a warning ' +
-            'message argument'
-        )
-      }
+    React.useEffect(
+      function() {
+        scheduleUpdate()
+      },
+      [state.placement, scheduleUpdate]
+    )
+    /** Toggle Events */
 
-      if (format.indexOf('Failed Composite propType: ') === 0) {
-        return // Ignore CompositeComponent proptype check.
-      }
-
-      if (!condition) {
-        for (
-          var _len2 = arguments.length,
-            args = Array(_len2 > 2 ? _len2 - 2 : 0),
-            _key2 = 2;
-          _key2 < _len2;
-          _key2++
-        ) {
-          args[_key2 - 2] = arguments[_key2]
+    React.useEffect(
+      function() {
+        if (popperInstanceRef.current) {
+          // eslint-disable-next-line no-unused-expressions
+          eventsEnabled
+            ? popperInstanceRef.current.enableEventListeners()
+            : popperInstanceRef.current.disableEventListeners()
+        }
+      },
+      [eventsEnabled]
+    )
+    React.useEffect(
+      function() {
+        if (!enabled || referenceElement === null || popperElement === null) {
+          return undefined
         }
 
-        printWarning$3.apply(undefined, [format].concat(args))
-      }
-    }
-  }
-
-  var warning_1$1 = warning$1
-
-  var implementation = createCommonjsModule(function(module, exports) {
-    exports.__esModule = true
-
-    var _react2 = _interopRequireDefault(React__default)
-
-    var _propTypes2 = _interopRequireDefault(propTypes)
-
-    var _gud2 = _interopRequireDefault(gud)
-
-    var _warning2 = _interopRequireDefault(warning_1$1)
-
-    function _interopRequireDefault(obj) {
-      return obj && obj.__esModule ? obj : { default: obj }
-    }
-
-    function _classCallCheck(instance, Constructor) {
-      if (!(instance instanceof Constructor)) {
-        throw new TypeError('Cannot call a class as a function')
-      }
-    }
-
-    function _possibleConstructorReturn(self, call) {
-      if (!self) {
-        throw new ReferenceError(
-          "this hasn't been initialised - super() hasn't been called"
-        )
-      }
-      return call && (typeof call === 'object' || typeof call === 'function')
-        ? call
-        : self
-    }
-
-    function _inherits(subClass, superClass) {
-      if (typeof superClass !== 'function' && superClass !== null) {
-        throw new TypeError(
-          'Super expression must either be null or a function, not ' +
-            typeof superClass
-        )
-      }
-      subClass.prototype = Object.create(superClass && superClass.prototype, {
-        constructor: {
-          value: subClass,
-          enumerable: false,
-          writable: true,
-          configurable: true,
-        },
-      })
-      if (superClass)
-        Object.setPrototypeOf
-          ? Object.setPrototypeOf(subClass, superClass)
-          : (subClass.__proto__ = superClass)
-    }
-
-    var MAX_SIGNED_31_BIT_INT = 1073741823
-
-    // Inlined Object.is polyfill.
-    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is
-    function objectIs(x, y) {
-      if (x === y) {
-        return x !== 0 || 1 / x === 1 / y
-      } else {
-        return x !== x && y !== y
-      }
-    }
-
-    function createEventEmitter(value) {
-      var handlers = []
-      return {
-        on: function on(handler) {
-          handlers.push(handler)
-        },
-        off: function off(handler) {
-          handlers = handlers.filter(function(h) {
-            return h !== handler
+        var arrow =
+          modifiers.arrow &&
+          _extends$3({}, modifiers.arrow, {
+            element: modifiers.arrow.element,
           })
-        },
-        get: function get() {
-          return value
-        },
-        set: function set(newValue, changedBits) {
-          value = newValue
-          handlers.forEach(function(handler) {
-            return handler(value, changedBits)
-          })
-        },
-      }
-    }
 
-    function onlyChild(children) {
-      return Array.isArray(children) ? children[0] : children
-    }
-
-    function createReactContext(defaultValue, calculateChangedBits) {
-      var _Provider$childContex, _Consumer$contextType
-
-      var contextProp = '__create-react-context-' + (0, _gud2.default)() + '__'
-
-      var Provider = (function(_Component) {
-        _inherits(Provider, _Component)
-
-        function Provider() {
-          var _temp, _this, _ret
-
-          _classCallCheck(this, Provider)
-
-          for (
-            var _len = arguments.length, args = Array(_len), _key = 0;
-            _key < _len;
-            _key++
-          ) {
-            args[_key] = arguments[_key]
+        popperInstanceRef.current = new Popper(
+          referenceElement,
+          popperElement,
+          {
+            placement: placement,
+            positionFixed: positionFixed,
+            modifiers: _extends$3({}, modifiers, {
+              arrow: arrow,
+              applyStyle: {
+                enabled: false,
+              },
+              updateStateModifier: {
+                enabled: true,
+                order: 900,
+                fn: function fn(data) {
+                  setState({
+                    scheduleUpdate: scheduleUpdate,
+                    styles: _extends$3(
+                      {
+                        position: data.offsets.popper.position,
+                      },
+                      data.styles
+                    ),
+                    arrowStyles: data.arrowStyles,
+                    outOfBoundaries: data.hide,
+                    placement: data.placement,
+                  })
+                },
+              },
+            }),
           }
+        )
+        return function() {
+          if (popperInstanceRef.current !== null) {
+            popperInstanceRef.current.destroy()
+            popperInstanceRef.current = null
+          }
+        } // intentionally NOT re-running on new modifiers
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+      },
+      [
+        enabled,
+        placement,
+        positionFixed,
+        referenceElement,
+        popperElement,
+        hasArrow,
+      ]
+    )
+    return state
+  }
 
-          return (
-            (_ret = ((_temp = ((_this = _possibleConstructorReturn(
-              this,
-              _Component.call.apply(_Component, [this].concat(args))
-            )),
-            _this)),
-            (_this.emitter = createEventEmitter(_this.props.value)),
-            _temp)),
-            _possibleConstructorReturn(_this, _ret)
-          )
-        }
+  var interopRequireDefault = createCommonjsModule(function(module) {
+    function _interopRequireDefault(obj) {
+      return obj && obj.__esModule
+        ? obj
+        : {
+            default: obj,
+          }
+    }
 
-        Provider.prototype.getChildContext = function getChildContext() {
-          var _ref
+    module.exports = _interopRequireDefault
+  })
 
-          return (_ref = {}), (_ref[contextProp] = this.emitter), _ref
-        }
+  unwrapExports(interopRequireDefault)
 
-        Provider.prototype.componentWillReceiveProps = function componentWillReceiveProps(
-          nextProps
-        ) {
-          if (this.props.value !== nextProps.value) {
-            var oldValue = this.props.value
-            var newValue = nextProps.value
-            var changedBits = void 0
+  var inDOM = createCommonjsModule(function(module, exports) {
+    exports.__esModule = true
+    exports.default = void 0
 
-            if (objectIs(oldValue, newValue)) {
-              changedBits = 0 // No change
+    var _default = !!(
+      typeof window !== 'undefined' &&
+      window.document &&
+      window.document.createElement
+    )
+
+    exports.default = _default
+    module.exports = exports['default']
+  })
+
+  unwrapExports(inDOM)
+
+  var contains$1 = createCommonjsModule(function(module, exports) {
+    exports.__esModule = true
+    exports.default = void 0
+
+    var _inDOM = interopRequireDefault(inDOM)
+
+    var _default = (function() {
+      // HTML DOM and SVG DOM may have different support levels,
+      // so we need to check on context instead of a document root element.
+      return _inDOM.default
+        ? function(context, node) {
+            if (context.contains) {
+              return context.contains(node)
+            } else if (context.compareDocumentPosition) {
+              return (
+                context === node ||
+                !!(context.compareDocumentPosition(node) & 16)
+              )
             } else {
-              changedBits =
-                typeof calculateChangedBits === 'function'
-                  ? calculateChangedBits(oldValue, newValue)
-                  : MAX_SIGNED_31_BIT_INT
-              {
-                ;(0, _warning2.default)(
-                  (changedBits & MAX_SIGNED_31_BIT_INT) === changedBits,
-                  'calculateChangedBits: Expected the return value to be a ' +
-                    '31-bit integer. Instead received: %s',
-                  changedBits
-                )
-              }
-
-              changedBits |= 0
-
-              if (changedBits !== 0) {
-                this.emitter.set(nextProps.value, changedBits)
-              }
+              return fallback(context, node)
             }
           }
-        }
+        : fallback
+    })()
 
-        Provider.prototype.render = function render() {
-          return this.props.children
-        }
+    exports.default = _default
 
-        return Provider
-      })(React__default.Component)
-
-      Provider.childContextTypes = ((_Provider$childContex = {}),
-      (_Provider$childContex[contextProp] =
-        _propTypes2.default.object.isRequired),
-      _Provider$childContex)
-
-      var Consumer = (function(_Component2) {
-        _inherits(Consumer, _Component2)
-
-        function Consumer() {
-          var _temp2, _this2, _ret2
-
-          _classCallCheck(this, Consumer)
-
-          for (
-            var _len2 = arguments.length, args = Array(_len2), _key2 = 0;
-            _key2 < _len2;
-            _key2++
-          ) {
-            args[_key2] = arguments[_key2]
-          }
-
-          return (
-            (_ret2 = ((_temp2 = ((_this2 = _possibleConstructorReturn(
-              this,
-              _Component2.call.apply(_Component2, [this].concat(args))
-            )),
-            _this2)),
-            (_this2.state = {
-              value: _this2.getValue(),
-            }),
-            (_this2.onUpdate = function(newValue, changedBits) {
-              var observedBits = _this2.observedBits | 0
-              if ((observedBits & changedBits) !== 0) {
-                _this2.setState({ value: _this2.getValue() })
-              }
-            }),
-            _temp2)),
-            _possibleConstructorReturn(_this2, _ret2)
-          )
-        }
-
-        Consumer.prototype.componentWillReceiveProps = function componentWillReceiveProps(
-          nextProps
-        ) {
-          var observedBits = nextProps.observedBits
-
-          this.observedBits =
-            observedBits === undefined || observedBits === null
-              ? MAX_SIGNED_31_BIT_INT // Subscribe to all changes by default
-              : observedBits
-        }
-
-        Consumer.prototype.componentDidMount = function componentDidMount() {
-          if (this.context[contextProp]) {
-            this.context[contextProp].on(this.onUpdate)
-          }
-          var observedBits = this.props.observedBits
-
-          this.observedBits =
-            observedBits === undefined || observedBits === null
-              ? MAX_SIGNED_31_BIT_INT // Subscribe to all changes by default
-              : observedBits
-        }
-
-        Consumer.prototype.componentWillUnmount = function componentWillUnmount() {
-          if (this.context[contextProp]) {
-            this.context[contextProp].off(this.onUpdate)
-          }
-        }
-
-        Consumer.prototype.getValue = function getValue() {
-          if (this.context[contextProp]) {
-            return this.context[contextProp].get()
-          } else {
-            return defaultValue
-          }
-        }
-
-        Consumer.prototype.render = function render() {
-          return onlyChild(this.props.children)(this.state.value)
-        }
-
-        return Consumer
-      })(React__default.Component)
-
-      Consumer.contextTypes = ((_Consumer$contextType = {}),
-      (_Consumer$contextType[contextProp] = _propTypes2.default.object),
-      _Consumer$contextType)
-
-      return {
-        Provider: Provider,
-        Consumer: Consumer,
-      }
+    function fallback(context, node) {
+      if (node)
+        do {
+          if (node === context) return true
+        } while ((node = node.parentNode))
+      return false
     }
 
-    exports.default = createReactContext
     module.exports = exports['default']
   })
 
-  unwrapExports(implementation)
+  var contains$2 = unwrapExports(contains$1)
 
-  var lib = createCommonjsModule(function(module, exports) {
+  var on_1 = createCommonjsModule(function(module, exports) {
     exports.__esModule = true
+    exports.default = void 0
 
-    var _react2 = _interopRequireDefault(React__default)
+    var _inDOM = interopRequireDefault(inDOM)
 
-    var _implementation2 = _interopRequireDefault(implementation)
+    var on = function on() {}
 
-    function _interopRequireDefault(obj) {
-      return obj && obj.__esModule ? obj : { default: obj }
-    }
-
-    exports.default = _react2.default.createContext || _implementation2.default
-    module.exports = exports['default']
-  })
-
-  var createContext = unwrapExports(lib)
-
-  var ManagerContext = createContext({
-    setReferenceNode: undefined,
-    referenceNode: undefined,
-  })
-
-  var Manager =
-    /*#__PURE__*/
-    (function(_React$Component) {
-      inheritsLoose(Manager, _React$Component)
-
-      function Manager() {
-        var _this
-
-        _this = _React$Component.call(this) || this
-
-        defineProperty(
-          assertThisInitialized(assertThisInitialized(_this)),
-          'setReferenceNode',
-          function(referenceNode) {
-            if (
-              !referenceNode ||
-              _this.state.context.referenceNode === referenceNode
-            ) {
-              return
-            }
-
-            _this.setState(function(_ref) {
-              var context = _ref.context
-              return {
-                context: _extends_1({}, context, {
-                  referenceNode: referenceNode,
-                }),
-              }
+    if (_inDOM.default) {
+      on = (function() {
+        if (document.addEventListener)
+          return function(node, eventName, handler, capture) {
+            return node.addEventListener(eventName, handler, capture || false)
+          }
+        else if (document.attachEvent)
+          return function(node, eventName, handler) {
+            return node.attachEvent('on' + eventName, function(e) {
+              e = e || window.event
+              e.target = e.target || e.srcElement
+              e.currentTarget = node
+              handler.call(node, e)
             })
           }
-        )
+      })()
+    }
 
-        _this.state = {
-          context: {
-            setReferenceNode: _this.setReferenceNode,
-            referenceNode: undefined,
-          },
+    var _default = on
+    exports.default = _default
+    module.exports = exports['default']
+  })
+
+  unwrapExports(on_1)
+
+  var off_1 = createCommonjsModule(function(module, exports) {
+    exports.__esModule = true
+    exports.default = void 0
+
+    var _inDOM = interopRequireDefault(inDOM)
+
+    var off = function off() {}
+
+    if (_inDOM.default) {
+      off = (function() {
+        if (document.addEventListener)
+          return function(node, eventName, handler, capture) {
+            return node.removeEventListener(
+              eventName,
+              handler,
+              capture || false
+            )
+          }
+        else if (document.attachEvent)
+          return function(node, eventName, handler) {
+            return node.detachEvent('on' + eventName, handler)
+          }
+      })()
+    }
+
+    var _default = off
+    exports.default = _default
+    module.exports = exports['default']
+  })
+
+  unwrapExports(off_1)
+
+  var listen_1 = createCommonjsModule(function(module, exports) {
+    exports.__esModule = true
+    exports.default = void 0
+
+    var _inDOM = interopRequireDefault(inDOM)
+
+    var _on = interopRequireDefault(on_1)
+
+    var _off = interopRequireDefault(off_1)
+
+    var listen = function listen() {}
+
+    if (_inDOM.default) {
+      listen = function listen(node, eventName, handler, capture) {
+        ;(0, _on.default)(node, eventName, handler, capture)
+        return function() {
+          ;(0, _off.default)(node, eventName, handler, capture)
         }
-        return _this
       }
+    }
 
-      var _proto = Manager.prototype
+    var _default = listen
+    exports.default = _default
+    module.exports = exports['default']
+  })
 
-      _proto.render = function render() {
-        return React.createElement(
-          ManagerContext.Provider,
-          {
-            value: this.state.context,
-          },
-          this.props.children
-        )
-      }
-
-      return Manager
-    })(React.Component)
+  var listen = unwrapExports(listen_1)
 
   /**
-   * Takes an argument and if it's an array, returns the first item in the array,
-   * otherwise returns the argument. Used for Preact compatibility.
+   * Creates a `Ref` whose value is updated in an effect, ensuring the most recent
+   * value is the one rendered with. Generally only required for Concurrent mode usage
+   * where previous work in `render()` may be discarded befor being used.
+   *
+   * This is safe to access in an event handler.
+   *
+   * @param value The `Ref` value
    */
-  var unwrapArray = function unwrapArray(arg) {
-    return Array.isArray(arg) ? arg[0] : arg
+
+  function useCommittedRef(value) {
+    var ref = React.useRef(value)
+    React.useEffect(
+      function() {
+        ref.current = value
+      },
+      [value]
+    )
+    return ref
+  }
+
+  function useEventCallback(fn) {
+    var ref = useCommittedRef(fn)
+    return React.useCallback(
+      function() {
+        return ref.current && ref.current.apply(ref, arguments)
+      },
+      [ref]
+    )
+  }
+
+  var escapeKeyCode = 27
+
+  var noop$1 = function noop() {}
+
+  function isLeftClickEvent(event) {
+    return event.button === 0
+  }
+
+  function isModifiedEvent(event) {
+    return !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey)
   }
   /**
-   * Takes a maybe-undefined function and arbitrary args and invokes the function
-   * only if it is defined.
+   * The `useRootClose` hook registers your callback on the document
+   * when rendered. Powers the `<Overlay/>` component. This is used achieve modal
+   * style behavior where your callback is triggered when the user tries to
+   * interact with the rest of the document or hits the `esc` key.
+   *
+   * @param {Ref<HTMLElement>|HTMLElement} ref  The element boundary
+   * @param {function} onRootClose
+   * @param {object}  options
+   * @param {boolean} options.disabled
+   * @param {string}  options.clickTrigger The DOM event name (click, mousedown, etc) to attach listeners on
    */
 
-  var safeInvoke = function safeInvoke(fn) {
-    if (typeof fn === 'function') {
+  function useRootClose(ref, onRootClose, _temp) {
+    var _ref = _temp === void 0 ? {} : _temp,
+      disabled = _ref.disabled,
+      _ref$clickTrigger = _ref.clickTrigger,
+      clickTrigger = _ref$clickTrigger === void 0 ? 'click' : _ref$clickTrigger
+
+    var preventMouseRootCloseRef = React.useRef(false)
+    var onClose = onRootClose || noop$1
+    var handleMouseCapture = React.useCallback(
+      function(e) {
+        var currentTarget = ref && ('current' in ref ? ref.current : ref)
+        warning_1(
+          !!currentTarget,
+          'RootClose captured a close event but does not have a ref to compare it to. ' +
+            'useRootClose(), should be passed a ref that resolves to a DOM node'
+        )
+        preventMouseRootCloseRef.current =
+          !currentTarget ||
+          isModifiedEvent(e) ||
+          !isLeftClickEvent(e) ||
+          contains$2(currentTarget, e.target)
+      },
+      [ref]
+    )
+    var handleMouse = useEventCallback(function(e) {
+      if (!preventMouseRootCloseRef.current) {
+        onClose(e)
+      }
+    })
+    var handleKeyUp = useEventCallback(function(e) {
+      if (e.keyCode === escapeKeyCode) {
+        onClose(e)
+      }
+    })
+    React.useEffect(
+      function() {
+        if (disabled || ref == null) return undefined // Use capture for this listener so it fires before React's listener, to
+        // avoid false positives in the contains() check below if the target DOM
+        // element is removed in the React mouse callback.
+
+        var removeMouseCaptureListener = listen(
+          document,
+          clickTrigger,
+          handleMouseCapture,
+          true
+        )
+        var removeMouseListener = listen(document, clickTrigger, handleMouse)
+        var removeKeyupListener = listen(document, 'keyup', handleKeyUp)
+        var mobileSafariHackListeners = []
+
+        if ('ontouchstart' in document.documentElement) {
+          mobileSafariHackListeners = [].slice
+            .call(document.body.children)
+            .map(function(el) {
+              return listen(el, 'mousemove', noop$1)
+            })
+        }
+
+        return function() {
+          removeMouseCaptureListener()
+          removeMouseListener()
+          removeKeyupListener()
+          mobileSafariHackListeners.forEach(function(remove) {
+            return remove()
+          })
+        }
+      },
+      [
+        ref,
+        disabled,
+        clickTrigger,
+        handleMouseCapture,
+        handleMouse,
+        handleKeyUp,
+      ]
+    )
+  }
+
+  var ownerDocument_1 = createCommonjsModule(function(module, exports) {
+    exports.__esModule = true
+    exports.default = ownerDocument
+
+    function ownerDocument(node) {
+      return (node && node.ownerDocument) || document
+    }
+
+    module.exports = exports['default']
+  })
+
+  var ownerDocument$1 = unwrapExports(ownerDocument_1)
+
+  var resolveRef = function resolveRef(ref) {
+    if (ref == null) return ownerDocument$1().body
+    if (typeof ref === 'function') ref = ref()
+    if (ref && ref.current) ref = ref.current
+    if (ref && ref.nodeType) return ref
+    return null
+  }
+
+  function useWaitForDOMRef(ref, onResolved) {
+    var _useState = React.useState(function() {
+        return resolveRef(ref)
+      }),
+      resolvedRef = _useState[0],
+      setRef = _useState[1]
+
+    if (!resolvedRef) {
+      var earlyRef = resolveRef(ref)
+      if (earlyRef) setRef(earlyRef)
+    }
+
+    React.useEffect(
+      function() {
+        if (onResolved && resolvedRef) {
+          onResolved(resolvedRef)
+        }
+      },
+      [onResolved, resolvedRef]
+    )
+    React.useEffect(
+      function() {
+        var nextRef = resolveRef(ref)
+
+        if (nextRef !== resolvedRef) {
+          setRef(nextRef)
+        }
+      },
+      [ref, resolvedRef]
+    )
+    return resolvedRef
+  }
+
+  /**
+   * Built on top of `Popper.js`, the overlay component is
+   * great for custom tooltip overlays.
+   */
+
+  var Overlay = React__default.forwardRef(function(props, outerRef) {
+    var flip = props.flip,
+      placement = props.placement,
+      containerPadding = props.containerPadding,
+      _props$popperConfig = props.popperConfig,
+      popperConfig = _props$popperConfig === void 0 ? {} : _props$popperConfig,
+      Transition = props.transition
+
+    var _useCallbackRef = useCallbackRef(),
+      rootElement = _useCallbackRef[0],
+      attachRef = _useCallbackRef[1]
+
+    var _useCallbackRef2 = useCallbackRef(),
+      arrowElement = _useCallbackRef2[0],
+      attachArrowRef = _useCallbackRef2[1]
+
+    var mergedRef = useMergedRefs(attachRef, outerRef)
+    var container = useWaitForDOMRef(props.container)
+    var target = useWaitForDOMRef(props.target)
+
+    var _useState = React.useState(!props.show),
+      exited = _useState[0],
+      setExited = _useState[1]
+
+    var _popperConfig$modifie = popperConfig.modifiers,
+      modifiers = _popperConfig$modifie === void 0 ? {} : _popperConfig$modifie
+
+    var _usePopper = usePopper(
+        target,
+        rootElement,
+        _extends$3({}, popperConfig, {
+          placement: placement || 'bottom',
+          enableEvents: props.show,
+          modifiers: _extends$3({}, modifiers, {
+            preventOverflow: _extends$3(
+              {
+                padding: containerPadding || 5,
+              },
+              modifiers.preventOverflow
+            ),
+            arrow: _extends$3({}, modifiers.arrow, {
+              enabled: !!arrowElement,
+              element: arrowElement,
+            }),
+            flip: _extends$3(
+              {
+                enabled: !!flip,
+              },
+              modifiers.preventOverflow
+            ),
+          }),
+        })
+      ),
+      styles = _usePopper.styles,
+      arrowStyles = _usePopper.arrowStyles,
+      popper = _objectWithoutPropertiesLoose$2(_usePopper, [
+        'styles',
+        'arrowStyles',
+      ])
+
+    if (props.show) {
+      if (exited) setExited(false)
+    } else if (!props.transition && !exited) {
+      setExited(true)
+    }
+
+    var handleHidden = function handleHidden() {
+      setExited(true)
+
+      if (props.onExited) {
+        props.onExited.apply(props, arguments)
+      }
+    } // Don't un-render the overlay while it's transitioning out.
+
+    var mountOverlay = props.show || (Transition && !exited)
+    useRootClose(rootElement, props.onHide, {
+      disabled: !props.rootClose || props.rootCloseDisabled,
+      clickTrigger: props.rootCloseEvent,
+    })
+
+    if (!mountOverlay) {
+      // Don't bother showing anything if we don't have to.
+      return null
+    }
+
+    var child = props.children(
+      _extends$3({}, popper, {
+        show: props.show,
+        props: {
+          style: styles,
+          ref: mergedRef,
+        },
+        arrowProps: {
+          style: arrowStyles,
+          ref: attachArrowRef,
+        },
+      })
+    )
+
+    if (Transition) {
+      var onExit = props.onExit,
+        onExiting = props.onExiting,
+        onEnter = props.onEnter,
+        onEntering = props.onEntering,
+        onEntered = props.onEntered
+      child = React__default.createElement(
+        Transition,
+        {
+          in: props.show,
+          appear: true,
+          onExit: onExit,
+          onExiting: onExiting,
+          onExited: handleHidden,
+          onEnter: onEnter,
+          onEntering: onEntering,
+          onEntered: onEntered,
+        },
+        child
+      )
+    }
+
+    return container ? ReactDOM__default.createPortal(child, container) : null
+  })
+  Overlay.displayName = 'Overlay'
+  Overlay.propTypes = {
+    /**
+     * Set the visibility of the Overlay
+     */
+    show: propTypes.bool,
+
+    /** Specify where the overlay element is positioned in relation to the target element */
+    placement: propTypes.oneOf(Popper.placements),
+
+    /**
+     * A DOM Element, Ref to an element, or function that returns either. The `target` element is where
+     * the overlay is positioned relative to.
+     */
+    target: propTypes.any,
+
+    /**
+     * A DOM Element, Ref to an element, or function that returns either. The `container` will have the Portal children
+     * appended to it.
+     */
+    container: propTypes.any,
+
+    /**
+     * Enables the Popper.js `flip` modifier, allowing the Overlay to
+     * automatically adjust it's placement in case of overlap with the viewport or toggle.
+     * Refer to the [flip docs](https://popper.js.org/popper-documentation.html#modifiers..flip.enabled) for more info
+     */
+    flip: propTypes.bool,
+
+    /**
+     * A render prop that returns an element to overlay and position. See
+     * the [react-popper documentation](https://github.com/FezVrasta/react-popper#children) for more info.
+     *
+     * @type {Function ({
+     *   show: boolean,
+     *   placement: Placement,
+     *   outOfBoundaries: ?boolean,
+     *   scheduleUpdate: () => void,
+     *   props: {
+     *     ref: (?HTMLElement) => void,
+     *     style: { [string]: string | number },
+     *     aria-labelledby: ?string
+     *   },
+     *   arrowProps: {
+     *     ref: (?HTMLElement) => void,
+     *     style: { [string]: string | number },
+     *   },
+     * }) => React.Element}
+     */
+    children: propTypes.func.isRequired,
+
+    /**
+     * Control how much space there is between the edge of the boundary element and overlay.
+     * A convenience shortcut to setting `popperConfig.modfiers.preventOverflow.padding`
+     */
+    containerPadding: propTypes.number,
+
+    /**
+     * A set of popper options and props passed directly to react-popper's Popper component.
+     */
+    popperConfig: propTypes.object,
+
+    /**
+     * Specify whether the overlay should trigger `onHide` when the user clicks outside the overlay
+     */
+    rootClose: propTypes.bool,
+
+    /**
+     * Specify event for toggling overlay
+     */
+    rootCloseEvent: propTypes.oneOf(['click', 'mousedown']),
+
+    /**
+     * Specify disabled for disable RootCloseWrapper
+     */
+    rootCloseDisabled: propTypes.bool,
+
+    /**
+     * A Callback fired by the Overlay when it wishes to be hidden.
+     *
+     * __required__ when `rootClose` is `true`.
+     *
+     * @type func
+     */
+    onHide: function onHide(props) {
+      var propType = propTypes.func
+
+      if (props.rootClose) {
+        propType = propType.isRequired
+      }
+
       for (
         var _len = arguments.length,
           args = new Array(_len > 1 ? _len - 1 : 0),
@@ -7877,879 +7446,177 @@
         args[_key - 1] = arguments[_key]
       }
 
-      return fn.apply(void 0, args)
-    }
-  }
-
-  var initialStyle = {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    opacity: 0,
-    pointerEvents: 'none',
-  }
-  var initialArrowStyle = {}
-  var InnerPopper =
-    /*#__PURE__*/
-    (function(_React$Component) {
-      inheritsLoose(InnerPopper, _React$Component)
-
-      function InnerPopper() {
-        var _this
-
-        for (
-          var _len = arguments.length, args = new Array(_len), _key = 0;
-          _key < _len;
-          _key++
-        ) {
-          args[_key] = arguments[_key]
-        }
-
-        _this =
-          _React$Component.call.apply(_React$Component, [this].concat(args)) ||
-          this
-
-        defineProperty(
-          assertThisInitialized(assertThisInitialized(_this)),
-          'state',
-          {
-            data: undefined,
-            placement: undefined,
-          }
-        )
-
-        defineProperty(
-          assertThisInitialized(assertThisInitialized(_this)),
-          'popperInstance',
-          void 0
-        )
-
-        defineProperty(
-          assertThisInitialized(assertThisInitialized(_this)),
-          'popperNode',
-          null
-        )
-
-        defineProperty(
-          assertThisInitialized(assertThisInitialized(_this)),
-          'arrowNode',
-          null
-        )
-
-        defineProperty(
-          assertThisInitialized(assertThisInitialized(_this)),
-          'setPopperNode',
-          function(popperNode) {
-            if (!popperNode || _this.popperNode === popperNode) return
-            safeInvoke(_this.props.innerRef, popperNode)
-            _this.popperNode = popperNode
-
-            _this.updatePopperInstance()
-          }
-        )
-
-        defineProperty(
-          assertThisInitialized(assertThisInitialized(_this)),
-          'setArrowNode',
-          function(arrowNode) {
-            _this.arrowNode = arrowNode
-          }
-        )
-
-        defineProperty(
-          assertThisInitialized(assertThisInitialized(_this)),
-          'updateStateModifier',
-          {
-            enabled: true,
-            order: 900,
-            fn: function fn(data) {
-              var placement = data.placement
-
-              _this.setState({
-                data: data,
-                placement: placement,
-              })
-
-              return data
-            },
-          }
-        )
-
-        defineProperty(
-          assertThisInitialized(assertThisInitialized(_this)),
-          'getOptions',
-          function() {
-            return {
-              placement: _this.props.placement,
-              eventsEnabled: _this.props.eventsEnabled,
-              positionFixed: _this.props.positionFixed,
-              modifiers: _extends_1({}, _this.props.modifiers, {
-                arrow: _extends_1(
-                  {},
-                  _this.props.modifiers && _this.props.modifiers.arrow,
-                  {
-                    enabled: !!_this.arrowNode,
-                    element: _this.arrowNode,
-                  }
-                ),
-                applyStyle: {
-                  enabled: false,
-                },
-                updateStateModifier: _this.updateStateModifier,
-              }),
-            }
-          }
-        )
-
-        defineProperty(
-          assertThisInitialized(assertThisInitialized(_this)),
-          'getPopperStyle',
-          function() {
-            return !_this.popperNode || !_this.state.data
-              ? initialStyle
-              : _extends_1(
-                  {
-                    position: _this.state.data.offsets.popper.position,
-                  },
-                  _this.state.data.styles
-                )
-          }
-        )
-
-        defineProperty(
-          assertThisInitialized(assertThisInitialized(_this)),
-          'getPopperPlacement',
-          function() {
-            return !_this.state.data ? undefined : _this.state.placement
-          }
-        )
-
-        defineProperty(
-          assertThisInitialized(assertThisInitialized(_this)),
-          'getArrowStyle',
-          function() {
-            return !_this.arrowNode || !_this.state.data
-              ? initialArrowStyle
-              : _this.state.data.arrowStyles
-          }
-        )
-
-        defineProperty(
-          assertThisInitialized(assertThisInitialized(_this)),
-          'getOutOfBoundariesState',
-          function() {
-            return _this.state.data ? _this.state.data.hide : undefined
-          }
-        )
-
-        defineProperty(
-          assertThisInitialized(assertThisInitialized(_this)),
-          'destroyPopperInstance',
-          function() {
-            if (!_this.popperInstance) return
-
-            _this.popperInstance.destroy()
-
-            _this.popperInstance = null
-          }
-        )
-
-        defineProperty(
-          assertThisInitialized(assertThisInitialized(_this)),
-          'updatePopperInstance',
-          function() {
-            _this.destroyPopperInstance()
-
-            var _assertThisInitialize = assertThisInitialized(
-                assertThisInitialized(_this)
-              ),
-              popperNode = _assertThisInitialize.popperNode
-
-            var referenceElement = _this.props.referenceElement
-            if (!referenceElement || !popperNode) return
-            _this.popperInstance = new Popper(
-              referenceElement,
-              popperNode,
-              _this.getOptions()
-            )
-          }
-        )
-
-        defineProperty(
-          assertThisInitialized(assertThisInitialized(_this)),
-          'scheduleUpdate',
-          function() {
-            if (_this.popperInstance) {
-              _this.popperInstance.scheduleUpdate()
-            }
-          }
-        )
-
-        return _this
-      }
-
-      var _proto = InnerPopper.prototype
-
-      _proto.componentDidUpdate = function componentDidUpdate(
-        prevProps,
-        prevState
-      ) {
-        // If the Popper.js options have changed, update the instance (destroy + create)
-        if (
-          this.props.placement !== prevProps.placement ||
-          this.props.referenceElement !== prevProps.referenceElement ||
-          this.props.positionFixed !== prevProps.positionFixed
-        ) {
-          this.updatePopperInstance()
-        } else if (
-          this.props.eventsEnabled !== prevProps.eventsEnabled &&
-          this.popperInstance
-        ) {
-          this.props.eventsEnabled
-            ? this.popperInstance.enableEventListeners()
-            : this.popperInstance.disableEventListeners()
-        } // A placement difference in state means popper determined a new placement
-        // apart from the props value. By the time the popper element is rendered with
-        // the new position Popper has already measured it, if the place change triggers
-        // a size change it will result in a misaligned popper. So we schedule an update to be sure.
-
-        if (prevState.placement !== this.state.placement) {
-          this.scheduleUpdate()
-        }
-      }
-
-      _proto.componentWillUnmount = function componentWillUnmount() {
-        safeInvoke(this.props.innerRef, null)
-        this.destroyPopperInstance()
-      }
-
-      _proto.render = function render() {
-        return unwrapArray(this.props.children)({
-          ref: this.setPopperNode,
-          style: this.getPopperStyle(),
-          placement: this.getPopperPlacement(),
-          outOfBoundaries: this.getOutOfBoundariesState(),
-          scheduleUpdate: this.scheduleUpdate,
-          arrowProps: {
-            ref: this.setArrowNode,
-            style: this.getArrowStyle(),
-          },
-        })
-      }
-
-      return InnerPopper
-    })(React.Component)
-
-  defineProperty(InnerPopper, 'defaultProps', {
-    placement: 'bottom',
-    eventsEnabled: true,
-    referenceElement: undefined,
-    positionFixed: false,
-  })
-
-  var placements$1 = Popper.placements
-  function Popper$1(_ref) {
-    var referenceElement = _ref.referenceElement,
-      props = objectWithoutPropertiesLoose(_ref, ['referenceElement'])
-
-    return React.createElement(ManagerContext.Consumer, null, function(_ref2) {
-      var referenceNode = _ref2.referenceNode
-      return React.createElement(
-        InnerPopper,
-        _extends_1(
-          {
-            referenceElement:
-              referenceElement !== undefined ? referenceElement : referenceNode,
-          },
-          props
-        )
-      )
-    })
-  }
-
-  var InnerReference =
-    /*#__PURE__*/
-    (function(_React$Component) {
-      inheritsLoose(InnerReference, _React$Component)
-
-      function InnerReference() {
-        var _this
-
-        for (
-          var _len = arguments.length, args = new Array(_len), _key = 0;
-          _key < _len;
-          _key++
-        ) {
-          args[_key] = arguments[_key]
-        }
-
-        _this =
-          _React$Component.call.apply(_React$Component, [this].concat(args)) ||
-          this
-
-        defineProperty(
-          assertThisInitialized(assertThisInitialized(_this)),
-          'refHandler',
-          function(node) {
-            safeInvoke(_this.props.innerRef, node)
-            safeInvoke(_this.props.setReferenceNode, node)
-          }
-        )
-
-        return _this
-      }
-
-      var _proto = InnerReference.prototype
-
-      _proto.render = function render() {
-        warning_1(
-          Boolean(this.props.setReferenceNode),
-          '`Reference` should not be used outside of a `Manager` component.'
-        )
-        return unwrapArray(this.props.children)({
-          ref: this.refHandler,
-        })
-      }
-
-      return InnerReference
-    })(React.Component)
-
-  function Reference(props) {
-    return React.createElement(ManagerContext.Consumer, null, function(_ref) {
-      var setReferenceNode = _ref.setReferenceNode
-      return React.createElement(
-        InnerReference,
-        _extends_1(
-          {
-            setReferenceNode: setReferenceNode,
-          },
-          props
-        )
-      )
-    })
-  }
-
-  // Public components
-  // Public types
-
-  var esm = /*#__PURE__*/ Object.freeze({
-    Popper: Popper$1,
-    placements: placements$1,
-    Manager: Manager,
-    Reference: Reference,
-  })
-
-  var forwardRef_1 = createCommonjsModule(function(module, exports) {
-    exports.__esModule = true
-    exports.default = forwardRef
-
-    var _react = _interopRequireDefault(React__default)
-
-    function _interopRequireDefault(obj) {
-      return obj && obj.__esModule ? obj : { default: obj }
-    }
-
-    function forwardRef(renderFn, _ref) {
-      var displayName = _ref.displayName,
-        propTypes = _ref.propTypes,
-        defaultProps = _ref.defaultProps,
-        _ref$allowFallback = _ref.allowFallback,
-        allowFallback =
-          _ref$allowFallback === void 0 ? false : _ref$allowFallback
-
-      var render = function render(props, ref) {
-        return renderFn(props, ref)
-      }
-
-      Object.assign(render, {
-        displayName: displayName,
-      })
-      if (_react.default.forwardRef || !allowFallback)
-        return Object.assign(_react.default.forwardRef(render), {
-          propTypes: propTypes,
-          defaultProps: defaultProps,
-        })
-      return Object.assign(
-        function(props) {
-          return render(props, null)
-        },
-        {
-          displayName: displayName,
-          propTypes: propTypes,
-          defaultProps: defaultProps,
-        }
-      )
-    }
-  })
-
-  unwrapExports(forwardRef_1)
-
-  var Overlay_1 = createCommonjsModule(function(module, exports) {
-    exports.__esModule = true
-    exports.default = void 0
-
-    var _propTypes = _interopRequireDefault(propTypes)
-
-    var _elementType = _interopRequireDefault(elementType_1)
-
-    var _componentOrElement = _interopRequireDefault(componentOrElement)
-
-    var _react = _interopRequireDefault(React__default)
-
-    var _reactDom = _interopRequireDefault(reactDom__default)
-
-    var _Portal = _interopRequireDefault(Portal_1)
-
-    var _RootCloseWrapper = _interopRequireDefault(RootCloseWrapper_1)
-
-    var _forwardRef = _interopRequireDefault(forwardRef_1)
-
-    var _WaitForContainer = _interopRequireDefault(WaitForContainer_1)
-
-    function _interopRequireDefault(obj) {
-      return obj && obj.__esModule ? obj : { default: obj }
-    }
-
-    function _extends() {
-      _extends =
-        Object.assign ||
-        function(target) {
-          for (var i = 1; i < arguments.length; i++) {
-            var source = arguments[i]
-            for (var key in source) {
-              if (Object.prototype.hasOwnProperty.call(source, key)) {
-                target[key] = source[key]
-              }
-            }
-          }
-          return target
-        }
-      return _extends.apply(this, arguments)
-    }
-
-    function _objectWithoutPropertiesLoose(source, excluded) {
-      if (source == null) return {}
-      var target = {}
-      var sourceKeys = Object.keys(source)
-      var key, i
-      for (i = 0; i < sourceKeys.length; i++) {
-        key = sourceKeys[i]
-        if (excluded.indexOf(key) >= 0) continue
-        target[key] = source[key]
-      }
-      return target
-    }
-
-    function _inheritsLoose(subClass, superClass) {
-      subClass.prototype = Object.create(superClass.prototype)
-      subClass.prototype.constructor = subClass
-      subClass.__proto__ = superClass
-    }
-
-    function _assertThisInitialized(self) {
-      if (self === void 0) {
-        throw new ReferenceError(
-          "this hasn't been initialised - super() hasn't been called"
-        )
-      }
-      return self
-    }
+      return propType.apply(void 0, [props].concat(args))
+    },
 
     /**
-     * Built on top of `<Position/>` and `<Portal/>`, the overlay component is
-     * great for custom tooltip overlays.
+     * A `react-transition-group@2.0.0` `<Transition/>` component
+     * used to animate the overlay as it changes visibility.
      */
-    var Overlay =
-      /*#__PURE__*/
-      (function(_React$Component) {
-        _inheritsLoose(Overlay, _React$Component)
+    transition: propTypes.elementType,
 
-        function Overlay(props, context) {
-          var _this
+    /**
+     * Callback fired before the Overlay transitions in
+     */
+    onEnter: propTypes.func,
 
-          _this = _React$Component.call(this, props, context) || this
+    /**
+     * Callback fired as the Overlay begins to transition in
+     */
+    onEntering: propTypes.func,
 
-          _this.handleHidden = function() {
-            _this.setState({
-              exited: true,
-            })
+    /**
+     * Callback fired after the Overlay finishes transitioning in
+     */
+    onEntered: propTypes.func,
 
-            if (_this.props.onExited) {
-              var _this$props
+    /**
+     * Callback fired right before the Overlay transitions out
+     */
+    onExit: propTypes.func,
 
-              ;(_this$props = _this.props).onExited.apply(
-                _this$props,
-                arguments
-              )
-            }
-          }
+    /**
+     * Callback fired as the Overlay begins to transition out
+     */
+    onExiting: propTypes.func,
 
-          _this.state = {
-            exited: !props.show,
-          }
-          _this.onHiddenListener = _this.handleHidden.bind(
-            _assertThisInitialized(_assertThisInitialized(_this))
-          )
-          _this._lastTarget = null
-          return _this
-        }
+    /**
+     * Callback fired after the Overlay finishes transitioning out
+     */
+    onExited: propTypes.func,
+  }
+  Overlay.defaultProps = {
+    containerPadding: 5,
+  }
 
-        Overlay.getDerivedStateFromProps = function getDerivedStateFromProps(
-          nextProps
-        ) {
-          if (nextProps.show) {
-            return {
-              exited: false,
-            }
-          } else if (!nextProps.transition) {
-            // Otherwise let handleHidden take care of marking exited.
-            return {
-              exited: true,
-            }
-          }
+  function height(node, client) {
+    var win = isWindow(node)
+    return win
+      ? win.innerHeight
+      : client
+      ? node.clientHeight
+      : offset(node).height
+  }
 
-          return null
-        }
+  var toArray = Function.prototype.bind.call(Function.prototype.call, [].slice)
+  function qsa(element, selector) {
+    return toArray(element.querySelectorAll(selector))
+  }
 
-        var _proto = Overlay.prototype
+  var matchesImpl
+  function matches(node, selector) {
+    if (!matchesImpl) {
+      var body = document.body
+      var nativeMatch =
+        body.matches ||
+        body.matchesSelector ||
+        body.webkitMatchesSelector ||
+        body.mozMatchesSelector ||
+        body.msMatchesSelector
 
-        _proto.componentDidMount = function componentDidMount() {
-          this.setState({
-            target: this.getTarget(),
-          })
-        }
-
-        _proto.componentDidUpdate = function componentDidUpdate(prevProps) {
-          if (this.props === prevProps) return
-          var target = this.getTarget()
-
-          if (target !== this.state.target) {
-            this.setState({
-              target: target,
-            })
-          }
-        }
-
-        _proto.getTarget = function getTarget() {
-          var target = this.props.target
-          target = typeof target === 'function' ? target() : target
-          return (target && _reactDom.default.findDOMNode(target)) || null
-        }
-
-        _proto.render = function render() {
-          var _this2 = this
-
-          var _this$props2 = this.props,
-            _0 = _this$props2.target,
-            container = _this$props2.container,
-            containerPadding = _this$props2.containerPadding,
-            placement = _this$props2.placement,
-            rootClose = _this$props2.rootClose,
-            children = _this$props2.children,
-            flip = _this$props2.flip,
-            _this$props2$popperCo = _this$props2.popperConfig,
-            popperConfig =
-              _this$props2$popperCo === void 0 ? {} : _this$props2$popperCo,
-            Transition = _this$props2.transition,
-            props = _objectWithoutPropertiesLoose(_this$props2, [
-              'target',
-              'container',
-              'containerPadding',
-              'placement',
-              'rootClose',
-              'children',
-              'flip',
-              'popperConfig',
-              'transition',
-            ])
-
-          var target = this.state.target // Don't un-render the overlay while it's transitioning out.
-
-          var mountOverlay = props.show || (Transition && !this.state.exited)
-
-          if (!mountOverlay) {
-            // Don't bother showing anything if we don't have to.
-            return null
-          }
-
-          var child = children
-          var _popperConfig$modifie = popperConfig.modifiers,
-            modifiers =
-              _popperConfig$modifie === void 0 ? {} : _popperConfig$modifie
-
-          var popperProps = _extends({}, popperConfig, {
-            placement: placement,
-            referenceElement: target,
-            enableEvents: props.show,
-            modifiers: _extends({}, modifiers, {
-              preventOverflow: _extends(
-                {
-                  padding: containerPadding || 5,
-                },
-                modifiers.preventOverflow
-              ),
-              flip: _extends(
-                {
-                  enabled: !!flip,
-                },
-                modifiers.preventOverflow
-              ),
-            }),
-          })
-
-          child = _react.default.createElement(
-            esm.Popper,
-            popperProps,
-            function(_ref) {
-              var arrowProps = _ref.arrowProps,
-                style = _ref.style,
-                ref = _ref.ref,
-                popper = _objectWithoutPropertiesLoose(_ref, [
-                  'arrowProps',
-                  'style',
-                  'ref',
-                ])
-
-              _this2.popper = popper
-
-              var innerChild = _this2.props.children(
-                _extends({}, popper, {
-                  // popper doesn't set the initial placement
-                  placement: popper.placement || placement,
-                  show: props.show,
-                  arrowProps: arrowProps,
-                  props: {
-                    ref: ref,
-                    style: style,
-                  },
-                })
-              )
-
-              if (Transition) {
-                var onExit = props.onExit,
-                  onExiting = props.onExiting,
-                  onEnter = props.onEnter,
-                  onEntering = props.onEntering,
-                  onEntered = props.onEntered
-                innerChild = _react.default.createElement(
-                  Transition,
-                  {
-                    in: props.show,
-                    appear: true,
-                    onExit: onExit,
-                    onExiting: onExiting,
-                    onExited: _this2.onHiddenListener,
-                    onEnter: onEnter,
-                    onEntering: onEntering,
-                    onEntered: onEntered,
-                  },
-                  innerChild
-                )
-              }
-
-              return innerChild
-            }
-          )
-
-          if (rootClose) {
-            child = _react.default.createElement(
-              _RootCloseWrapper.default,
-              {
-                onRootClose: props.onHide,
-                event: props.rootCloseEvent,
-                disabled: props.rootCloseDisabled,
-              },
-              child
-            )
-          }
-
-          return _react.default.createElement(
-            _Portal.default,
-            {
-              container: container,
-            },
-            child
-          )
-        }
-
-        return Overlay
-      })(_react.default.Component)
-
-    Overlay.propTypes = _extends({}, _Portal.default.propTypes, {
-      /**
-       * Set the visibility of the Overlay
-       */
-      show: _propTypes.default.bool,
-
-      /** Specify where the overlay element is positioned in relation to the target element */
-      placement: _propTypes.default.oneOf(esm.placements),
-
-      /**
-       * A Node, Component instance, or function that returns either. The `container` will have the Portal children
-       * appended to it.
-       */
-      container: _propTypes.default.oneOfType([
-        _componentOrElement.default,
-        _propTypes.default.func,
-      ]),
-
-      /**
-       * Enables the Popper.js `flip` modifier, allowing the Overlay to
-       * automatically adjust it's placement in case of overlap with the viewport or toggle.
-       * Refer to the [flip docs](https://popper.js.org/popper-documentation.html#modifiers..flip.enabled) for more info
-       */
-      flip: _propTypes.default.bool,
-
-      /**
-       * A render prop that returns an element to overlay and position. See
-       * the [react-popper documentation](https://github.com/FezVrasta/react-popper#children) for more info.
-       *
-       * @type {Function ({
-       *   show: boolean,
-       *   placement: Placement,
-       *   outOfBoundaries: ?boolean,
-       *   scheduleUpdate: () => void,
-       *   props: {
-       *     ref: (?HTMLElement) => void,
-       *     style: { [string]: string | number },
-       *     aria-labelledby: ?string
-       *   },
-       *   arrowProps: {
-       *     ref: (?HTMLElement) => void,
-       *     style: { [string]: string | number },
-       *   },
-       * }) => React.Element}
-       */
-      children: _propTypes.default.func.isRequired,
-
-      /**
-       * A set of popper options and props passed directly to react-popper's Popper component.
-       */
-      popperConfig: _propTypes.default.object,
-
-      /**
-       * Specify whether the overlay should trigger `onHide` when the user clicks outside the overlay
-       */
-      rootClose: _propTypes.default.bool,
-
-      /**
-       * Specify event for toggling overlay
-       */
-      rootCloseEvent: _RootCloseWrapper.default.propTypes.event,
-
-      /**
-       * Specify disabled for disable RootCloseWrapper
-       */
-      rootCloseDisabled: _RootCloseWrapper.default.propTypes.disabled,
-
-      /**
-       * A Callback fired by the Overlay when it wishes to be hidden.
-       *
-       * __required__ when `rootClose` is `true`.
-       *
-       * @type func
-       */
-      onHide: function onHide(props) {
-        var propType = _propTypes.default.func
-
-        if (props.rootClose) {
-          propType = propType.isRequired
-        }
-
-        for (
-          var _len = arguments.length,
-            args = new Array(_len > 1 ? _len - 1 : 0),
-            _key = 1;
-          _key < _len;
-          _key++
-        ) {
-          args[_key - 1] = arguments[_key]
-        }
-
-        return propType.apply(void 0, [props].concat(args))
-      },
-
-      /**
-       * A `react-transition-group@2.0.0` `<Transition/>` component
-       * used to animate the overlay as it changes visibility.
-       */
-      transition: _elementType.default,
-
-      /**
-       * Callback fired before the Overlay transitions in
-       */
-      onEnter: _propTypes.default.func,
-
-      /**
-       * Callback fired as the Overlay begins to transition in
-       */
-      onEntering: _propTypes.default.func,
-
-      /**
-       * Callback fired after the Overlay finishes transitioning in
-       */
-      onEntered: _propTypes.default.func,
-
-      /**
-       * Callback fired right before the Overlay transitions out
-       */
-      onExit: _propTypes.default.func,
-
-      /**
-       * Callback fired as the Overlay begins to transition out
-       */
-      onExiting: _propTypes.default.func,
-
-      /**
-       * Callback fired after the Overlay finishes transitioning out
-       */
-      onExited: _propTypes.default.func,
-    })
-
-    var _default = (0, _forwardRef.default)(
-      function(props, ref) {
-        return (
-          // eslint-disable-next-line react/prop-types
-          _react.default.createElement(
-            _WaitForContainer.default,
-            {
-              container: props.container,
-            },
-            function(container) {
-              return _react.default.createElement(
-                Overlay,
-                _extends({}, props, {
-                  ref: ref,
-                  container: container,
-                })
-              )
-            }
-          )
-        )
-      },
-      {
-        displayName: 'withContainer(Overlay)',
+      matchesImpl = function matchesImpl(n, s) {
+        return nativeMatch.call(n, s)
       }
-    )
+    }
 
-    exports.default = _default
-    module.exports = exports.default
-  })
+    return matchesImpl(node, selector)
+  }
 
-  var Overlay = unwrapExports(Overlay_1)
+  function closest(node, selector, stopAt) {
+    if (node.closest && !stopAt) node.closest(selector)
+    var nextNode = node
 
-  function addEventListener(type, handler, target) {
+    do {
+      if (matches(nextNode, selector)) return nextNode
+      nextNode = nextNode.parentElement
+    } while (nextNode && nextNode !== stopAt && nextNode.nodeType === document.ELEMENT_NODE)
+
+    return null
+  }
+
+  /* eslint-disable no-return-assign */
+  var optionsSupported = false
+  var onceSupported = false
+
+  try {
+    var options = {
+      get passive() {
+        return (optionsSupported = true)
+      },
+
+      get once() {
+        // eslint-disable-next-line no-multi-assign
+        return (onceSupported = optionsSupported = true)
+      },
+    }
+
+    if (canUseDOM) {
+      window.addEventListener('test', options, options)
+      window.removeEventListener('test', options, true)
+    }
+  } catch (e) {
+    /* */
+  }
+
+  /**
+   * An `addEventListener` ponyfill, supports the `once` option
+   */
+  function addEventListener(node, eventName, handler, options) {
+    if (options && typeof options !== 'boolean' && !onceSupported) {
+      var once = options.once,
+        capture = options.capture
+      var wrappedHandler = handler
+
+      if (!onceSupported && once) {
+        wrappedHandler =
+          handler.__once ||
+          function onceHandler(event) {
+            this.removeEventListener(eventName, onceHandler, capture)
+            handler.call(this, event)
+          }
+
+        handler.__once = wrappedHandler
+      }
+
+      node.addEventListener(
+        eventName,
+        wrappedHandler,
+        optionsSupported ? options : capture
+      )
+    }
+
+    node.addEventListener(eventName, handler, options)
+  }
+
+  function removeEventListener(node, eventName, handler, options) {
+    var capture =
+      options && typeof options !== 'boolean' ? options.capture : options
+    node.removeEventListener(eventName, handler, capture)
+
+    if (handler.__once) {
+      node.removeEventListener(eventName, handler.__once, capture)
+    }
+  }
+
+  function listen$1(node, eventName, handler, options) {
+    addEventListener(node, eventName, handler, options)
+    return function() {
+      removeEventListener(node, eventName, handler, options)
+    }
+  }
+
+  function addEventListener$1(type, handler, target) {
     if (target === void 0) {
       target = document
     }
 
-    return listen(target, type, handler, {
+    return listen$1(target, type, handler, {
       passive: false,
     })
   }
 
   function isOverContainer(container, x, y) {
-    return !container || contains$1(container, document.elementFromPoint(x, y))
+    return !container || contains(container, document.elementFromPoint(x, y))
   }
 
   function getEventNodeFromPoint(node, _ref) {
@@ -8806,21 +7673,24 @@
         ) // Fixes an iOS 10 bug where scrolling could not be prevented on the window.
         // https://github.com/metafizzy/flickity/issues/457#issuecomment-254501356
 
-        this._removeTouchMoveWindowListener = addEventListener(
+        this._removeTouchMoveWindowListener = addEventListener$1(
           'touchmove',
           function() {},
           window
         )
-        this._removeKeyDownListener = addEventListener(
+        this._removeKeyDownListener = addEventListener$1(
           'keydown',
           this._keyListener
         )
-        this._removeKeyUpListener = addEventListener('keyup', this._keyListener)
-        this._removeDropFromOutsideListener = addEventListener(
+        this._removeKeyUpListener = addEventListener$1(
+          'keyup',
+          this._keyListener
+        )
+        this._removeDropFromOutsideListener = addEventListener$1(
           'drop',
           this._dropFromOutsideListener
         )
-        this._onDragOverfromOutisde = addEventListener(
+        this._onDragOverfromOutisde = addEventListener$1(
           'dragover',
           this._dragOverFromOutsideListener
         )
@@ -8904,15 +7774,15 @@
             cleanup()
             handler(initialEvent)
           }, _this.longPressThreshold)
-          removeTouchMoveListener = addEventListener('touchmove', function() {
+          removeTouchMoveListener = addEventListener$1('touchmove', function() {
             return cleanup()
           })
-          removeTouchEndListener = addEventListener('touchend', function() {
+          removeTouchEndListener = addEventListener$1('touchend', function() {
             return cleanup()
           })
         }
 
-        var removeTouchStartListener = addEventListener(
+        var removeTouchStartListener = addEventListener$1(
           'touchstart',
           handleTouchStart
         )
@@ -8949,28 +7819,29 @@
       _proto._addInitialEventListener = function _addInitialEventListener() {
         var _this2 = this
 
-        var removeMouseDownListener = addEventListener('mousedown', function(
+        var removeMouseDownListener = addEventListener$1('mousedown', function(
           e
         ) {
           _this2._removeInitialEventListener()
 
           _this2._handleInitialEvent(e)
 
-          _this2._removeInitialEventListener = addEventListener(
+          _this2._removeInitialEventListener = addEventListener$1(
             'mousedown',
             _this2._handleInitialEvent
           )
         })
-        var removeTouchStartListener = addEventListener('touchstart', function(
-          e
-        ) {
-          _this2._removeInitialEventListener()
+        var removeTouchStartListener = addEventListener$1(
+          'touchstart',
+          function(e) {
+            _this2._removeInitialEventListener()
 
-          _this2._removeInitialEventListener = _this2._addLongPressListener(
-            _this2._handleInitialEvent,
-            e
-          )
-        })
+            _this2._removeInitialEventListener = _this2._addLongPressListener(
+              _this2._handleInitialEvent,
+              e
+            )
+          }
+        )
 
         this._removeInitialEventListener = function() {
           removeMouseDownListener()
@@ -9034,7 +7905,7 @@
         )
           return
 
-        if (!this.globalMouse && node && !contains$1(node, e.target)) {
+        if (!this.globalMouse && node && !contains(node, e.target)) {
           var _normalizeDistance = normalizeDistance(0),
             top = _normalizeDistance.top,
             left = _normalizeDistance.left,
@@ -9071,15 +7942,15 @@
 
         switch (e.type) {
           case 'mousedown':
-            this._removeEndListener = addEventListener(
+            this._removeEndListener = addEventListener$1(
               'mouseup',
               this._handleTerminatingEvent
             )
-            this._onEscListener = addEventListener(
+            this._onEscListener = addEventListener$1(
               'keydown',
               this._handleTerminatingEvent
             )
-            this._removeMoveListener = addEventListener(
+            this._removeMoveListener = addEventListener$1(
               'mousemove',
               this._handleMoveEvent
             )
@@ -9088,11 +7959,11 @@
           case 'touchstart':
             this._handleMoveEvent(e)
 
-            this._removeEndListener = addEventListener(
+            this._removeEndListener = addEventListener$1(
               'touchend',
               this._handleTerminatingEvent
             )
-            this._removeMoveListener = addEventListener(
+            this._removeMoveListener = addEventListener$1(
               'touchmove',
               this._handleMoveEvent
             )
@@ -9112,7 +7983,7 @@
         this._removeEndListener && this._removeEndListener()
         this._removeMoveListener && this._removeMoveListener()
         if (!this._initialEventData) return
-        var inRoot = !this.container || contains$1(this.container(), e.target)
+        var inRoot = !this.container || contains(this.container(), e.target)
         var bounds = this._selectRect
         var click = this.isClick(pageX, pageY)
         this._initialEventData = null
@@ -9392,7 +8263,7 @@
       _proto._selectable = function _selectable() {
         var _this2 = this
 
-        var node = reactDom.findDOMNode(this)
+        var node = ReactDOM.findDOMNode(this)
         var selector = (this._selector = new Selection(this.props.container, {
           longPressThreshold: this.props.longPressThreshold,
         }))
@@ -9401,7 +8272,7 @@
           point,
           actionType
         ) {
-          if (!isEvent(reactDom.findDOMNode(_this2), point)) {
+          if (!isEvent(ReactDOM.findDOMNode(_this2), point)) {
             var rowBox = getBoundsForNode(node)
             var _this2$props = _this2.props,
               range = _this2$props.range,
@@ -9464,7 +8335,7 @@
         })
         selector.on('beforeSelect', function(box) {
           if (_this2.props.selectable !== 'ignoreEvents') return
-          return !isEvent(reactDom.findDOMNode(_this2), box)
+          return !isEvent(ReactDOM.findDOMNode(_this2), box)
         })
         selector.on('click', function(point) {
           return selectorClicksHandler(point, 'click')
@@ -12668,7 +11539,7 @@
           var metrics = _this.slotMetrics(_this.props)
 
           var row = qsa(
-            reactDom.findDOMNode(_assertThisInitialized(_this)),
+            ReactDOM.findDOMNode(_assertThisInitialized(_this)),
             '.rbc-row-bg'
           )[0]
           var cell
@@ -12689,7 +11560,7 @@
           var container = _this.props.container
           return container
             ? container()
-            : reactDom.findDOMNode(_assertThisInitialized(_this))
+            : ReactDOM.findDOMNode(_assertThisInitialized(_this))
         }
 
         _this.renderHeadingCell = function(date, index) {
@@ -12767,9 +11638,9 @@
       var _proto = DateContentRow.prototype
 
       _proto.getRowLimit = function getRowLimit() {
-        var eventHeight = getHeight(this.eventRow)
-        var headingHeight = this.headingRow ? getHeight(this.headingRow) : 0
-        var eventSpace = getHeight(reactDom.findDOMNode(this)) - headingHeight
+        var eventHeight = height(this.eventRow)
+        var headingHeight = this.headingRow ? height(this.headingRow) : 0
+        var eventSpace = height(ReactDOM.findDOMNode(this)) - headingHeight
         return Math.max(Math.floor(eventSpace / eventHeight), 1)
       }
 
@@ -12979,7 +11850,7 @@
           this
 
         _this.getContainer = function() {
-          return reactDom.findDOMNode(_assertThisInitialized(_this))
+          return ReactDOM.findDOMNode(_assertThisInitialized(_this))
         }
 
         _this.renderWeek = function(week, weekIdx) {
@@ -13123,16 +11994,16 @@
           _this.clearSelection()
 
           if (popup) {
-            var position = getPosition(
+            var position$1 = position(
               cell,
-              reactDom.findDOMNode(_assertThisInitialized(_this))
+              ReactDOM.findDOMNode(_assertThisInitialized(_this))
             )
 
             _this.setState({
               overlay: {
                 date: date,
                 events: events,
-                position: position,
+                position: position$1,
                 target: target,
               },
             })
@@ -13173,7 +12044,7 @@
           'resize',
           (this._resizeListener = function() {
             if (!running) {
-              animationFrame.request(function() {
+              request(function() {
                 running = false
 
                 _this2.setState({
@@ -13389,7 +12260,7 @@
     return start.getTimezoneOffset() - end.getTimezoneOffset()
   }
 
-  var getKey = function getKey(min, max, step, slots) {
+  var getKey$1 = function getKey(min, max, step, slots) {
     return (
       '' +
       +startOf(min, 'minutes') +
@@ -13403,7 +12274,7 @@
       end = _ref.max,
       step = _ref.step,
       timeslots = _ref.timeslots
-    var key = getKey(start, end, step, timeslots) // if the start is on a DST-changing day but *after* the moment of DST
+    var key = getKey$1(start, end, step, timeslots) // if the start is on a DST-changing day but *after* the moment of DST
     // transition we need to add those extra minutes to our minutesFromMidnight
 
     var daystart = startOf(start, 'day')
@@ -13457,7 +12328,7 @@
     return {
       groups: groups,
       update: function update(args) {
-        if (getKey(args) !== key) return getSlotMetrics$1(args)
+        if (getKey$1(args) !== key) return getSlotMetrics$1(args)
         return this
       },
       dateIsInGroup: function dateIsInGroup(date, groupIndex) {
@@ -13928,7 +12799,7 @@
     }
   }
 
-  var defineProperty$2 = (function() {
+  var defineProperty$1 = (function() {
     try {
       var func = getNative(Object, 'defineProperty')
       func({}, '', {})
@@ -13944,10 +12815,10 @@
    * @param {Function} string The `toString` result.
    * @returns {Function} Returns `func`.
    */
-  var baseSetToString = !defineProperty$2
+  var baseSetToString = !defineProperty$1
     ? identity
     : function(func, string) {
-        return defineProperty$2(func, 'toString', {
+        return defineProperty$1(func, 'toString', {
           configurable: true,
           enumerable: false,
           value: constant(string),
@@ -14674,10 +13545,10 @@
         }
 
         _this._selectable = function() {
-          var node = reactDom.findDOMNode(_assertThisInitialized(_this))
+          var node = ReactDOM.findDOMNode(_assertThisInitialized(_this))
           var selector = (_this._selector = new Selection(
             function() {
-              return reactDom.findDOMNode(_assertThisInitialized(_this))
+              return ReactDOM.findDOMNode(_assertThisInitialized(_this))
             },
             {
               longPressThreshold: _this.props.longPressThreshold,
@@ -14748,7 +13619,7 @@
             actionType
           ) {
             if (
-              !isEvent(reactDom.findDOMNode(_assertThisInitialized(_this)), box)
+              !isEvent(ReactDOM.findDOMNode(_assertThisInitialized(_this)), box)
             ) {
               var _selectionState = selectionState(box),
                 startDate = _selectionState.startDate,
@@ -14772,7 +13643,7 @@
           selector.on('beforeSelect', function(box) {
             if (_this.props.selectable !== 'ignoreEvents') return
             return !isEvent(
-              reactDom.findDOMNode(_assertThisInitialized(_this)),
+              ReactDOM.findDOMNode(_assertThisInitialized(_this)),
               box
             )
           })
@@ -15209,6 +14080,30 @@
     resource: propTypes.string,
   }
 
+  function getWidth(node, client) {
+    var win = isWindow(node)
+    return win ? win.innerWidth : client ? node.clientWidth : offset(node).width
+  }
+
+  var size
+  function scrollbarSize(recalc) {
+    if ((!size && size !== 0) || recalc) {
+      if (canUseDOM) {
+        var scrollDiv = document.createElement('div')
+        scrollDiv.style.position = 'absolute'
+        scrollDiv.style.top = '-9999px'
+        scrollDiv.style.width = '50px'
+        scrollDiv.style.height = '50px'
+        scrollDiv.style.overflow = 'scroll'
+        document.body.appendChild(scrollDiv)
+        size = scrollDiv.offsetWidth - scrollDiv.clientWidth
+        document.body.removeChild(scrollDiv)
+      }
+    }
+
+    return size
+  }
+
   var ResourceHeader = function ResourceHeader(_ref) {
     var label = _ref.label
     return React__default.createElement(React__default.Fragment, null, label)
@@ -15531,12 +14426,12 @@
         }
 
         _this.handleResize = function() {
-          animationFrame.cancel(_this.rafHandle)
-          _this.rafHandle = animationFrame.request(_this.checkOverflow)
+          cancel(_this.rafHandle)
+          _this.rafHandle = request(_this.checkOverflow)
         }
 
         _this.gutterRef = function(ref) {
-          _this.gutter = ref && reactDom.findDOMNode(ref)
+          _this.gutter = ref && ReactDOM.findDOMNode(ref)
         }
 
         _this.handleSelectAlldayEvent = function() {
@@ -15616,7 +14511,7 @@
 
       _proto.componentWillUnmount = function componentWillUnmount() {
         window.removeEventListener('resize', this.handleResize)
-        animationFrame.cancel(this.rafHandle)
+        cancel(this.rafHandle)
 
         if (this.measureGutterAnimationFrameRequest) {
           window.cancelAnimationFrame(this.measureGutterAnimationFrameRequest)
@@ -16061,6 +14956,53 @@
       },
       'dayRangeHeaderFormat'
     )
+  }
+
+  function hasClass(element, className) {
+    if (element.classList)
+      return !!className && element.classList.contains(className)
+    return (
+      (' ' + (element.className.baseVal || element.className) + ' ').indexOf(
+        ' ' + className + ' '
+      ) !== -1
+    )
+  }
+
+  function addClass(element, className) {
+    if (element.classList) element.classList.add(className)
+    else if (!hasClass(element, className))
+      if (typeof element.className === 'string')
+        element.className = element.className + ' ' + className
+      else
+        element.setAttribute(
+          'class',
+          ((element.className && element.className.baseVal) || '') +
+            ' ' +
+            className
+        )
+  }
+
+  function replaceClassName(origClass, classToRemove) {
+    return origClass
+      .replace(new RegExp('(^|\\s)' + classToRemove + '(?:\\s|$)', 'g'), '$1')
+      .replace(/\s+/g, ' ')
+      .replace(/^\s*|\s*$/g, '')
+  }
+
+  function removeClass(element, className) {
+    if (element.classList) {
+      element.classList.remove(className)
+    } else if (typeof element.className === 'string') {
+      element.className = replaceClassName(element.className, className)
+    } else {
+      element.setAttribute(
+        'class',
+        replaceClassName(
+          (element.className && element.className.baseVal) || '',
+          className
+        )
+      )
+    }
   }
 
   var Agenda =
@@ -16594,8 +15536,8 @@
    * @param {*} value The value to assign.
    */
   function baseAssignValue(object, key, value) {
-    if (key == '__proto__' && defineProperty$2) {
-      defineProperty$2(object, key, {
+    if (key == '__proto__' && defineProperty$1) {
+      defineProperty$1(object, key, {
         configurable: true,
         enumerable: true,
         value: value,
@@ -17664,11 +16606,9 @@
         accumulator = {}
       }
     }
-    ;(isArrLike ? arrayEach : baseForOwn)(object, function(
-      value,
-      index,
-      object
-    ) {
+    ;(isArrLike
+      ? arrayEach
+      : baseForOwn)(object, function(value, index, object) {
       return iteratee(accumulator, value, index, object)
     })
     return accumulator
