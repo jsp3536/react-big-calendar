@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import { uncontrollable } from 'uncontrollable'
-import cn from 'classnames'
+import clsx from 'clsx'
 import {
   accessor,
   dateFormat,
   dateRangeFormat,
+  DayLayoutAlgorithmPropType,
   views as componentViews,
 } from './utils/propTypes'
 import warning from 'warning'
@@ -269,6 +270,7 @@ class Calendar extends React.Component {
      *   slotInfo: {
      *     start: Date,
      *     end: Date,
+     *     resourceId:  (number|string),
      *     slots: Array<Date>,
      *     action: "select" | "click" | "doubleClick",
      *     bounds: ?{ // For "select" action
@@ -317,7 +319,7 @@ class Calendar extends React.Component {
      * Returning `false` from the handler will prevent a selection.
      *
      * ```js
-     * (range: { start: Date, end: Date }) => ?boolean
+     * (range: { start: Date, end: Date, resourceId: (number|string) }) => ?boolean
      * ```
      */
     onSelecting: PropTypes.func,
@@ -718,6 +720,14 @@ class Calendar extends React.Component {
       noEventsInRange: PropTypes.node,
       showMore: PropTypes.func,
     }),
+
+    /**
+     * A day event layout(arrangement) algorithm.
+     * `overlap` allows events to be overlapped.
+     * `no-overlap` resizes events to avoid overlap.
+     * or custom `Function(events, minimumStartDifference, slotMetrics, accessors)`
+     */
+    dayLayoutAlgorithm: DayLayoutAlgorithmPropType,
   }
 
   static defaultProps = {
@@ -743,6 +753,7 @@ class Calendar extends React.Component {
 
     longPressThreshold: 250,
     getNow: () => new Date(),
+    dayLayoutAlgorithm: 'overlap',
   }
 
   constructor(...args) {
@@ -878,7 +889,7 @@ class Calendar extends React.Component {
     return (
       <div
         {...elementProps}
-        className={cn(className, 'rbc-calendar', props.rtl && 'rbc-rtl')}
+        className={clsx(className, 'rbc-calendar', props.rtl && 'rbc-rtl')}
         style={style}
       >
         {toolbar && (
